@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16C48b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="DemoSwiftyCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SH4-0K-8ra">
+                                <rect key="frame" x="325" y="30" width="30" height="22"/>
+                                <state key="normal" image="Flash"/>
+                                <connections>
+                                    <action selector="toggleFlashAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="j1T-ak-teR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bb3-ix-Jd1">
+                                <rect key="frame" x="20" y="28" width="30" height="26"/>
+                                <state key="normal" image="flipCamera"/>
+                                <connections>
+                                    <action selector="cameraSwitchAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a9E-90-SZM"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Bb3-ix-Jd1" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="2Fx-Ut-jDO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="SH4-0K-8ra" secondAttribute="trailing" constant="4" id="AiE-Y6-Sxj"/>
+                            <constraint firstItem="Bb3-ix-Jd1" firstAttribute="centerY" secondItem="SH4-0K-8ra" secondAttribute="centerY" id="Cnv-VO-rR3"/>
+                            <constraint firstItem="Bb3-ix-Jd1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="4" id="yuS-xl-hcP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="flipCameraButton" destination="Bb3-ix-Jd1" id="Q9m-ib-9iQ"/>
+                        <outlet property="toggleFlashButton" destination="SH4-0K-8ra" id="BSt-X8-4Do"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Flash" width="30" height="19"/>
+        <image name="flipCamera" width="30" height="26"/>
+    </resources>
+</document>
