@@ -192,20 +192,21 @@ open class SwiftyCamViewController: UIViewController {
         case .rear:
             self.currentCamera = .front
         }
+        
+        self.session.stopRunning()
 
         sessionQueue.async { [unowned self] in
-            let currentInputs  : [AVCaptureInput]  = self.session.inputs  as! [AVCaptureInput]
-            let currentOutputs : [AVCaptureOutput] = self.session.outputs as! [AVCaptureOutput]
-
-            for input in currentInputs {
-                self.session.removeInput(input)
+            
+            for input in self.session.inputs {
+                self.session.removeInput(input as! AVCaptureInput)
             }
-            for output in currentOutputs {
-                self.session.removeOutput(output)
+            for output in self.session.outputs {
+                self.session.removeOutput(output as! AVCaptureOutput)
             }
             
             self.configureSession()
             self.cameraDelegate?.SwiftyCamDidSwitchCameras(camera: self.currentCamera)
+            self.session.startRunning()
         }
         disableFlash()
     }
@@ -356,7 +357,6 @@ open class SwiftyCamViewController: UIViewController {
         if self.session.canAddOutput(movieFileOutput) {
             self.session.addOutput(movieFileOutput)
             self.session.sessionPreset = videoInputPresetFromVideoQuality(quality: videoQuality)
-            print(videoInputPresetFromVideoQuality(quality: videoQuality))
             if let connection = movieFileOutput.connection(withMediaType: AVMediaTypeVideo) {
                 if connection.isVideoStabilizationSupported {
                     connection.preferredVideoStabilizationMode = .auto
