@@ -20,7 +20,7 @@ public protocol SwiftyCamViewControllerDelegate {
     func SwiftyCamDidTakePhoto(_ photo:UIImage)
     func SwiftyCamDidBeginRecordingVideo()
     func SwiftyCamDidFinishRecordingVideo()
-    func SwiftyCamDidFinishProcessingVideoAt(_ url: String)
+    func SwiftyCamDidFinishProcessingVideoAt(_ url: URL)
     func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection)
     func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint)
     func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat)

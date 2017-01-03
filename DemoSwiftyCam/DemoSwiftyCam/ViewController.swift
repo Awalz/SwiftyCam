@@ -50,8 +50,8 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         print("Did finish Recording")
     }
     
-    func SwiftyCamDidFinishProcessingVideoAt(_ url: String) {
-        print(url)
+    func SwiftyCamDidFinishProcessingVideoAt(_ url: URL) {
+        print(url.path)
     }
     
     func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint) {

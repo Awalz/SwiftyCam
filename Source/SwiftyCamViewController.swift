@@ -535,7 +535,7 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
         if error != nil {
             print("[SwiftyCam]: Movie file finishing error: \(error)")
         } else {
-            self.cameraDelegate?.SwiftyCamDidFinishProcessingVideoAt(outputFileURL.path)
+            self.cameraDelegate?.SwiftyCamDidFinishProcessingVideoAt(outputFileURL)
         }
     }
 }
