@@ -46,7 +46,7 @@ open class SwiftyCamViewController: UIViewController {
     public var cameraDelegate: SwiftyCamViewControllerDelegate?
     
     public var kMaximumVideoDuration : Double     = 0.0
-    public var videoQuality : VideoQuality       = .resolution1920x1080
+    public var videoQuality : VideoQuality       = .high
     public var pinchToZoom                       = true
     public var tapToFocus                        = true
     public var promptToAppPrivacySettings        = true
@@ -182,15 +182,15 @@ open class SwiftyCamViewController: UIViewController {
     }
     
     func switchCamera() {
-        if isVideRecording == true {
-            print("[SwiftyCam]: Switching between cameras while recoring video is not supported")
+        guard isVideRecording != true else {
+            print("[SwiftyCam]: Switching between cameras while recording video is not supported")
             return
         }
         switch currentCamera {
         case .front:
-            self.currentCamera = .rear
+            currentCamera = .rear
         case .rear:
-            self.currentCamera = .front
+            currentCamera = .front
         }
         
         self.session.stopRunning()
@@ -215,6 +215,7 @@ open class SwiftyCamViewController: UIViewController {
         guard self.currentCamera == .rear else {
             return
         }
+        
         let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         if (device?.hasTorch)! {
             do {
@@ -241,6 +242,7 @@ open class SwiftyCamViewController: UIViewController {
         guard tapToFocus == true, currentCamera ==  .rear else {
             return
         }
+        
         let screenSize = previewLayer!.bounds.size
         if let touchPoint = touches.first {
             let x = touchPoint.location(in: previewLayer!).y / screenSize.height
@@ -274,13 +276,26 @@ open class SwiftyCamViewController: UIViewController {
             return
         }
         session.beginConfiguration()
-        
+        configureVideoPreset()
         addVideoInput()
         addAudioInput()
         configureVideoOutput()
         configurePhotoOutput()
         
         session.commitConfiguration()
+    }
+    
+    fileprivate func configureVideoPreset() {
+        
+        if currentCamera == .front {
+            session.sessionPreset = videoInputPresetFromVideoQuality(quality: .high)
+        } else {
+            if session.canSetSessionPreset(videoInputPresetFromVideoQuality(quality: videoQuality)) {
+                session.sessionPreset = videoInputPresetFromVideoQuality(quality: videoQuality)
+            } else {
+                session.sessionPreset = videoInputPresetFromVideoQuality(quality: .high)
+            }
+        }
     }
     
     fileprivate func addVideoInput() {
@@ -323,6 +338,7 @@ open class SwiftyCamViewController: UIViewController {
                 self.videoDeviceInput = videoDeviceInput
             } else {
                 print("[SwiftyCam]: Could not add video device input to the session")
+                print(session.canSetSessionPreset(videoInputPresetFromVideoQuality(quality: videoQuality)))
                 setupResult = .configurationFailed
                 session.commitConfiguration()
                 return
@@ -356,7 +372,6 @@ open class SwiftyCamViewController: UIViewController {
         
         if self.session.canAddOutput(movieFileOutput) {
             self.session.addOutput(movieFileOutput)
-            self.session.sessionPreset = videoInputPresetFromVideoQuality(quality: videoQuality)
             if let connection = movieFileOutput.connection(withMediaType: AVMediaTypeVideo) {
                 if connection.isVideoStabilizationSupported {
                     connection.preferredVideoStabilizationMode = .auto
