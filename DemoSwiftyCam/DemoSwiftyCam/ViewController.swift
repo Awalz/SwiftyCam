@@ -20,7 +20,8 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     @IBOutlet weak var flipCameraButton: UIButton!
     @IBOutlet weak var toggleFlashButton: UIButton!
-
+    @IBOutlet weak var captureButton: SwiftyCamButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         cameraDelegate = self
@@ -31,17 +32,10 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let button : SwiftyCamButton = SwiftyCamButton(frame: CGRect(x: (self.view.frame.width / 2) - 35, y: self.view.frame.height - 85, width: 70, height: 70))
-        button.delegate = self
-        button.setImage(UIImage(named: "Camera"), for: UIControlState())
-        self.view.addSubview(button)
+        captureButton.delegate = self
+        self.view.bringSubview(toFront: captureButton)
         self.view.bringSubview(toFront: flipCameraButton)
         self.view.bringSubview(toFront: toggleFlashButton)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func SwiftyCamDidTakePhoto(_ photo: UIImage) {

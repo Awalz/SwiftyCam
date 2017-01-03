@@ -170,7 +170,7 @@ Video quality can be set by the **videoQuality** property of SwiftyCamViewContro
 * **.iframe960x540** (AVCaptureSessionPresetiFrame960x540)
 * **.iframe1280x720** (AVCaptureSessionPresetiFrame1280x720)
 
-The default value is **.resolution1920x1080**
+The default value is **.high**. For use with the front-facing camera, **.high** will always be used.
 
 ### Maximum Video Duration
 

@@ -65,8 +65,10 @@ open class SwiftyCamViewController: UIViewController {
     fileprivate var photoFileOutput              : AVCaptureStillImageOutput?
     fileprivate var videoDevice                  : AVCaptureDevice?
     fileprivate var previewLayer                 : PreviewView!
-
-
+    
+    open override var shouldAutorotate: Bool {
+        return false
+    }
 
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +98,7 @@ open class SwiftyCamViewController: UIViewController {
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         sessionQueue.async {
             switch self.setupResult {
             case .success:
