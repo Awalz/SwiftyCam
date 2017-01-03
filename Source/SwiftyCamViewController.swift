@@ -127,7 +127,7 @@ open class SwiftyCamViewController: UIViewController {
         disableFlash()
     }
     
-    func takePhoto() {
+    public func takePhoto() {
         if let videoConnection = photoFileOutput?.connection(withMediaType: AVMediaTypeVideo) {
             videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
             photoFileOutput?.captureStillImageAsynchronously(from: videoConnection, completionHandler: {(sampleBuffer, error) in
@@ -140,7 +140,7 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
-    func startVideoRecording() {
+    public func startVideoRecording() {
         guard let movieFileOutput = self.movieFileOutput else {
             return
         }
@@ -176,7 +176,7 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
-    func endVideoRecording() {
+    public func endVideoRecording() {
         if self.movieFileOutput?.isRecording == true {
             self.isVideRecording = false
             movieFileOutput!.stopRecording()
@@ -184,7 +184,7 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
-    func switchCamera() {
+    public func switchCamera() {
         guard isVideRecording != true else {
             print("[SwiftyCam]: Switching between cameras while recording video is not supported")
             return
@@ -214,7 +214,7 @@ open class SwiftyCamViewController: UIViewController {
         disableFlash()
     }
     
-    func toggleFlash() {
+    public func toggleFlash() {
         guard self.currentCamera == .rear else {
             return
         }

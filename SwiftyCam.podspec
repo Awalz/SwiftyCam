@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftyCam'
-  s.version          = '1.0.1'
+  s.version          = '1.1.0'
   s.summary          = 'A Simple, Snapchat-style camera Framework written in Swift'
   s.ios.deployment_target = '8.0'
 
