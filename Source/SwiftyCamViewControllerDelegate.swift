@@ -40,7 +40,7 @@ public extension SwiftyCamViewControllerDelegate {
         // Optional
     }
     
-    func SwiftyCamDidFinishProcessingVideoAt(_ url: String) {
+    func SwiftyCamDidFinishProcessingVideoAt(_ url: URL) {
         // Optional
     }
     
