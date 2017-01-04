@@ -402,7 +402,7 @@ open class SwiftyCamViewController: UIViewController {
         
         switch self.currentCamera {
             case .front:
-                image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .rightMirrored)
+                image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .leftMirrored)
             case .rear:
                 image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .right)
         }
