@@ -25,7 +25,7 @@ Configuring a Camera View Controller in AVFoundation can be tedious and time con
 :tada: | Front and rear camera support
 :flashlight: | Torch/flash settings
 :mag_right: | Supports manual zoom
-:lock: | Support manual focus
+:lock: | Supports manual focus
 
 
 ## Requirements
