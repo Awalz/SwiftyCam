@@ -61,6 +61,7 @@ public protocol SwiftyCamViewControllerDelegate {
 }
 
 public extension SwiftyCamViewControllerDelegate {
+    
     func SwiftyCamDidTakePhoto(_ photo:UIImage) {
         // Optional
     }

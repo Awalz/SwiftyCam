@@ -71,7 +71,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     }
     
     @IBAction func toggleFlashAction(_ sender: Any) {
-        toggleFlash()
+        flashEnabled = !flashEnabled
     }
 }
 
