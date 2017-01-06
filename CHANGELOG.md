@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version 1.2.2
+- Added support for low light boost in supported models
+- Minor bug fixes
+- Updated documentation
+
 ## Version 1.2.1
 - Minor bug fixes
 - Updated Documentation

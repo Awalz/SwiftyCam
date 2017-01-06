@@ -26,6 +26,7 @@ Configuring a Camera View Controller in AVFoundation can be tedious and time con
 :flashlight: | Torch/flash settings
 :mag_right: | Supports manual zoom
 :lock: | Supports manual focus
+:last_quarter_moon_with_face: | low light setting
 
 
 ## Requirements
@@ -195,6 +196,12 @@ SwiftyCam, by default, support tap to focus on the video preview. SwiftyCam will
     tapToFocus = false
 
 By default, **tapToFocus** is enabled. If you wish to show a on screen animation when a tap to focus is initiated, you can use the **SwiftyCamDidFocusAtPoint(focusPoint:)** to get the coordinates of tap and provide your own tap animation
+
+## Low Light Boost
+
+For supported models (iPhone 5 and 5C), AVCaptureDevice supports a low light boost when it is detected that the capture session is in a low light area. By default, this is set to true. It can be modified with the **lowLightBoost** variable:
+
+    lowLightBoost = false
 
 ## Privacy
 

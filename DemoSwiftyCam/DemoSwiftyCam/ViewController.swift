@@ -28,6 +28,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         kMaximumVideoDuration = 10.0
         tapToFocus = true
         pinchToZoom = true
+        lowLightBoost = true
     }
     
     override func viewDidAppear(_ animated: Bool) {

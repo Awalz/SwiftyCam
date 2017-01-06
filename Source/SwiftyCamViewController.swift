@@ -25,46 +25,50 @@ open class SwiftyCamViewController: UIViewController {
     
     // MARK: Enumeration Declaration
     
-    /**
-        Enumeration for Camera Selection
-     
-        - rear: Camera on the back of the device.
-        - front: Camera on the front of the device.
-    */
-    
+    /// Enumeration for Camera Selection
+ 
    public enum CameraSelection {
+    
+        /// Camera on the back of the device
         case rear
+    
+        /// Camera on the front of the device
         case front
     }
-    
-    /**
-        
  
-     Enumeration for video quality of the capture session. Corresponds to a AVCaptureSessionPreset
-     
-     - high:                  AVCaptureSessionPresetHigh
-     - medium:                AVCaptureSessionPresetMedium
-     - low:                   AVCaptureSessionPresetLow
-     - resolution352x288:     AVCaptureSessionPreset352x288
-     - resolution640x480:     AVCaptureSessionPreset640x480
-     - resolution1280x720:    AVCaptureSessionPreset1280x720
-     - resolution1920x1080:   AVCaptureSessionPreset1920x1080
-     - resolution3840x2160:   AVCaptureSessionPreset3840x2160
-     - iframe960x540:         AVCaptureSessionPresetiFrame960x540
-     - iframe1280x720:        AVCaptureSessionPresetiFrame1280x720
-    */
+     /// Enumeration for video quality of the capture session. Corresponds to a AVCaptureSessionPreset
 
     
     public enum VideoQuality {
+        
+        /// AVCaptureSessionPresetHigh
         case high
+        
+        /// AVCaptureSessionPresetMedium
         case medium
+        
+        /// AVCaptureSessionPresetLow
         case low
+        
+        /// AVCaptureSessionPreset352x288
         case resolution352x288
+        
+        /// AVCaptureSessionPreset640x480
         case resolution640x480
+        
+        /// AVCaptureSessionPreset1280x720
         case resolution1280x720
+        
+        /// AVCaptureSessionPreset1920x1080
         case resolution1920x1080
+        
+        /// AVCaptureSessionPreset3840x2160
         case resolution3840x2160
+        
+        /// AVCaptureSessionPresetiFrame960x540
         case iframe960x540
+        
+        /// AVCaptureSessionPresetiFrame1280x720
         case iframe1280x720
     }
     
@@ -101,13 +105,19 @@ open class SwiftyCamViewController: UIViewController {
     
     public var flashEnabled                      = false
     
-    /// Sets whether Pinch to Zoom is supported for the capture session
+    /// Sets whether Pinch to Zoom is enabled for the capture session
     
     public var pinchToZoom                       = true
     
-    /// Sets whether Tap to Focus is supported for the capture session
+    /// Sets whether Tap to Focus is enabled for the capture session
     
     public var tapToFocus                        = true
+    
+    /// Sets whether the capture session should adjust to low light conditions automatically
+    ///
+    /// Only supported on iPhone 5 and 5C
+    
+    public var lowLightBoost                     = true
     
     /// Sets whether SwiftyCam will prompt a user to the App Settings Screen if Camera or Microphone access is not authorized
     
@@ -182,11 +192,13 @@ open class SwiftyCamViewController: UIViewController {
     
     /// Disable view autorotation for forced portrait recorindg
     
-    open override var shouldAutorotate: Bool {
+    override open var shouldAutorotate: Bool {
         return false
     }
     
     // MARK: ViewDidLoad
+    
+    /// ViewDidLoad Implementation
 
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -228,6 +240,9 @@ open class SwiftyCamViewController: UIViewController {
     
     // MARK: ViewDidAppear
     
+    /// ViewDidAppear(_ animated:) Implementation
+
+    
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -253,6 +268,9 @@ open class SwiftyCamViewController: UIViewController {
     }
     
     // MARK: ViewDidDisappear
+    
+    /// ViewDidDisappear(_ animated:) Implementation
+
     
     override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -513,6 +531,10 @@ open class SwiftyCamViewController: UIViewController {
                 
                 if device.isWhiteBalanceModeSupported(.continuousAutoWhiteBalance) {
                     device.whiteBalanceMode = .continuousAutoWhiteBalance
+                }
+                
+                if device.isLowLightBoostSupported && lowLightBoost == true {
+                    device.automaticallyEnablesLowLightBoostWhenAvailable = true
                 }
                 
                 device.unlockForConfiguration()

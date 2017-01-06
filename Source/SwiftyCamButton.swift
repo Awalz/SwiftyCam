@@ -58,10 +58,15 @@ open class SwiftyCamButton: UIButton {
     
     fileprivate var timer : Timer?
     
+    /// Initialization Declaration
+    
     override public init(frame: CGRect) {
         super.init(frame: frame)
         createGestureRecognizers()
     }
+    
+    /// Initialization Declaration
+
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -86,10 +91,14 @@ open class SwiftyCamButton: UIButton {
         }
     }
     
+    /// Timer Finished
+    
     @objc fileprivate func timerFinished() {
         invalidateTimer()
         self.delegate?.longPressDidReachMaximumDuration()
     }
+    
+    /// Start Maximum Duration Timer
     
     fileprivate func startTimer() {
         if let duration = delegate?.setMaxiumVideoDuration() {
