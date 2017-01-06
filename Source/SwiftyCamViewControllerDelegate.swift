@@ -18,44 +18,67 @@ import UIKit
 
 // MARK: Public Protocol Declaration
 
+/// Delegate for SwiftyCamViewController
+
 public protocol SwiftyCamViewControllerDelegate {
     
-    // Called when SwiftyCamViewController takes a photo. Returns a UIImage
+    /**
+     SwiftyCamViewControllerDelegate function called when the takePhoto() function is called
+     
+     - Parameter photo: UIImage captured from the current session
+     
+     */
+    
     
     func SwiftyCamDidTakePhoto(_ photo:UIImage)
     
-    // Called when SwiftyCamViewController begins recording video
+    /// SwiftyCamViewControllerDelegate function called when SwiftyCamViewController begins recording video
     
     func SwiftyCamDidBeginRecordingVideo()
     
-    // Called when SwiftyCamViewController finishes recording video
+    /// SwiftyCamViewControllerDelegate function called when SwiftyCamViewController finishes recording video
     
     func SwiftyCamDidFinishRecordingVideo()
     
-    // Called when SwiftyCamViewController is done processing video. Returns the URL of the video location
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController is done processing video
+     
+     - Parameter url: URL location of video in temporary directory
+     
+     */
     
     func SwiftyCamDidFinishProcessingVideoAt(_ url: URL)
     
-    // Called when SwiftyCamViewController switches between front or rear camera. Return the current CameraSelection
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController switches between front or rear camera
+     
+     - Parameter camera: Current camera selection
+     
+     */
     
     func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection)
     
-    // Called when SwiftyCamViewController view is tapped and begins focusing at that point
-    // Will only be called if tapToFocus is set to true
-    // Not supported on front facing camera
-    // Returns the CGPoint tap location
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController view is tapped and begins focusing at that point
+     
+     - Parameter focusPoint: Location in view where camera focused
+     
+     */
     
     func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint)
     
-    // Called when SwiftyCamViewController view changes zoom level
-    // Will only be called if pinchToZoom is set to true
-    // Not supported on front facing camera
-    // Returns the current zoomLevel
-    
+    /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController view changes zoom level
+     
+     - Parameter zoomLevel: Current zoom level
+     
+     */
+
     func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat)
     
-    // Called if app permissions are denied for either Camera or Microphone
-    // Only called if promptToAppPrivacySettings is set to false
+    
+    /// SwiftyCamViewControllerDelegate function called if app permissions are denied for either Camera or Microphone
     
     func SwiftyCamDidFailCameraPermissionSettings()
 }

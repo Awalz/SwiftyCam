@@ -18,25 +18,27 @@ import UIKit
 
 //MARK: Public Protocol Declaration
 
+/// Delegate for SwiftyCamButton
+
 public protocol SwiftyCamButtonDelegate {
     
-    // Called when UITapGestureRecognizer begins
+    /// Called when UITapGestureRecognizer begins
     
     func buttonWasTapped()
     
-    // Called When UILongPressGestureRecognizer enters UIGestureRecognizerState.began
+    /// Called When UILongPressGestureRecognizer enters UIGestureRecognizerState.began
     
     func buttonDidBeginLongPress()
     
-    // Called When UILongPressGestureRecognizer enters UIGestureRecognizerState.end
+    /// Called When UILongPressGestureRecognizer enters UIGestureRecognizerState.end
 
     func buttonDidEndLongPress()
     
-    // Called when the maximum duration is reached
+    /// Called when the maximum duration is reached
     
     func longPressDidReachMaximumDuration()
     
-    // Sets the maximum duration of the video recording
+    /// Sets the maximum duration of the video recording
     
     func setMaxiumVideoDuration() -> Double
 }
@@ -44,13 +46,15 @@ public protocol SwiftyCamButtonDelegate {
 // MARK: Public View Declaration
 
 
+/// UIButton Subclass for Capturing Photo and Video with SwiftyCamViewController
+
 open class SwiftyCamButton: UIButton {
     
-    // Delegate variable
+    /// Delegate variable
     
     public var delegate: SwiftyCamButtonDelegate?
     
-    // Maximum duration variable
+    /// Maximum duration variable
     
     fileprivate var timer : Timer?
     
@@ -64,13 +68,13 @@ open class SwiftyCamButton: UIButton {
         createGestureRecognizers()
     }
     
-    // UITapGestureRecognizer Function
+    /// UITapGestureRecognizer Function
     
     @objc fileprivate func Tap() {
        self.delegate?.buttonWasTapped()
     }
     
-    // UILongPressGestureRecognizer Function
+    /// UILongPressGestureRecognizer Function
 
     @objc fileprivate func LongPress(_ sender:UILongPressGestureRecognizer!)  {
         if (sender.state == UIGestureRecognizerState.ended) {

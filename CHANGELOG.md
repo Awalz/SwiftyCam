@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 1.2.1
+- Minor bug fixes
+- Updated Documentation
+
 ## Version 1.2.0
 
 - Enabling flash is now a boolean property rather than a function
