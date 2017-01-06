@@ -380,7 +380,7 @@ open class SwiftyCamViewController: UIViewController {
     // Used for Tap to Focus
     
     override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard tapToFocus == true, currentCamera ==  .rear  else {
+        guard tapToFocus == true && currentCamera ==  .rear  else {
             // Ignore taps
             return
         }
@@ -569,7 +569,7 @@ open class SwiftyCamViewController: UIViewController {
     // Handle zoom gesture
     
     @objc fileprivate func zoomGesture(pinch: UIPinchGestureRecognizer) {
-        guard pinchToZoom == true else {
+        guard pinchToZoom == true && self.currentCamera == .rear else {
             //ignore pinch if pinchToZoom is set to false
             return
         }

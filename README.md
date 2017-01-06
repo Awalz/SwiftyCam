@@ -137,11 +137,11 @@ and in your viewDidLoad, assign the cameraDelegate to self:
 
 ## Flash
 
-The flash(torch) can be enabled on the device by calling:
+The flash(torch) can be enabled by changing the **flashEnabled** property:
 
-    toggleFlash()
+    flashEnabled = true
 
-The flash will only be enabled if the current camera is the rear camera and will automatically if the camera switches or the View Controller is dismissed.
+The flash will only be enabled if the current camera is the rear camera. For photos, the camera will flash much like the stock iOS camera. For video, the torch(flash) will enable for the duration of the video capture.
 
 ## Switching Camera
 
