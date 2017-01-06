@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 1.2.3
+- Added support for Swift Package Manager
+
 ## Version 1.2.2
 - Added support for low light boost in supported models
 - Minor bug fixes
