@@ -16,14 +16,47 @@
 
 import UIKit
 
+// MARK: Public Protocol Declaration
+
 public protocol SwiftyCamViewControllerDelegate {
+    
+    // Called when SwiftyCamViewController takes a photo. Returns a UIImage
+    
     func SwiftyCamDidTakePhoto(_ photo:UIImage)
+    
+    // Called when SwiftyCamViewController begins recording video
+    
     func SwiftyCamDidBeginRecordingVideo()
+    
+    // Called when SwiftyCamViewController finishes recording video
+    
     func SwiftyCamDidFinishRecordingVideo()
+    
+    // Called when SwiftyCamViewController is done processing video. Returns the URL of the video location
+    
     func SwiftyCamDidFinishProcessingVideoAt(_ url: URL)
+    
+    // Called when SwiftyCamViewController switches between front or rear camera. Return the current CameraSelection
+    
     func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection)
+    
+    // Called when SwiftyCamViewController view is tapped and begins focusing at that point
+    // Will only be called if tapToFocus is set to true
+    // Not supported on front facing camera
+    // Returns the CGPoint tap location
+    
     func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint)
+    
+    // Called when SwiftyCamViewController view changes zoom level
+    // Will only be called if pinchToZoom is set to true
+    // Not supported on front facing camera
+    // Returns the current zoomLevel
+    
     func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat)
+    
+    // Called if app permissions are denied for either Camera or Microphone
+    // Only called if promptToAppPrivacySettings is set to false
+    
     func SwiftyCamDidFailCameraPermissionSettings()
 }
 

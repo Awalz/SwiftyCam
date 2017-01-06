@@ -16,18 +16,41 @@
 
 import UIKit
 
+//MARK: Public Protocol Declaration
+
 public protocol SwiftyCamButtonDelegate {
+    
+    // Called when UITapGestureRecognizer begins
+    
     func buttonWasTapped()
+    
+    // Called When UILongPressGestureRecognizer enters UIGestureRecognizerState.began
+    
     func buttonDidBeginLongPress()
+    
+    // Called When UILongPressGestureRecognizer enters UIGestureRecognizerState.end
+
     func buttonDidEndLongPress()
+    
+    // Called when the maximum duration is reached
+    
     func longPressDidReachMaximumDuration()
+    
+    // Sets the maximum duration of the video recording
+    
     func setMaxiumVideoDuration() -> Double
 }
+
+// MARK: Public View Declaration
 
 
 open class SwiftyCamButton: UIButton {
     
+    // Delegate variable
+    
     public var delegate: SwiftyCamButtonDelegate?
+    
+    // Maximum duration variable
     
     fileprivate var timer : Timer?
     
@@ -41,10 +64,14 @@ open class SwiftyCamButton: UIButton {
         createGestureRecognizers()
     }
     
+    // UITapGestureRecognizer Function
+    
     @objc fileprivate func Tap() {
        self.delegate?.buttonWasTapped()
     }
     
+    // UILongPressGestureRecognizer Function
+
     @objc fileprivate func LongPress(_ sender:UILongPressGestureRecognizer!)  {
         if (sender.state == UIGestureRecognizerState.ended) {
             invalidateTimer()
@@ -62,16 +89,21 @@ open class SwiftyCamButton: UIButton {
     
     fileprivate func startTimer() {
         if let duration = delegate?.setMaxiumVideoDuration() {
+            //Check if duration is set, and greater than zero
             if duration != 0.0 && duration > 0.0 {
                 timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector:  #selector(SwiftyCamButton.timerFinished), userInfo: nil, repeats: false)
             }
         }
     }
     
+    // End timer if UILongPressGestureRecognizer is ended before time has ended
+    
     fileprivate func invalidateTimer() {
         timer?.invalidate()
         timer = nil
     }
+    
+    // Add Tap and LongPress gesture recognizers
     
     fileprivate func createGestureRecognizers() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SwiftyCamButton.Tap))

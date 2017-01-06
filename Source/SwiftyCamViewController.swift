@@ -17,25 +17,40 @@
 import UIKit
 import AVFoundation
 
+// MARK: View Controller Declaration
+
 open class SwiftyCamViewController: UIViewController {
+    
+    // MARK: Enumeration Declaration
+    
+    
+    // Possible Camera Selection Posibilities
 
    public enum CameraSelection {
         case rear
         case front
     }
     
+    // Used for Setting Video Quality of Capture Session
+    // Corresponds to the AVCaptureSessionPreset String
+    // Global Variables Declared in AVFoundation
+    // AVCaptureSessionPresetPhoto is not supported as it does not support video capture
+    // AVCaptureSessionPreset320x240 is not supported as it is the incorrect aspect ratio
+    
     public enum VideoQuality {
-        case high
-        case medium
-        case low
-        case resolution352x288
-        case resolution640x480
-        case resolution1280x720
-        case resolution1920x1080
-        case resolution3840x2160
-        case iframe960x540
-        case iframe1280x720
+        case high                  // AVCaptureSessionPresetHigh
+        case medium                // AVCaptureSessionPresetMedium
+        case low                   // AVCaptureSessionPresetLow
+        case resolution352x288     // AVCaptureSessionPreset352x288
+        case resolution640x480     // AVCaptureSessionPreset640x480
+        case resolution1280x720    // AVCaptureSessionPreset1280x720
+        case resolution1920x1080   // AVCaptureSessionPreset1920x1080
+        case resolution3840x2160   // AVCaptureSessionPreset3840x2160
+        case iframe960x540         // AVCaptureSessionPresetiFrame960x540
+        case iframe1280x720        // AVCaptureSessionPresetiFrame1280x720
     }
+    
+    // Result from the AVCaptureSession Setup
     
     fileprivate enum SessionSetupResult {
         case success
@@ -43,89 +58,196 @@ open class SwiftyCamViewController: UIViewController {
         case configurationFailed
     }
     
+    // MARK: Public Variable Declarations
+    
+    // Public Camera Delegate for the Custom View Controller Subclass
+    
     public var cameraDelegate: SwiftyCamViewControllerDelegate?
     
+    // Used to set the maximum duration of the video capture
+    // Only used for SwiftyCamButton
+    // Value of 0.0  does not enforce a fixed duration
+    
     public var kMaximumVideoDuration : Double     = 0.0
+    
+    // Quality of rear facing camera
+    // Quality of front caing quality will always be VideoQuality.high
+    
     public var videoQuality : VideoQuality       = .high
+    
+    // Sets whether Pinch to Zoom is supported for the capture session
+    // Pinch to zoom not supported on front facing camera
+    
     public var pinchToZoom                       = true
+    
+    // Sets whether Tap to Focus is supported for the capture session
+    // Tap to Focus is not supported on front facing camera
+    // Tapping the capture session will call the SwiftyCamViewControllerDelegate delegate function SwiftyCamDidFocusAtPoint(focusPoint: CGPoint)
+    
     public var tapToFocus                        = true
+    
+    // Sets whether SwiftyCam will prompt a user to the App Settings Screen if Camera or Microphone access is not authorized
+    // If set to false and Camera/Microphone is not authorized, SwiftyCamViewControllerDelegate delegate
+    // function SwiftyCamDidFailCameraPermissionSettings() will be called
+    
     public var promptToAppPrivacySettings        = true
+    
+    
+    // MARK: Public Get-only Variable Declarations
+    
+    // Returns a boolean if the torch (flash) is currently enabled
+    
     private(set) public var isCameraFlashOn      = false
+    
+    // Returns a boolean if video is currently being recorded
+    
     private(set) public var isVideRecording      = false
+    
+    // Returns a boolean if the capture session is currently running
+    
     private(set) public var isSessionRunning     = false
+    
+    // Returns a CameraSelection enum for the currently utilized camera
+    
     private(set) public var currentCamera        = CameraSelection.rear
+    
+    // MARK: Private Constant Declarations
+    
+    // Current Capture Session
+    
     fileprivate let session                      = AVCaptureSession()
+    
+    // Serial queue used for setting up session
+    
     fileprivate let sessionQueue                 = DispatchQueue(label: "session queue", attributes: [])
+    
+    // MARK: Private Variable Declarations
+    
+    // Variable for storing current zoom scale
+    
     fileprivate var zoomScale                    = CGFloat(1.0)
+    
+    // Variable for storing initial zoom scale before Pinch to Zoom begins
+    
     fileprivate var beginZoomScale               = CGFloat(1.0)
+    
+    // Variable for storing result of Capture Session setup
+    
     fileprivate var setupResult                  = SessionSetupResult.success
+    
+    // BackgroundID variable for video recording
+    
     fileprivate var backgroundRecordingID        : UIBackgroundTaskIdentifier? = nil
+    
+    // Video Input variable
+    
     fileprivate var videoDeviceInput             : AVCaptureDeviceInput!
+    
+    // Movie File Output variable
+    
     fileprivate var movieFileOutput              : AVCaptureMovieFileOutput?
+    
+    // Photo File Output variable
+    
     fileprivate var photoFileOutput              : AVCaptureStillImageOutput?
+    
+    // Video Device variable
+    
     fileprivate var videoDevice                  : AVCaptureDevice?
+    
+    // PreviewView for the capture session
+    
     fileprivate var previewLayer                 : PreviewView!
+    
+    // Disable view autorotation for forced portrait recorindg
     
     open override var shouldAutorotate: Bool {
         return false
     }
+    
+    // MARK: ViewDidLoad
 
     override open func viewDidLoad() {
         super.viewDidLoad()
         previewLayer = PreviewView(frame: self.view.frame)
+        
+        // Add Pinch Gesture Recognizer for pinch to zoom
+        
         addGestureRecognizers(toView: previewLayer)
         self.view.addSubview(previewLayer)
         previewLayer.session = session
         
+        // Test authorization status for Camera and Micophone
+        
         switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo){
-        case .authorized:
-            break
-        case .notDetermined:
-            sessionQueue.suspend()
-            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { [unowned self] granted in
-                if !granted {
-                    self.setupResult = .notAuthorized
-                }
-                self.sessionQueue.resume()
-                })
-        default:
-            setupResult = .notAuthorized
-        }
-        sessionQueue.async { [unowned self] in
-            self.configureSession()
+            case .authorized:
+                
+                // already authorized
+                break
+            case .notDetermined:
+                
+                // not yet determined
+                sessionQueue.suspend()
+                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { [unowned self] granted in
+                    if !granted {
+                        self.setupResult = .notAuthorized
+                    }
+                    self.sessionQueue.resume()
+                    })
+            default:
+                
+                // already been asked. Denied access
+                setupResult = .notAuthorized
+            }
+            sessionQueue.async { [unowned self] in
+                self.configureSession()
         }
     }
+    
+    // MARK: ViewDidAppear
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         sessionQueue.async {
             switch self.setupResult {
-            case .success:
-                self.session.startRunning()
-                self.isSessionRunning = self.session.isRunning
-            case .notAuthorized:
-                self.promptToAppSettings()
-            case .configurationFailed:
-                DispatchQueue.main.async(execute: { [unowned self] in
-                    let message = NSLocalizedString("Unable to capture media", comment: "Alert message when something goes wrong during capture session configuration")
-                    let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
-                    alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
-                    
-                    self.present(alertController, animated: true, completion: nil)
+                case .success:
+                    // Begin Session
+                    self.session.startRunning()
+                    self.isSessionRunning = self.session.isRunning
+                case .notAuthorized:
+                    // Prompt to App Settings
+                    self.promptToAppSettings()
+                case .configurationFailed:
+                    // Unknown Error
+                    DispatchQueue.main.async(execute: { [unowned self] in
+                        let message = NSLocalizedString("Unable to capture media", comment: "Alert message when something goes wrong during capture session configuration")
+                        let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
+                        alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+                        self.present(alertController, animated: true, completion: nil)
                 })
             }
         }
     }
     
+    // MARK: ViewDidDisappear
+    
     override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        // If session is running, stop the session
         if self.isSessionRunning == true {
             self.session.stopRunning()
             self.isSessionRunning = false
         }
+        
+        //Disble flash if it is currently enables
         disableFlash()
     }
+    
+    // MARK: Public Functions
+    
+    // Capture photo from session
     
     public func takePhoto() {
         if let videoConnection = photoFileOutput?.connection(withMediaType: AVMediaTypeVideo) {
@@ -134,11 +256,15 @@ open class SwiftyCamViewController: UIViewController {
                 if (sampleBuffer != nil) {
                     let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
                     let image = self.processPhoto(imageData!)
+                    
+                    // Call delegate and return new image
                     self.cameraDelegate?.SwiftyCamDidTakePhoto(image)
                 }
             })
         }
     }
+    
+    // Begin recording video
     
     public func startVideoRecording() {
         guard let movieFileOutput = self.movieFileOutput else {
@@ -176,6 +302,8 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    // Stop video recording
+    
     public func endVideoRecording() {
         if self.movieFileOutput?.isRecording == true {
             self.isVideRecording = false
@@ -184,8 +312,11 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    // Switch between front and rear camera
+    
     public func switchCamera() {
         guard isVideRecording != true else {
+            //TODO: Look into switching camera during video recording
             print("[SwiftyCam]: Switching between cameras while recording video is not supported")
             return
         }
@@ -200,6 +331,8 @@ open class SwiftyCamViewController: UIViewController {
 
         sessionQueue.async { [unowned self] in
             
+            // remove and re-add inputs and outputs
+            
             for input in self.session.inputs {
                 self.session.removeInput(input as! AVCaptureInput)
             }
@@ -211,15 +344,19 @@ open class SwiftyCamViewController: UIViewController {
             self.cameraDelegate?.SwiftyCamDidSwitchCameras(camera: self.currentCamera)
             self.session.startRunning()
         }
+        
+        // If flash is enabled, disable it as flash is not supported or needed for front facing camera
         disableFlash()
     }
     
     public func toggleFlash() {
         guard self.currentCamera == .rear else {
+            // Flash is not supported for front facing camera
             return
         }
         
         let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        // Check if device has a flash
         if (device?.hasTorch)! {
             do {
                 try device?.lockForConfiguration()
@@ -241,8 +378,12 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    // Override Touches Began
+    // Used for Tap to Focus
+    
     override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard tapToFocus == true, currentCamera ==  .rear else {
+        guard tapToFocus == true, currentCamera ==  .rear  else {
+            // Ignore taps
             return
         }
         
@@ -257,12 +398,11 @@ open class SwiftyCamViewController: UIViewController {
                     try device.lockForConfiguration()
                     
                     device.focusPointOfInterest = focusPoint
-                    //device.focusMode = .continuousAutoFocus
                     device.focusMode = .autoFocus
-                    //device.focusMode = .locked
                     device.exposurePointOfInterest = focusPoint
                     device.exposureMode = AVCaptureExposureMode.continuousAutoExposure
                     device.unlockForConfiguration()
+                    //Call delegate function and pass in the location of the touch
                     self.cameraDelegate?.SwiftyCamDidFocusAtPoint(focusPoint: touchPoint.location(in: previewLayer))
                 }
                 catch {
@@ -272,7 +412,9 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
-    /**************************************** Private Functions ****************************************/
+    // MARK: Private Functions
+    
+    // Configure session, add inputs and outputs
 
     fileprivate func configureSession() {
         guard setupResult == .success else {
@@ -288,6 +430,10 @@ open class SwiftyCamViewController: UIViewController {
         session.commitConfiguration()
     }
     
+    // Configure preset
+    // Front facing camera will always be set to VideoQuality.high
+    // If set video quality is not supported, videoQuality variable will be set to VideoQuality.high
+    
     fileprivate func configureVideoPreset() {
         
         if currentCamera == .front {
@@ -300,6 +446,8 @@ open class SwiftyCamViewController: UIViewController {
             }
         }
     }
+    
+    // Add Video Inputs
     
     fileprivate func addVideoInput() {
         switch currentCamera {
@@ -353,6 +501,8 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    // Add Audio Inputs
+    
     fileprivate func addAudioInput() {
         do {
             let audioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
@@ -370,6 +520,8 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    // Configure Movie Output
+    
     fileprivate func configureVideoOutput() {
         let movieFileOutput = AVCaptureMovieFileOutput()
         
@@ -384,6 +536,8 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    // Configure Photo Output
+    
     fileprivate func configurePhotoOutput() {
         let photoFileOutput = AVCaptureStillImageOutput()
         
@@ -394,11 +548,16 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    // Get Image from Image Data
+    
     fileprivate func processPhoto(_ imageData: Data) -> UIImage {
         let dataProvider = CGDataProvider(data: imageData as CFData)
         let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
         
         var image: UIImage!
+        
+        // Set proper orientation for photo
+        // If camera is currently set to front camera, flip image
         
         switch self.currentCamera {
             case .front:
@@ -409,8 +568,11 @@ open class SwiftyCamViewController: UIViewController {
         return image
     }
     
+    // Handle zoom gesture
+    
     @objc fileprivate func zoomGesture(pinch: UIPinchGestureRecognizer) {
         guard pinchToZoom == true else {
+            //ignore pinch if pinchToZoom is set to false
             return
         }
             do {
@@ -421,6 +583,7 @@ open class SwiftyCamViewController: UIViewController {
             
                 captureDevice?.videoZoomFactor = zoomScale
                 
+                // Call Delegate function with current zoom scale
                 self.cameraDelegate?.SwiftyCamDidChangeZoomLevel(zoomLevel: zoomScale)
             
                 captureDevice?.unlockForConfiguration()
@@ -430,17 +593,26 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    // Add pinch Gesture
+    
     fileprivate func addGestureRecognizers(toView: UIView) {
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
         pinchGesture.delegate = self
         toView.addGestureRecognizer(pinchGesture)
     }
     
+    //Handle Denied App Privacy Settings
+    
     fileprivate func promptToAppSettings() {
         guard promptToAppPrivacySettings == true else {
+            // Do not prompt user
+            // Ca// delegate function SwiftyCamDidFailCameraPermissionSettings()
             self.cameraDelegate?.SwiftyCamDidFailCameraPermissionSettings()
             return
         }
+        
+        // prompt User with UIAlertView
+
         DispatchQueue.main.async(execute: { [unowned self] in
             let message = NSLocalizedString("AVCam doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
             let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
@@ -457,6 +629,8 @@ open class SwiftyCamViewController: UIViewController {
             self.present(alertController, animated: true, completion: nil)
         })
     }
+    
+    // Set AVCapturePreset from VideoQuality enum
     
     fileprivate func videoInputPresetFromVideoQuality(quality: VideoQuality) -> String {
         switch quality {
@@ -475,7 +649,7 @@ open class SwiftyCamViewController: UIViewController {
                 }
                 else {
                     print("[SwiftyCam]: Resolution 3840x2160 not supported")
-                    return AVCaptureSessionPresetPhoto
+                    return AVCaptureSessionPresetHigh
                 }
         }
     }
@@ -487,11 +661,15 @@ open class SwiftyCamViewController: UIViewController {
         return nil
     }
     
+    // Enable flash
+    
     fileprivate func enableFlash() {
         if self.isCameraFlashOn == false {
             toggleFlash()
         }
     }
+    
+    // Disable flash
     
     fileprivate func disableFlash() {
         if self.isCameraFlashOn == true {
@@ -502,28 +680,43 @@ open class SwiftyCamViewController: UIViewController {
 
 extension SwiftyCamViewController : SwiftyCamButtonDelegate {
     
+    // Sets the maximum duration of the SwiftyCamButton
+    // Value of 0.0 will not enforce any maximum
+    
     public func setMaxiumVideoDuration() -> Double {
         return kMaximumVideoDuration
     }
+    
+    // Set UITapGesture to take photo
     
     public func buttonWasTapped() {
         takePhoto()
     }
     
+    // set UILongPressGesture start to begin video
+    
     public func buttonDidBeginLongPress() {
         startVideoRecording()
     }
     
+    // set UILongPressGesture begin to begin end video
+
+    
     public func buttonDidEndLongPress() {
         endVideoRecording()
     }
+    
+    // Called if maximum duration is reached
     
     public func longPressDidReachMaximumDuration() {
         endVideoRecording()
     }
 }
 
+// MARK: AVCaptureFileOutputRecordingDelegate
+
 extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
+    
     public func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         if let currentBackgroundRecordingID = backgroundRecordingID {
             backgroundRecordingID = UIBackgroundTaskInvalid
@@ -535,12 +728,18 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
         if error != nil {
             print("[SwiftyCam]: Movie file finishing error: \(error)")
         } else {
+            //Call delegate function with the URL of the outputfile
             self.cameraDelegate?.SwiftyCamDidFinishProcessingVideoAt(outputFileURL)
         }
     }
 }
 
+// MARK: UIGestureRecognizerDelegate
+
 extension SwiftyCamViewController : UIGestureRecognizerDelegate {
+    
+    // Set beginZoomScale when pinch begins
+    
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.isKind(of: UIPinchGestureRecognizer.self) {
             beginZoomScale = zoomScale;
