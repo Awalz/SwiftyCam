@@ -73,7 +73,7 @@ As of iOS 10, Apple requires the additon of the `NSCameraUsageDescription` and `
 
 ### Getting Started:
 
-Add the import statement to the View Controller you ware working in:
+If you install SwiftyCam from Cocoapods, be sure to import the module into your View Controller:
 
 ```swift
 import SwiftyCam
@@ -92,11 +92,7 @@ That is all that is required to setup the AVSession for photo and video capture.
 
 ### SwiftyCamButton:
 
-SwiftyCam comes with a very convenient method of capturing media. SwiftyCamButton uses gesture recognizers to take either photos of videos.
-
-A single tap of the SwiftyCam button triggers a photo capture.
-
-A long press/tap and hold gesture initiates a video capture. Releasing the button ends the video recoring.
+SwiftyCam comes with a very convenient method of capturing media. SwiftyCamButton captures photos with a `UITapGestureRecognizer` and captures video with a `UILongPressGestureRecognizer`
 
 To use a SwiftyCamButton, simply create one and assign the delegate to your SwiftyCamViewController:
 
@@ -128,7 +124,7 @@ endVideoRecording()
 
 ###Delegate
 
-In order to acquire the photos and videos taken by either the SwiftyCamButton or manually, you must implement the SwiftyCamViewControllerDelegate and set the cameraDelegate to your view controller instance:
+In order to acquire the photos and videos taken by either the SwiftyCamButton or manually, you must implement the `SwiftyCamViewControllerDelegate` and set the `cameraDelegate` to your view controller instance:
 
 ```swift
 class MyCameraViewController : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
