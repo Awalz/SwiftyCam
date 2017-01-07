@@ -126,10 +126,6 @@ open class SwiftyCamViewController: UIViewController {
     
     // MARK: Public Get-only Variable Declarations
     
-    /// Returns true if the torch (flash) is currently enabled
-    
-    private(set) public var isCameraFlashOn      = false
-    
     /// Returns true if video is currently being recorded
     
     private(set) public var isVideRecording      = false
@@ -162,6 +158,10 @@ open class SwiftyCamViewController: UIViewController {
     
     fileprivate var beginZoomScale               = CGFloat(1.0)
     
+    /// Returns true if the torch (flash) is currently enabled
+    
+    fileprivate var isCameraTorchOn              = false
+    
     /// Variable to store result of capture session setup
     
     fileprivate var setupResult                  = SessionSetupResult.success
@@ -190,7 +190,12 @@ open class SwiftyCamViewController: UIViewController {
     
     fileprivate var previewLayer                 : PreviewView!
     
+    /// UIView for front facing flash
+    
+    fileprivate var flashView                    : UIView?
+    
     /// Disable view autorotation for forced portrait recorindg
+    
     
     override open var shouldAutorotate: Bool {
         return false
@@ -306,20 +311,20 @@ open class SwiftyCamViewController: UIViewController {
             capturePhotoAsyncronously(completionHandler: { (_) in })
             
         } else if device.hasFlash == false && flashEnabled == true && currentCamera == .front {
-            let flashView = UIView(frame: view.frame)
-            flashView.alpha = 0.0
-            flashView.backgroundColor = UIColor.white
-            view.addSubview(flashView)
+            flashView = UIView(frame: view.frame)
+            flashView?.alpha = 0.0
+            flashView?.backgroundColor = UIColor.white
+            previewLayer.addSubview(flashView!)
 
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
-                flashView.alpha = 1.0
+                self.flashView?.alpha = 1.0
                 
             }, completion: { (_) in
                 self.capturePhotoAsyncronously(completionHandler: { (success) in
                     UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
-                        flashView.alpha = 0.0
+                        self.flashView?.alpha = 0.0
                     }, completion: { (_) in
-                        flashView.removeFromSuperview()
+                        self.flashView?.removeFromSuperview()
                     })
                 })
             })
@@ -346,6 +351,17 @@ open class SwiftyCamViewController: UIViewController {
         
         if currentCamera == .rear && flashEnabled == true {
             enableFlash()
+        }
+        
+        if currentCamera == .front && flashEnabled == true {
+            flashView = UIView(frame: view.frame)
+            flashView?.backgroundColor = UIColor.white
+            flashView?.alpha = 0.0
+            previewLayer.addSubview(flashView!)
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.flashView?.alpha = 0.85
+                
+            }, completion: nil)
         }
         
         let videoPreviewLayerOrientation = previewLayer!.videoPreviewLayer.connection.videoOrientation
@@ -394,6 +410,14 @@ open class SwiftyCamViewController: UIViewController {
             self.isVideRecording = false
             movieFileOutput!.stopRecording()
             disableFlash()
+            
+            if currentCamera == .front && flashEnabled == true && flashView != nil {
+                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.flashView?.alpha = 0.0
+                }, completion: { (_) in
+                    self.flashView?.removeFromSuperview()
+                })
+            }
             self.cameraDelegate?.SwiftyCamDidFinishRecordingVideo()
         }
     }
@@ -438,7 +462,7 @@ open class SwiftyCamViewController: UIViewController {
             self.session.startRunning()
         }
         
-        // If flash is enabled, disable it as flash is not supported or needed for front facing camera
+        // If flash is enabled, disable it as the torch is needed for front facing camera
         disableFlash()
     }
  
@@ -783,7 +807,7 @@ open class SwiftyCamViewController: UIViewController {
     /// Enable flash
     
     fileprivate func enableFlash() {
-        if self.isCameraFlashOn == false {
+        if self.isCameraTorchOn == false {
             toggleFlash()
         }
     }
@@ -791,7 +815,7 @@ open class SwiftyCamViewController: UIViewController {
     /// Disable flash
     
     fileprivate func disableFlash() {
-        if self.isCameraFlashOn == true {
+        if self.isCameraTorchOn == true {
             toggleFlash()
         }
     }
@@ -811,11 +835,11 @@ open class SwiftyCamViewController: UIViewController {
                 try device?.lockForConfiguration()
                 if (device?.torchMode == AVCaptureTorchMode.on) {
                     device?.torchMode = AVCaptureTorchMode.off
-                    self.isCameraFlashOn = false
+                    self.isCameraTorchOn = false
                 } else {
                     do {
                         try device?.setTorchModeOnWithLevel(1.0)
-                        self.isCameraFlashOn = true
+                        self.isCameraTorchOn = true
                     } catch {
                         print("[SwiftyCam]: \(error)")
                     }

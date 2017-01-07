@@ -23,10 +23,11 @@ Configuring a Camera View Controller in AVFoundation can be tedious and time con
 :movie_camera: | Video capture
 :chart_with_upwards_trend: | Manual image quality settings
 :tada: | Front and rear camera support
-:flashlight: | Torch/flash settings
+:flashlight: | Front and rear flash
+:sunny: | Retina flash support
 :mag_right: | Supports manual zoom
 :lock: | Supports manual focus
-:last_quarter_moon_with_face: | low light setting
+:last_quarter_moon_with_face: | Low light setting
 
 
 ## Requirements
@@ -141,8 +142,18 @@ and in your viewDidLoad, assign the cameraDelegate to self:
 The flash(torch) can be enabled by changing the **flashEnabled** property:
 
     flashEnabled = true
+    
+Flash is now supported for front and rear facing cameras. 
 
-The flash will only be enabled if the current camera is the rear camera. For photos, the camera will flash much like the stock iOS camera. For video, the torch(flash) will enable for the duration of the video capture.
+### Rear Camera
+
+For photos, the camera will flash much like the stock iOS camera. For video, the torch(flash) will enable for the duration of the video capture.
+
+### Front Camera
+
+For models that support [Retina Flash](https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Cameras/Cameras.html#//apple_ref/doc/uid/TP40013599-CH107-SW7), the front camera will use the default flash for image capture. If Retina Flash is not supported, a faux Retina Flash is used similar to Snapchat.
+
+For front facing videos, a white, 85% opaque view will be placed over the video feed for the duration of the video capture.
 
 ## Switching Camera
 

@@ -26,9 +26,10 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         super.viewDidLoad()
         cameraDelegate = self
         kMaximumVideoDuration = 10.0
-        tapToFocus = true
-        pinchToZoom = true
-        lowLightBoost = true
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     override func viewDidAppear(_ animated: Bool) {

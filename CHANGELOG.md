@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version 1.3.0
+- Added support for front facing flash
+- Added support for front facing Retina Flash (on supported models)
+- Added support for front facing torch mode for video capture
+
 ## Version 1.2.3
 - Added support for Swift Package Manager
 
