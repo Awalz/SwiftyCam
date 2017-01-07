@@ -61,12 +61,15 @@ Using SwiftyCam is very simple.
 
 ### Prerequisites:
 
-As of iOS 10, Apple requires the additon of the NSCameraUsageDescription and NSMicrophoneUsageDescription strings to the info.plist of your application. Example:
+As of iOS 10, Apple requires the additon of the `NSCameraUsageDescription` and `NSMicrophoneUsageDescription` strings to the info.plist of your application. Example:
 
-	<key>NSCameraUsageDescription</key>
-		<string>To Take Photos and Video</string>
-	<key>NSMicrophoneUsageDescription</key>
-		<string>To Record Audio With Video</string>
+```xml
+<key>NSCameraUsageDescription</key>
+	<string>To Take Photos and Video</string>
+<key>NSMicrophoneUsageDescription</key>
+	<string>To Record Audio With Video</string>
+```
+
 
 ### Getting Started:
 
@@ -77,7 +80,7 @@ import SwiftyCam
 ```
 
 
-SwiftyCam is a drop-in convenience framework. To create a Camera instance, create a new UIViewController subclass. Replace the UIViewController subclass declaration with SwiftyCamViewController:
+SwiftyCam is a drop-in convenience framework. To create a Camera instance, create a new UIViewController subclass. Replace the UIViewController subclass declaration with `SwiftyCamViewController`:
 
 ```swift
 class MyCameraViewController : SwiftyCamViewController
@@ -104,19 +107,19 @@ captureButton.delegate = self
 
 ### Manual:
 
-Capturing media with SwiftyCam is very simple. To capture a photo, simply call the takePhoto function:
+Capturing media with SwiftyCam is very simple. To capture a photo, simply call the `takePhoto` function:
 
 ```swift
 takePhoto()
 ```    
 
-Capturing Video is just as easy. To begin recording video, call the startVideoRecording function:
+Capturing Video is just as easy. To begin recording video, call the `startVideoRecording` function:
 
 ```swift
 startVideoRecording()
 ``` 
 
-To end the capture of a video, call the endVideoRecordingFunction:
+To end the capture of a video, call the `endVideoRecordingFunction`:
 
 ```swift
 endVideoRecording()
@@ -181,7 +184,7 @@ func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection) 
 
 ## Flash
 
-The flash(torch) can be enabled by changing the **flashEnabled** property:
+The flash(torch) can be enabled by changing the `flashEnabled` property:
 
 ```swift
 flashEnabled = true
@@ -235,7 +238,7 @@ The default value is **.high**. For use with the front-facing camera, **.high** 
 
 ### Maximum Video Duration
 
-If using a SwiftyCamButton, you can set a maximum video duration for the length of video. The video recording will me automatically stopped once the time limit has been reached and the delegate method **SwiftyCamDidFinishRecordingVideo** will be called. To set this value, simply change the **kMaximumVideoDuration** value:
+If using a SwiftyCamButton, you can set a maximum video duration for the length of video. The video recording will me automatically stopped once the time limit has been reached and the delegate method `SwiftyCamDidFinishRecordingVideo` will be called. To set this value, simply change the `kMaximumVideoDuration` value:
 
 ```swift
 kMaximumVideoDuration = 10.0
@@ -245,7 +248,7 @@ A value of **0.0** will allow for unlimited video recording via the SwiftyCamBut
 
 ## Camera Zoom
 
-SwiftyCam supports digital zoom of the camera session via pinch gestures. The gestures work similar to the default iOS app and will zoom to the maximum supported zoom level. Camera zoom is only supported on the rear facing camera. AVFoundation does not currently support front facing camera zoom. To disable this feature, change the **pinchToZoom** property:
+SwiftyCam supports digital zoom of the camera session via pinch gestures. The gestures work similar to the default iOS app and will zoom to the maximum supported zoom level. Camera zoom is only supported on the rear facing camera. AVFoundation does not currently support front facing camera zoom. To disable this feature, change the `pinchToZoom` property:
 
 ```swift
 pinchToZoom = false
@@ -255,17 +258,17 @@ By default, **pinchToZoom** is enabled.
 
 ## Camera Focus
 
-SwiftyCam, by default, support tap to focus on the video preview. SwiftyCam will set the focus and exposure levels of the session to the tapped point. Autofocus and autoexposure will be resumed once SwiftyCam detects significant movement from the tapped point. To disable this feature, change the **tapToFocus** property:
+SwiftyCam, by default, support tap to focus on the video preview. SwiftyCam will set the focus and exposure levels of the session to the tapped point. Autofocus and autoexposure will be resumed once SwiftyCam detects significant movement from the tapped point. To disable this feature, change the `tapToFocus` property:
 
 ```swift
 tapToFocus = false
 ```
 
-By default, **tapToFocus** is enabled. If you wish to show a on screen animation when a tap to focus is initiated, you can use the **SwiftyCamDidFocusAtPoint(focusPoint:)** to get the coordinates of tap and provide your own tap animation
+By default, `tapToFocus` is enabled. If you wish to show a on screen animation when a tap to focus is initiated, you can use the `SwiftyCamDidFocusAtPoint(focusPoint:)` to get the coordinates of tap and provide your own tap animation
 
 ## Low Light Boost
 
-For supported models (iPhone 5 and 5C), AVCaptureDevice supports a low light boost when it is detected that the capture session is in a low light area. By default, this is set to true. It can be modified with the **lowLightBoost** variable:
+For supported models (iPhone 5 and 5C), AVCaptureDevice supports a low light boost when it is detected that the capture session is in a low light area. By default, this is set to true. It can be modified with the `lowLightBoost` variable:
 
 ```swift
 lowLightBoost = false
@@ -273,13 +276,13 @@ lowLightBoost = false
 
 ## Privacy
 
-When a user firsts launch SwiftyCamViewController, they will be prompted for permission for access to the cameras and microphones. By default, if a user declines access to the hardware, SwiftyCam will provide a prompt to the App privacy settings inside the iOS settings application. If you wish to change this behaviour, the **promptToAppPrivacySettings** property can be modified:
+When a user firsts launch SwiftyCamViewController, they will be prompted for permission for access to the cameras and microphones. By default, if a user declines access to the hardware, SwiftyCam will provide a prompt to the App privacy settings inside the iOS settings application. If you wish to change this behaviour, the `promptToAppPrivacySettings*`property can be modified:
 
 ```swift
 promptToAppPrivacySettings = false
 ```
 
-Instead of prompting the user to the settings application, the delegate method **SwiftyCamDidFailCameraPermissionSettings** will be called and will have to be manually handled.
+Instead of prompting the user to the settings application, the delegate method `SwiftyCamDidFailCameraPermissionSettings` will be called and will have to be manually handled.
 
 ## Miscellaneous
 
