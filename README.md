@@ -72,11 +72,16 @@ As of iOS 10, Apple requires the additon of the NSCameraUsageDescription and NSM
 
 Add the import statement to the View Controller you ware working in:
 
-    import SwiftyCam
+```swift
+import SwiftyCam
+```
+
 
 SwiftyCam is a drop-in convenience framework. To create a Camera instance, create a new UIViewController subclass. Replace the UIViewController subclass declaration with SwiftyCamViewController:
 
-    class MyCameraViewController : SwiftyCamViewController
+```swift
+class MyCameraViewController : SwiftyCamViewController
+```
 
 That is all that is required to setup the AVSession for photo and video capture. SwiftyCam will prompt the user for permission to use the camera/microphone, and configure both the device inputs and outputs.
 
@@ -92,32 +97,46 @@ A long press/tap and hold gesture initiates a video capture. Releasing the butto
 
 To use a SwiftyCamButton, simply create one and assign the delegate to your SwiftyCamViewController:
 
-    let captureButton = SwiftyCamButton(frame: buttonFrame)
-    captureButton.delegate = self
+```swift
+let captureButton = SwiftyCamButton(frame: buttonFrame)
+captureButton.delegate = self
+```
 
 ### Manual:
 
 Capturing media with SwiftyCam is very simple. To capture a photo, simply call the takePhoto function:
 
-    takePhoto()
+```swift
+takePhoto()
+```    
 
 Capturing Video is just as easy. To begin recording video, call the startVideoRecording function:
 
-    startVideoRecording()
+```swift
+startVideoRecording()
+``` 
 
 To end the capture of a video, call the endVideoRecordingFunction:
 
-    endVideoRecording()
+```swift
+endVideoRecording()
+``` 
+
 
 ###Delegate
 
-In order to acquire the photos and videos taken by either the SwiftyCamButton or manually, you must implement the SwiftyCamViewControllerDelegate and set the delegate to your view controller instance:
+In order to acquire the photos and videos taken by either the SwiftyCamButton or manually, you must implement the SwiftyCamViewControllerDelegate and set the cameraDelegate to your view controller instance:
 
-    class MyCameraViewController : SwiftyCamViewController, SwiftyCamViewControllerDelegate
-
-and in your viewDidLoad, assign the cameraDelegate to self:
-
-    self.cameraDelegate = self
+```swift
+class MyCameraViewController : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        cameraDelegate = self
+    }
+    ...
+}
+```   
 
 ####Delegate methods:
 
@@ -141,7 +160,9 @@ and in your viewDidLoad, assign the cameraDelegate to self:
 
 The flash(torch) can be enabled by changing the **flashEnabled** property:
 
-    flashEnabled = true
+```swift
+flashEnabled = true
+```   
     
 Flash is now supported for front and rear facing cameras. 
 
@@ -159,7 +180,9 @@ For front facing videos, a white, 85% opaque view will be placed over the video 
 
 SwiftyCam supports capture from both the front and back cameras. To switch cameras, call the function:
 
-    switchCamera()
+```swift
+switchCamera()
+```
 
 Tap-to-focus, pinch-to-zoom and camera flash are not supported when the front facing camera is selected. *Switching video while video is being recorded is not currently supported*
 
@@ -171,16 +194,19 @@ SwiftyCam has several options for configurating the functionality of the capture
 
 Video quality can be set by the **videoQuality** property of SwiftyCamViewController. The choices available correspond to the matching **AVCaptureSessionPreset**:
 
-* **.high** (AVCapturePresetHigh)
-* **.medium** (AVCapturePresetMedium)
-* **.low** (AVCapturePresetLow)
-* **.resolution352x288** (AVCaptureSessionPreset352x288)
-* **.resolution640x480** (AVCaptureSessionPreset640x480)
-* **.resolution1280x720** (AVCaptureSessionPreset1280x720)
-* **.resolution1920x1080** (AVCaptureSessionPreset1920x1080)
-* **.resolution3840x2160** (AVCaptureSessionPreset3840x2160)
-* **.iframe960x540** (AVCaptureSessionPresetiFrame960x540)
-* **.iframe1280x720** (AVCaptureSessionPresetiFrame1280x720)
+| VideoQuality                          | AVCaptureSessionPreset        
+| ------------------------------------- | --------------------- 
+| `.high`                            | **AVCapturePresetHigh**                
+| `.medium`        						| **AVCapturePresetMedium**                
+| `.low`  								| **AVCapturePresetLow**                
+| `.resolution352x288`  			   | **AVCaptureSessionPreset352x288**                
+| `.resolution640x480`              | **AVCaptureSessionPreset640x480**                
+| `.resolution1280x720`             | **AVCaptureSessionPreset1280x720**              
+| `.resolution1920x1080`            | **AVCaptureSessionPreset1920x1080**  
+| `.resolution3840x2160`            | **AVCaptureSessionPreset3840x2160**               
+| `.iframe960x540`                  | **AVCaptureSessionPresetiFrame960x540**               
+| `.iframe1280x720`                 | **AVCaptureSessionPresetiFrame1280x720**               
+            
 
 The default value is **.high**. For use with the front-facing camera, **.high** will always be used.
 
@@ -188,7 +214,9 @@ The default value is **.high**. For use with the front-facing camera, **.high** 
 
 If using a SwiftyCamButton, you can set a maximum video duration for the length of video. The video recording will me automatically stopped once the time limit has been reached and the delegate method **SwiftyCamDidFinishRecordingVideo** will be called. To set this value, simply change the **kMaximumVideoDuration** value:
 
-    kMaximumVideoDuration = 10.0
+```swift
+kMaximumVideoDuration = 10.0
+```
 
 A value of **0.0** will allow for unlimited video recording via the SwiftyCamButton. The default value is **0.0**.
 
@@ -196,7 +224,9 @@ A value of **0.0** will allow for unlimited video recording via the SwiftyCamBut
 
 SwiftyCam supports digital zoom of the camera session via pinch gestures. The gestures work similar to the default iOS app and will zoom to the maximum supported zoom level. Camera zoom is only supported on the rear facing camera. AVFoundation does not currently support front facing camera zoom. To disable this feature, change the **pinchToZoom** property:
 
-    pinchToZoom = false
+```swift
+pinchToZoom = false
+```   
 
 By default, **pinchToZoom** is enabled.
 
@@ -204,7 +234,9 @@ By default, **pinchToZoom** is enabled.
 
 SwiftyCam, by default, support tap to focus on the video preview. SwiftyCam will set the focus and exposure levels of the session to the tapped point. Autofocus and autoexposure will be resumed once SwiftyCam detects significant movement from the tapped point. To disable this feature, change the **tapToFocus** property:
 
-    tapToFocus = false
+```swift
+tapToFocus = false
+```
 
 By default, **tapToFocus** is enabled. If you wish to show a on screen animation when a tap to focus is initiated, you can use the **SwiftyCamDidFocusAtPoint(focusPoint:)** to get the coordinates of tap and provide your own tap animation
 
@@ -212,13 +244,17 @@ By default, **tapToFocus** is enabled. If you wish to show a on screen animation
 
 For supported models (iPhone 5 and 5C), AVCaptureDevice supports a low light boost when it is detected that the capture session is in a low light area. By default, this is set to true. It can be modified with the **lowLightBoost** variable:
 
-    lowLightBoost = false
+```swift
+lowLightBoost = false
+```
 
 ## Privacy
 
 When a user firsts launch SwiftyCamViewController, they will be prompted for permission for access to the cameras and microphones. By default, if a user declines access to the hardware, SwiftyCam will provide a prompt to the App privacy settings inside the iOS settings application. If you wish to change this behaviour, the **promptToAppPrivacySettings** property can be modified:
 
-    promptToAppPrivacySettings = false
+```swift
+promptToAppPrivacySettings = false
+```
 
 Instead of prompting the user to the settings application, the delegate method **SwiftyCamDidFailCameraPermissionSettings** will be called and will have to be manually handled.
 
@@ -226,10 +262,10 @@ Instead of prompting the user to the settings application, the delegate method *
 
 Other properties:
 
-* **isCameraFlashOn** - Bool
-* **isVideoRecording** - Bool
-* **isSessionRunning** - Bool
-* **currentCamera** - CameraSelection
+* `isCameraFlashOn` -  **Boolean**
+* `isVideoRecording` - **Boolean**
+* `isSessionRunning` - **Boolean**
+* `currentCamera` - **CameraSelection**
 
 
 ### Contact
