@@ -296,32 +296,38 @@ open class SwiftyCamViewController: UIViewController {
      */
     
     public func takePhoto() {
-        
-        guard videoDevice != nil else {
+    
+        guard let device = videoDevice else {
             return
         }
         
-        if videoDevice!.hasFlash && currentCamera == .rear && flashEnabled == true /* TODO: Add Support for Retina Flash and add front flash */ {
-            do {
-                try videoDevice!.lockForConfiguration()
-                videoDevice?.flashMode = .on
-                videoDevice!.unlockForConfiguration()
-            } catch {
-                print("[SwiftyCam]: \(error)")
-            }
-        }
+        if device.hasFlash == true && flashEnabled == true /* TODO: Add Support for Retina Flash and add front flash */ {
+            changeFlashSettings(device: device, mode: .on)
+            capturePhotoAsyncronously(completionHandler: { (_) in })
+            
+        } else if device.hasFlash == false && flashEnabled == true && currentCamera == .front {
+            let flashView = UIView(frame: view.frame)
+            flashView.alpha = 0.0
+            flashView.backgroundColor = UIColor.white
+            view.addSubview(flashView)
 
-        if let videoConnection = photoFileOutput?.connection(withMediaType: AVMediaTypeVideo) {
-            videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
-            photoFileOutput?.captureStillImageAsynchronously(from: videoConnection, completionHandler: {(sampleBuffer, error) in
-                if (sampleBuffer != nil) {
-                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-                    let image = self.processPhoto(imageData!)
-                    
-                    // Call delegate and return new image
-                    self.cameraDelegate?.SwiftyCamDidTakePhoto(image)
-                }
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+                flashView.alpha = 1.0
+                
+            }, completion: { (_) in
+                self.capturePhotoAsyncronously(completionHandler: { (success) in
+                    UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+                        flashView.alpha = 0.0
+                    }, completion: { (_) in
+                        flashView.removeFromSuperview()
+                    })
+                })
             })
+        } else {
+            if device.isFlashActive == true {
+                changeFlashSettings(device: device, mode: .off)
+            }
+            capturePhotoAsyncronously(completionHandler: { (_) in })
         }
     }
     
@@ -636,6 +642,26 @@ open class SwiftyCamViewController: UIViewController {
         return image
     }
     
+    fileprivate func capturePhotoAsyncronously(completionHandler: @escaping(Bool) -> ()) {
+        if let videoConnection = photoFileOutput?.connection(withMediaType: AVMediaTypeVideo) {
+            videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
+            photoFileOutput?.captureStillImageAsynchronously(from: videoConnection, completionHandler: {(sampleBuffer, error) in
+                if (sampleBuffer != nil) {
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    let image = self.processPhoto(imageData!)
+                    
+                    // Call delegate and return new image
+                    self.cameraDelegate?.SwiftyCamDidTakePhoto(image)
+                    completionHandler(true)
+                } else {
+                    completionHandler(false)
+                }
+            })
+        } else {
+            completionHandler(false)
+        }
+    }
+    
     /// Handle pinch gesture
     
     @objc fileprivate func zoomGesture(pinch: UIPinchGestureRecognizer) {
@@ -733,11 +759,25 @@ open class SwiftyCamViewController: UIViewController {
         }
     }
     
+    /// Get Devices
+    
     fileprivate class func deviceWithMediaType(_ mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
         if let devices = AVCaptureDevice.devices(withMediaType: mediaType) as? [AVCaptureDevice] {
             return devices.filter({ $0.position == position }).first
         }
         return nil
+    }
+    
+    /// Enable or disable flash for photo
+    
+    fileprivate func changeFlashSettings(device: AVCaptureDevice, mode: AVCaptureFlashMode) {
+        do {
+            try device.lockForConfiguration()
+            device.flashMode = mode
+            device.unlockForConfiguration()
+        } catch {
+            print("[SwiftyCam]: \(error)")
+        }
     }
     
     /// Enable flash
