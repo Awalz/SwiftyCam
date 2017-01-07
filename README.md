@@ -140,21 +140,44 @@ class MyCameraViewController : SwiftyCamViewController, SwiftyCamViewControllerD
 
 ####Delegate methods:
 
-**SwiftyCamDidTakePhoto(_ photo:UIImage)** - Return a UIImage captured from the AVSession
-
-**SwiftyCamDidBeginRecordingVideo()** - Called when the capture session begins recording a video
-
-**SwiftyCamDidFinishRecordingVideo()** - Called when the capture session has finished recording a video and has begun processing
-
-**SwiftyCamDidFinishProcessingVideoAt(_ url: String)** - Called when the capture session finished processing the video returns the location on disk the video is stored. This will always be in the temorary folder of the device.
-
-**SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection)** - Called when the user has initiated a switch in camera orientations.
-
-**SwiftyCamDidFocusAtPoint(focusPoint: CGPoint)** - Returns the point on the preview where a tap to focus was initiated (Will only be called if *tapToFocus* is set to *true*)
-
-**SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat)** - Returns the current zoom level of the preview layer after a pinch to zoom has been initiated. Will be called several times (Will only be called if *pinchToZoom* is set to *true*)
-
-**SwiftyCamDidFailCameraPermissionSettings()** - Called during SwiftyCamViewController launch if the user has denied permission to access either the camera of microphone (Will only be called if *promptToAppPrivacySettings* is set to *false*)
+```swift
+func SwiftyCamDidTakePhoto(_ photo: UIImage) {
+     // Called when takePhoto() is called or if a SwiftyCamButton initiates a tap gesture
+     // Returns a UIImage captured from the current session
+}
+    
+func SwiftyCamDidBeginRecordingVideo() {
+     // Called when startVideoRecording() is called 
+     // Called if a SwiftyCamButton begins a long press gesture
+}
+    
+func SwiftyCamDidFinishRecordingVideo() {
+     // Called when endVideoRecording() is called 
+     // Called if a SwiftyCamButton ends a long press gesture
+ }
+    
+func SwiftyCamDidFinishProcessingVideoAt(_ url: URL) {
+     // Called when endVideoRecording() is called and the video is finished processing
+     // Returns a URL in the temporary directory where video is stored
+}
+    
+func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint) {
+     // Called when a user initiates a tap gesture on the preview layer
+     // Will only be called if tapToFocus = true
+     // Returns a CGPoint of the tap location on the preview layer
+}
+    
+func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat) {
+	  // Called when a user initiates a pinch gesture on the preview layer
+	  // Will only be called if pinchToZoomn = true
+	  // Returns a CGFloat of the current zoom level
+}
+    
+func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection) {
+     // Called if the user denied access to the Camera or Microphone
+     // Will only be called if promptToAppPrivacySettings = false
+}
+```   
 
 ## Flash
 
