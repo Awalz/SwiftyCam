@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 1.3.1
+- Minor bug fixes
+
 ## Version 1.3.0
 - Added support for front facing flash
 - Added support for front facing Retina Flash (on supported models)

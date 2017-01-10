@@ -18,7 +18,7 @@ Configuring a Camera View Controller in AVFoundation can be tedious and time con
               |  SwiftyCam
 --------------------------|------------------------------------------------------------
 :sunglasses: | Snapchat-style media capture
-::+1: | Support iOS8+
+:+1: | Support iOS8+
 :camera: | Image capture
 :movie_camera: | Video capture
 :chart_with_upwards_trend: | Manual image quality settings
