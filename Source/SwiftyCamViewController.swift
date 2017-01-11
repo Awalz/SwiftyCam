@@ -123,12 +123,16 @@ open class SwiftyCamViewController: UIViewController {
     
     public var promptToAppPrivacySettings        = true
     
+    /// Set whether SwiftyCam should allow background audio from other applications
+    
+    public var allowBackgroundAudio              = true
+    
     
     // MARK: Public Get-only Variable Declarations
     
     /// Returns true if video is currently being recorded
     
-    private(set) public var isVideRecording      = false
+    private(set) public var isVideoRecording      = false
     
     /// Returns true if the capture session is currently running
     
@@ -208,7 +212,7 @@ open class SwiftyCamViewController: UIViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         previewLayer = PreviewView(frame: self.view.frame)
-        
+
         // Add Pinch Gesture Recognizer for pinch to zoom
         
         addGestureRecognizersTo(view: previewLayer)
@@ -250,6 +254,10 @@ open class SwiftyCamViewController: UIViewController {
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // Set background audio preference
+        
+        setBackgroundAudioPreference()
         
         sessionQueue.async {
             switch self.setupResult {
@@ -386,7 +394,7 @@ open class SwiftyCamViewController: UIViewController {
                 let outputFileName = UUID().uuidString
                 let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
                 movieFileOutput.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
-                self.isVideRecording = true
+                self.isVideoRecording = true
                 self.cameraDelegate?.SwiftyCamDidBeginRecordingVideo()
             }
             else {
@@ -407,7 +415,7 @@ open class SwiftyCamViewController: UIViewController {
     
     public func endVideoRecording() {
         if self.movieFileOutput?.isRecording == true {
-            self.isVideRecording = false
+            self.isVideoRecording = false
             movieFileOutput!.stopRecording()
             disableFlash()
             
@@ -432,7 +440,7 @@ open class SwiftyCamViewController: UIViewController {
     
     
     public func switchCamera() {
-        guard isVideRecording != true else {
+        guard isVideoRecording != true else {
             //TODO: Look into switching camera during video recording
             print("[SwiftyCam]: Switching between cameras while recording video is not supported")
             return
@@ -856,6 +864,25 @@ open class SwiftyCamViewController: UIViewController {
             } catch {
                 print("[SwiftyCam]: \(error)")
             }
+        }
+    }
+    
+    /// Sets whether SwiftyCam should enable background audio from other applications or sources 
+    
+    fileprivate func setBackgroundAudioPreference() {
+        guard allowBackgroundAudio == true else {
+            return
+        }
+        
+        do{
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
+                                                            with: [.duckOthers, .defaultToSpeaker])
+
+            session.automaticallyConfiguresApplicationAudioSession = false
+        }
+        catch {
+            print("[SwiftyCam]: Failed to set background audio preference")
+            
         }
     }
 }
