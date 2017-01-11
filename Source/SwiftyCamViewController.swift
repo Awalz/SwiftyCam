@@ -453,11 +453,8 @@ open class SwiftyCamViewController: UIViewController {
             for input in self.session.inputs {
                 self.session.removeInput(input as! AVCaptureInput)
             }
-            for output in self.session.outputs {
-                self.session.removeOutput(output as! AVCaptureOutput)
-            }
             
-            self.configureSession()
+            self.addInputs()
             self.cameraDelegate?.SwiftyCamDidSwitchCameras(camera: self.currentCamera)
             self.session.startRunning()
         }
@@ -517,6 +514,17 @@ open class SwiftyCamViewController: UIViewController {
         
         session.commitConfiguration()
     }
+    
+    /// Add inputs after changing camera() 
+    
+    fileprivate func addInputs() {
+        session.beginConfiguration()
+        configureVideoPreset()
+        addVideoInput()
+        addAudioInput()
+        session.commitConfiguration()
+    }
+
     
     // Front facing camera will always be set to VideoQuality.high
     // If set video quality is not supported, videoQuality variable will be set to VideoQuality.high
