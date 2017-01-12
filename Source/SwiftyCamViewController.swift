@@ -680,103 +680,7 @@ open class SwiftyCamViewController: UIViewController {
             completionHandler(false)
         }
     }
-    
-    /// Handle pinch gesture
-    
-    @objc fileprivate func zoomGesture(pinch: UIPinchGestureRecognizer) {
-        guard pinchToZoom == true && self.currentCamera == .rear else {
-            //ignore pinch if pinchToZoom is set to false
-            return
-        }
-            do {
-                let captureDevice = AVCaptureDevice.devices().first as? AVCaptureDevice
-                try captureDevice?.lockForConfiguration()
-            
-                zoomScale = max(1.0, min(beginZoomScale * pinch.scale,  captureDevice!.activeFormat.videoMaxZoomFactor))
-            
-                captureDevice?.videoZoomFactor = zoomScale
-                
-                // Call Delegate function with current zoom scale
-                DispatchQueue.main.async {
-                    self.cameraDelegate?.SwiftyCamDidChangeZoomLevel(zoomLevel: self.zoomScale)
-                }
-            
-                captureDevice?.unlockForConfiguration()
-            
-            } catch {
-                print("[SwiftyCam]: Error locking configuration")
-        }
-    }
-    
-    /// Handle single tap gesture
-    
-    @objc fileprivate func singleTapGesture(tap: UITapGestureRecognizer) {
-        guard tapToFocus == true else {
-            // Ignore taps
-            return
-        }
         
-        let screenSize = previewLayer!.bounds.size
-        let tapPoint = tap.location(in: previewLayer!)
-        let x = tapPoint.y / screenSize.height
-        let y = 1.0 - tapPoint.x / screenSize.width
-        let focusPoint = CGPoint(x: x, y: y)
-        
-        if let device = videoDevice {
-            do {
-                try device.lockForConfiguration()
-                
-                if device.isFocusPointOfInterestSupported == true {
-                    device.focusPointOfInterest = focusPoint
-                    device.focusMode = .autoFocus
-                }
-                device.exposurePointOfInterest = focusPoint
-                device.exposureMode = AVCaptureExposureMode.continuousAutoExposure
-                device.unlockForConfiguration()
-                //Call delegate function and pass in the location of the touch
-                
-                DispatchQueue.main.async {
-                    self.cameraDelegate?.SwiftyCamDidFocusAtPoint(focusPoint: tapPoint)
-                }
-            }
-            catch {
-                // just ignore
-            }
-        }
-    }
-    
-    /// Handle double tap gesture
-    
-    @objc fileprivate func doubleTapGesture(tap: UITapGestureRecognizer) {
-        guard doubleTapCameraSwitch == true else {
-            return
-        }
-        switchCamera()
-    }
-    
-    /**
-     Add pinch gesture recognizer and double tap gesture recognizer to currentView
-     
-     - Parameter view: View to add gesture recognzier
-     
-     */
-    
-    fileprivate func addGestureRecognizersTo(view: UIView) {
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
-        pinchGesture.delegate = self
-        view.addGestureRecognizer(pinchGesture)
-        
-        let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(singleTapGesture(tap:)))
-        singleTapGesture.numberOfTapsRequired = 1
-        singleTapGesture.delegate = self
-        view.addGestureRecognizer(singleTapGesture)
-        
-        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(doubleTapGesture(tap:)))
-        doubleTapGesture.numberOfTapsRequired = 2
-        doubleTapGesture.delegate = self
-        view.addGestureRecognizer(doubleTapGesture)
-    }
-    
     /// Handle Denied App Privacy Settings
     
     fileprivate func promptToAppSettings() {
@@ -985,6 +889,108 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
         }
     }
 }
+
+// Mark: UIGestureRecognizer Declarations
+
+extension SwiftyCamViewController {
+    
+    /// Handle pinch gesture
+    
+    @objc fileprivate func zoomGesture(pinch: UIPinchGestureRecognizer) {
+        guard pinchToZoom == true && self.currentCamera == .rear else {
+            //ignore pinch if pinchToZoom is set to false
+            return
+        }
+        do {
+            let captureDevice = AVCaptureDevice.devices().first as? AVCaptureDevice
+            try captureDevice?.lockForConfiguration()
+            
+            zoomScale = max(1.0, min(beginZoomScale * pinch.scale,  captureDevice!.activeFormat.videoMaxZoomFactor))
+            
+            captureDevice?.videoZoomFactor = zoomScale
+            
+            // Call Delegate function with current zoom scale
+            DispatchQueue.main.async {
+                self.cameraDelegate?.SwiftyCamDidChangeZoomLevel(zoomLevel: self.zoomScale)
+            }
+            
+            captureDevice?.unlockForConfiguration()
+            
+        } catch {
+            print("[SwiftyCam]: Error locking configuration")
+        }
+    }
+    
+    /// Handle single tap gesture
+    
+    @objc fileprivate func singleTapGesture(tap: UITapGestureRecognizer) {
+        guard tapToFocus == true else {
+            // Ignore taps
+            return
+        }
+        
+        let screenSize = previewLayer!.bounds.size
+        let tapPoint = tap.location(in: previewLayer!)
+        let x = tapPoint.y / screenSize.height
+        let y = 1.0 - tapPoint.x / screenSize.width
+        let focusPoint = CGPoint(x: x, y: y)
+        
+        if let device = videoDevice {
+            do {
+                try device.lockForConfiguration()
+                
+                if device.isFocusPointOfInterestSupported == true {
+                    device.focusPointOfInterest = focusPoint
+                    device.focusMode = .autoFocus
+                }
+                device.exposurePointOfInterest = focusPoint
+                device.exposureMode = AVCaptureExposureMode.continuousAutoExposure
+                device.unlockForConfiguration()
+                //Call delegate function and pass in the location of the touch
+                
+                DispatchQueue.main.async {
+                    self.cameraDelegate?.SwiftyCamDidFocusAtPoint(focusPoint: tapPoint)
+                }
+            }
+            catch {
+                // just ignore
+            }
+        }
+    }
+    
+    /// Handle double tap gesture
+    
+    @objc fileprivate func doubleTapGesture(tap: UITapGestureRecognizer) {
+        guard doubleTapCameraSwitch == true else {
+            return
+        }
+        switchCamera()
+    }
+    
+    /**
+     Add pinch gesture recognizer and double tap gesture recognizer to currentView
+     
+     - Parameter view: View to add gesture recognzier
+     
+     */
+    
+    fileprivate func addGestureRecognizersTo(view: UIView) {
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
+        pinchGesture.delegate = self
+        view.addGestureRecognizer(pinchGesture)
+        
+        let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(singleTapGesture(tap:)))
+        singleTapGesture.numberOfTapsRequired = 1
+        singleTapGesture.delegate = self
+        view.addGestureRecognizer(singleTapGesture)
+        
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(doubleTapGesture(tap:)))
+        doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.delegate = self
+        view.addGestureRecognizer(doubleTapGesture)
+    }
+}
+
 
 // MARK: UIGestureRecognizerDelegate
 
