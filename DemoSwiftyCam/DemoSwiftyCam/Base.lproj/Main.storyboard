@@ -35,27 +35,16 @@
                                     <action selector="cameraSwitchAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a9E-90-SZM"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLI-bi-joD" customClass="SwiftyCamButton" customModule="DemoSwiftyCam" customModuleProvider="target">
-                                <rect key="frame" x="152" y="577" width="70" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="lUb-f5-HQX"/>
-                                    <constraint firstAttribute="width" constant="70" id="zFC-Ge-J3i"/>
-                                </constraints>
-                                <state key="normal" image="Camera"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Bb3-ix-Jd1" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="2Fx-Ut-jDO"/>
-                            <constraint firstAttribute="bottom" secondItem="oLI-bi-joD" secondAttribute="bottom" constant="20" symbolic="YES" id="4S8-Ik-CMc"/>
-                            <constraint firstItem="oLI-bi-joD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7MO-81-gs9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="SH4-0K-8ra" secondAttribute="trailing" constant="4" id="AiE-Y6-Sxj"/>
                             <constraint firstItem="Bb3-ix-Jd1" firstAttribute="centerY" secondItem="SH4-0K-8ra" secondAttribute="centerY" id="Cnv-VO-rR3"/>
                             <constraint firstItem="Bb3-ix-Jd1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="4" id="yuS-xl-hcP"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="captureButton" destination="oLI-bi-joD" id="yVB-gR-PEV"/>
                         <outlet property="flipCameraButton" destination="Bb3-ix-Jd1" id="Q9m-ib-9iQ"/>
                         <outlet property="toggleFlashButton" destination="SH4-0K-8ra" id="BSt-X8-4Do"/>
                     </connections>
@@ -65,7 +54,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Camera" width="70" height="70"/>
         <image name="Flash" width="30" height="19"/>
         <image name="flipCamera" width="30" height="26"/>
     </resources>

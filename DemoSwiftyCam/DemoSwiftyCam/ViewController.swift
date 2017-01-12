@@ -20,7 +20,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     @IBOutlet weak var flipCameraButton: UIButton!
     @IBOutlet weak var toggleFlashButton: UIButton!
-    @IBOutlet weak var captureButton: SwiftyCamButton!
+    var captureButton: SwiftyRecordButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,9 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0, width: 75.0, height: 75.0))
+        self.view.addSubview(captureButton)
         captureButton.delegate = self
         self.view.bringSubview(toFront: captureButton)
         self.view.bringSubview(toFront: flipCameraButton)
