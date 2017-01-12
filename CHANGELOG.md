@@ -2,6 +2,8 @@
 
 ## Version 1.5.0
 - Added support for front-facing camera tap to adjust exposure
+- Added support for double tap gesture to switch cameras
+- Added doubleTapCameraSwitch property
 - Updated demo application with tap animation
 
 ## Version 1.4.0

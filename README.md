@@ -209,6 +209,12 @@ switchCamera()
 
 Tap-to-focus, pinch-to-zoom and camera flash are not supported when the front facing camera is selected. *Switching video while video is being recorded is not currently supported*
 
+SwiftyCam also enables switching between cameras with a double tap gesture. To disable this feature, use the `doubleTapCameraSwitch` property:
+
+```swift
+doubleTapCameraSwitch = false
+```
+
 ##Configuration
 
 SwiftyCam has several options for configurating the functionality of the capture:

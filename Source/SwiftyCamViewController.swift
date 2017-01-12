@@ -460,8 +460,8 @@ open class SwiftyCamViewController: UIViewController {
             currentCamera = .front
         }
         
-        self.session.stopRunning()
-
+        session.stopRunning()
+        
         sessionQueue.async { [unowned self] in
             
             // remove and re-add inputs and outputs
@@ -539,7 +539,7 @@ open class SwiftyCamViewController: UIViewController {
         }
         
         if let device = videoDevice {
-            do {
+           do {
                 try device.lockForConfiguration()
                 if device.isFocusModeSupported(.continuousAutoFocus) {
                     device.focusMode = .continuousAutoFocus

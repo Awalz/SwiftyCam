@@ -26,6 +26,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         super.viewDidLoad()
         cameraDelegate = self
         kMaximumVideoDuration = 10.0
+        doubleTapCameraSwitch = true
         addButtons()
 
     }
