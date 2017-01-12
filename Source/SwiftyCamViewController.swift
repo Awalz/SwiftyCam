@@ -395,7 +395,9 @@ open class SwiftyCamViewController: UIViewController {
                 let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
                 movieFileOutput.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
                 self.isVideoRecording = true
-                self.cameraDelegate?.SwiftyCamDidBeginRecordingVideo()
+                DispatchQueue.main.async {
+                    self.cameraDelegate?.SwiftyCamDidBeginRecordingVideo()
+                }
             }
             else {
                 movieFileOutput.stopRecording()
@@ -426,7 +428,9 @@ open class SwiftyCamViewController: UIViewController {
                     self.flashView?.removeFromSuperview()
                 })
             }
-            self.cameraDelegate?.SwiftyCamDidFinishRecordingVideo()
+            DispatchQueue.main.async {
+                self.cameraDelegate?.SwiftyCamDidFinishRecordingVideo()
+            }
         }
     }
     
@@ -463,7 +467,10 @@ open class SwiftyCamViewController: UIViewController {
             }
             
             self.addInputs()
-            self.cameraDelegate?.SwiftyCamDidSwitchCameras(camera: self.currentCamera)
+            DispatchQueue.main.async {
+                self.cameraDelegate?.SwiftyCamDidSwitchCameras(camera: self.currentCamera)
+            }
+            
             self.session.startRunning()
         }
         
@@ -496,7 +503,10 @@ open class SwiftyCamViewController: UIViewController {
                     device.exposureMode = AVCaptureExposureMode.continuousAutoExposure
                     device.unlockForConfiguration()
                     //Call delegate function and pass in the location of the touch
-                    self.cameraDelegate?.SwiftyCamDidFocusAtPoint(focusPoint: touchPoint.location(in: previewLayer))
+                    
+                    DispatchQueue.main.async {
+                        self.cameraDelegate?.SwiftyCamDidFocusAtPoint(focusPoint: touchPoint.location(in: self.previewLayer))
+                    }
                 }
                 catch {
                 // just ignore
@@ -691,7 +701,9 @@ open class SwiftyCamViewController: UIViewController {
                     let image = self.processPhoto(imageData!)
                     
                     // Call delegate and return new image
-                    self.cameraDelegate?.SwiftyCamDidTakePhoto(image)
+                    DispatchQueue.main.async {
+                        self.cameraDelegate?.SwiftyCamDidTakePhoto(image)
+                    }
                     completionHandler(true)
                 } else {
                     completionHandler(false)
@@ -718,7 +730,9 @@ open class SwiftyCamViewController: UIViewController {
                 captureDevice?.videoZoomFactor = zoomScale
                 
                 // Call Delegate function with current zoom scale
-                self.cameraDelegate?.SwiftyCamDidChangeZoomLevel(zoomLevel: zoomScale)
+                DispatchQueue.main.async {
+                    self.cameraDelegate?.SwiftyCamDidChangeZoomLevel(zoomLevel: self.zoomScale)
+                }
             
                 captureDevice?.unlockForConfiguration()
             
@@ -745,8 +759,11 @@ open class SwiftyCamViewController: UIViewController {
     fileprivate func promptToAppSettings() {
         guard promptToAppPrivacySettings == true else {
             // Do not prompt user
-            // Ca// delegate function SwiftyCamDidFailCameraPermissionSettings()
-            self.cameraDelegate?.SwiftyCamDidFailCameraPermissionSettings()
+            // Call delegate function SwiftyCamDidFailCameraPermissionSettings()
+            
+            DispatchQueue.main.async {
+                self.cameraDelegate?.SwiftyCamDidFailCameraPermissionSettings()
+            }
             return
         }
         
@@ -939,7 +956,9 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
             print("[SwiftyCam]: Movie file finishing error: \(error)")
         } else {
             //Call delegate function with the URL of the outputfile
-            self.cameraDelegate?.SwiftyCamDidFinishProcessingVideoAt(outputFileURL)
+            DispatchQueue.main.async {
+                self.cameraDelegate?.SwiftyCamDidFinishProcessingVideoAt(outputFileURL)
+            }
         }
     }
 }

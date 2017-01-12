@@ -18,14 +18,16 @@ import UIKit
 
 class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
-    @IBOutlet weak var flipCameraButton: UIButton!
-    @IBOutlet weak var toggleFlashButton: UIButton!
+    var flipCameraButton: UIButton!
+    var flashButton: UIButton!
     var captureButton: SwiftyRecordButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         cameraDelegate = self
         kMaximumVideoDuration = 10.0
+        addButtons()
+
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -34,13 +36,6 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0, width: 75.0, height: 75.0))
-        self.view.addSubview(captureButton)
-        captureButton.delegate = self
-        self.view.bringSubview(toFront: captureButton)
-        self.view.bringSubview(toFront: flipCameraButton)
-        self.view.bringSubview(toFront: toggleFlashButton)
     }
     
     func SwiftyCamDidTakePhoto(_ photo: UIImage) {
@@ -49,10 +44,18 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     func SwiftyCamDidBeginRecordingVideo() {
         print("Did Begin Recording")
+        UIView.animate(withDuration: 0.25, animations: {
+            self.flashButton.alpha = 0.0
+            self.flipCameraButton.alpha = 0.0
+        })
     }
     
     func SwiftyCamDidFinishRecordingVideo() {
         print("Did finish Recording")
+        UIView.animate(withDuration: 0.25, animations: {
+            self.flashButton.alpha = 1.0
+            self.flipCameraButton.alpha = 1.0
+        })
     }
     
     func SwiftyCamDidFinishProcessingVideoAt(_ url: URL) {
@@ -71,12 +74,37 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         print(camera)
     }
     
-    @IBAction func cameraSwitchAction(_ sender: Any) {
+    @objc private func cameraSwitchAction(_ sender: Any) {
         switchCamera()
     }
     
-    @IBAction func toggleFlashAction(_ sender: Any) {
+    @objc private func toggleFlashAction(_ sender: Any) {
         flashEnabled = !flashEnabled
+        
+        if flashEnabled == true {
+            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
+        } else {
+            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
+        }
+    }
+    
+    private func addButtons() {
+        captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0, width: 75.0, height: 75.0))
+        self.view.addSubview(captureButton)
+        //self.view.bringSubview(toFront: captureButton)
+        captureButton.delegate = self
+        
+        flipCameraButton = UIButton(frame: CGRect(x: view.frame.width / 4 - 15.0, y: view.frame.height - 74.0, width: 30.0, height: 23.0))
+        flipCameraButton.setImage(#imageLiteral(resourceName: "flipCamera"), for: UIControlState())
+        flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
+        self.view.addSubview(flipCameraButton)
+        //self.view.bringSubview(toFront: flipCameraButton)
+        
+        flashButton = UIButton(frame: CGRect(x: view.frame.width * 3 / 4 - 9.0, y: view.frame.height - 77.5, width: 18.0, height: 30.0))
+        flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
+        flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
+        self.view.addSubview(flashButton)
+       // self.view.bringSubview(toFront: flashButton)
     }
 }
 
