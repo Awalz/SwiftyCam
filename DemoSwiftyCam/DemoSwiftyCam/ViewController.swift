@@ -44,6 +44,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     func SwiftyCamDidBeginRecordingVideo() {
         print("Did Begin Recording")
+        captureButton.growButton()
         UIView.animate(withDuration: 0.25, animations: {
             self.flashButton.alpha = 0.0
             self.flipCameraButton.alpha = 0.0
@@ -52,6 +53,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     func SwiftyCamDidFinishRecordingVideo() {
         print("Did finish Recording")
+        captureButton.shrinkButton()
         UIView.animate(withDuration: 0.25, animations: {
             self.flashButton.alpha = 1.0
             self.flipCameraButton.alpha = 1.0
@@ -106,20 +108,19 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     private func addButtons() {
         captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0, width: 75.0, height: 75.0))
         self.view.addSubview(captureButton)
-        //self.view.bringSubview(toFront: captureButton)
         captureButton.delegate = self
         
-        flipCameraButton = UIButton(frame: CGRect(x: view.frame.width / 4 - 15.0, y: view.frame.height - 74.0, width: 30.0, height: 23.0))
+        flipCameraButton = UIButton(frame: CGRect(x: (((view.frame.width / 2 - 37.5) / 2) - 15.0), y: view.frame.height - 74.0, width: 30.0, height: 23.0))
         flipCameraButton.setImage(#imageLiteral(resourceName: "flipCamera"), for: UIControlState())
         flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
         self.view.addSubview(flipCameraButton)
-        //self.view.bringSubview(toFront: flipCameraButton)
         
-        flashButton = UIButton(frame: CGRect(x: view.frame.width * 3 / 4 - 9.0, y: view.frame.height - 77.5, width: 18.0, height: 30.0))
+        let test = CGFloat((view.frame.width - (view.frame.width / 2 + 37.5)) + ((view.frame.width / 2) - 37.5) - 9.0)
+        
+        flashButton = UIButton(frame: CGRect(x: test, y: view.frame.height - 77.5, width: 18.0, height: 30.0))
         flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
         flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
         self.view.addSubview(flashButton)
-       // self.view.bringSubview(toFront: flashButton)
     }
 }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SwiftyRecordButton: SwiftyCamButton, UIGestureRecognizerDelegate {
+class SwiftyRecordButton: SwiftyCamButton {
     
     private var circleBorder: CALayer!
     private var innerCircle: UIView!
@@ -34,21 +34,7 @@ class SwiftyRecordButton: SwiftyCamButton, UIGestureRecognizerDelegate {
         circleBorder.position = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
         circleBorder.cornerRadius = self.frame.size.width / 2
         layer.insertSublayer(circleBorder, at: 0)
-        
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gesture:)))
-        longPress.delegate = self
-        self.addGestureRecognizer(longPress)
-    }
-    
-    func handleLongPress(gesture: UILongPressGestureRecognizer){
-        switch gesture.state {
-        case .began:
-            growButton()
-        case .ended:
-            shrinkButton()
-        default:
-            break
-        }
+
     }
     
     public  func growButton() {
@@ -94,9 +80,5 @@ class SwiftyRecordButton: SwiftyCamButton, UIGestureRecognizerDelegate {
         })
         
         circleBorder.add(scale, forKey: "grow")
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }
