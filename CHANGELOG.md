@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Version 1.4.0
+- Added support for background audio during video capture
+- Added allowBackgroundAudio property
+- Fixed issue where delegate calls where occuring off the main thread
+- Demo application has new, polished look to show off new features
+- Minor bug fixed
+- Updated README
+
 ## Version 1.3.1
 - Minor bug fixes
 

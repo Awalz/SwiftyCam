@@ -28,6 +28,7 @@ Configuring a Camera View Controller in AVFoundation can be tedious and time con
 :mag_right: | Supports manual zoom
 :lock: | Supports manual focus
 :last_quarter_moon_with_face: | Low light setting
+:speaker: | Background audio support
 
 
 ## Requirements
@@ -261,6 +262,14 @@ tapToFocus = false
 ```
 
 By default, `tapToFocus` is enabled. If you wish to show a on screen animation when a tap to focus is initiated, you can use the `SwiftyCamDidFocusAtPoint(focusPoint:)` to get the coordinates of tap and provide your own tap animation
+
+## Background Audio
+
+SwiftyCam has the ability to allow background audio to continue playing within the session, and to be captured by the video recording. By default, this is enabled. If you wish to disable this feature, change the `allowBackgroundAudio` property:
+
+```swift
+allowBackgroundAudio = false
+```
 
 ## Low Light Boost
 
