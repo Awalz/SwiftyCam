@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 1.5.0
+- Added support for front-facing camera tap to adjust exposure
+- Updated demo application with tap animation
+
 ## Version 1.4.0
 - Added support for background audio during video capture
 - Added allowBackgroundAudio property

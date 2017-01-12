@@ -255,7 +255,7 @@ By default, **pinchToZoom** is enabled.
 
 ## Camera Focus
 
-SwiftyCam, by default, support tap to focus on the video preview. SwiftyCam will set the focus and exposure levels of the session to the tapped point. Autofocus and autoexposure will be resumed once SwiftyCam detects significant movement from the tapped point. To disable this feature, change the `tapToFocus` property:
+SwiftyCam, by default, support tap to focus on the video preview. SwiftyCam will set the focus and exposure levels of the session to the tapped point. While tap to set exposure is supported on both cameras, tap to focus is only supported on rear facing cameras. Autofocus and autoexposure will be resumed once SwiftyCam detects significant movement from the tapped point. To disable this feature, change the `tapToFocus` property:
 
 ```swift
 tapToFocus = false

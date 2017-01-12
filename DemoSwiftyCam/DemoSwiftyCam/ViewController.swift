@@ -63,7 +63,22 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     }
     
     func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint) {
-        print(focusPoint)
+        let focusView = UIImageView(image: #imageLiteral(resourceName: "focus"))
+        focusView.center = focusPoint
+        focusView.alpha = 0.0
+        view.addSubview(focusView)
+        
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+            focusView.alpha = 1.0
+            focusView.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+        }, completion: { (success) in
+            UIView.animate(withDuration: 0.15, delay: 0.5, options: .curveEaseInOut, animations: {
+                focusView.alpha = 0.0
+                focusView.transform = CGAffineTransform(translationX: 0.6, y: 0.6)
+            }, completion: { (success) in
+                focusView.removeFromSuperview()
+            })
+        })
     }
     
     func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat) {
