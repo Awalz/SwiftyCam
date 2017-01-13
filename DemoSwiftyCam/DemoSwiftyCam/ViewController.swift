@@ -40,7 +40,8 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     }
     
     func SwiftyCamDidTakePhoto(_ photo: UIImage) {
-        print(photo)
+        let newVC = PhotoViewController(image: photo)
+        self.present(newVC, animated: true, completion: nil)
     }
     
     func SwiftyCamDidBeginRecordingVideo() {
@@ -62,7 +63,8 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     }
     
     func SwiftyCamDidFinishProcessingVideoAt(_ url: URL) {
-        print(url.path)
+        let newVC = VideoViewController(videoURL: url)
+        self.present(newVC, animated: true, completion: nil)
     }
     
     func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint) {
