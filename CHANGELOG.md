@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 1.5.1
+- Minor bug fixes
+- Enhancemenents to demo project
+
 ## Version 1.5.0
 - Added support for front-facing camera tap to adjust exposure
 - Added support for double tap gesture to switch cameras
