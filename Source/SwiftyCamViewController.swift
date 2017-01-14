@@ -95,7 +95,7 @@ open class SwiftyCamViewController: UIViewController {
     
     /// Maxiumum video duration if SwiftyCamButton is used
     
-    public var kMaximumVideoDuration : Double     = 0.0
+    public var maximumVideoDuration : Double     = 0.0
     
     /// Video capture quality
     
@@ -118,10 +118,6 @@ open class SwiftyCamViewController: UIViewController {
     /// Only supported on iPhone 5 and 5C
     
     public var lowLightBoost                     = true
-    
-    /// Sets whether SwiftyCam will prompt a user to the App Settings Screen if Camera or Microphone access is not authorized
-    
-    public var promptToAppPrivacySettings        = true
     
     /// Set whether SwiftyCam should allow background audio from other applications
     
@@ -368,12 +364,8 @@ open class SwiftyCamViewController: UIViewController {
         if currentCamera == .front && flashEnabled == true {
             flashView = UIView(frame: view.frame)
             flashView?.backgroundColor = UIColor.white
-            flashView?.alpha = 0.0
+            flashView?.alpha = 0.85
             previewLayer.addSubview(flashView!)
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.flashView?.alpha = 0.85
-                
-            }, completion: nil)
         }
         
         let videoPreviewLayerOrientation = previewLayer!.videoPreviewLayer.connection.videoOrientation
@@ -400,7 +392,7 @@ open class SwiftyCamViewController: UIViewController {
                 movieFileOutput.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
                 self.isVideoRecording = true
                 DispatchQueue.main.async {
-                    self.cameraDelegate?.SwiftyCamDidBeginRecordingVideo()
+                    self.cameraDelegate?.swiftyCam(self, didBeginRecordingVideo: self.currentCamera)
                 }
             }
             else {
@@ -419,7 +411,7 @@ open class SwiftyCamViewController: UIViewController {
      
      */
     
-    public func endVideoRecording() {
+    public func stopVideoRecording() {
         if self.movieFileOutput?.isRecording == true {
             self.isVideoRecording = false
             movieFileOutput!.stopRecording()
@@ -433,7 +425,7 @@ open class SwiftyCamViewController: UIViewController {
                 })
             }
             DispatchQueue.main.async {
-                self.cameraDelegate?.SwiftyCamDidFinishRecordingVideo()
+                self.cameraDelegate?.swiftyCam(self, didFinishRecordingVideo: self.currentCamera)
             }
         }
     }
@@ -472,7 +464,7 @@ open class SwiftyCamViewController: UIViewController {
             
             self.addInputs()
             DispatchQueue.main.async {
-                self.cameraDelegate?.SwiftyCamDidSwitchCameras(camera: self.currentCamera)
+                self.cameraDelegate?.swiftyCam(self, didSwitchCameras: self.currentCamera)
             }
             
             self.session.startRunning()
@@ -669,7 +661,7 @@ open class SwiftyCamViewController: UIViewController {
                     
                     // Call delegate and return new image
                     DispatchQueue.main.async {
-                        self.cameraDelegate?.SwiftyCamDidTakePhoto(image)
+                        self.cameraDelegate?.swiftyCam(self, didTake: image)
                     }
                     completionHandler(true)
                 } else {
@@ -684,16 +676,6 @@ open class SwiftyCamViewController: UIViewController {
     /// Handle Denied App Privacy Settings
     
     fileprivate func promptToAppSettings() {
-        guard promptToAppPrivacySettings == true else {
-            // Do not prompt user
-            // Call delegate function SwiftyCamDidFailCameraPermissionSettings()
-            
-            DispatchQueue.main.async {
-                self.cameraDelegate?.SwiftyCamDidFailCameraPermissionSettings()
-            }
-            return
-        }
-        
         // prompt User with UIAlertView
 
         DispatchQueue.main.async(execute: { [unowned self] in
@@ -836,7 +818,7 @@ extension SwiftyCamViewController : SwiftyCamButtonDelegate {
     /// Sets the maximum duration of the SwiftyCamButton
     
     public func setMaxiumVideoDuration() -> Double {
-        return kMaximumVideoDuration
+        return maximumVideoDuration
     }
     
     /// Set UITapGesture to take photo
@@ -855,13 +837,13 @@ extension SwiftyCamViewController : SwiftyCamButtonDelegate {
 
     
     public func buttonDidEndLongPress() {
-        endVideoRecording()
+        stopVideoRecording()
     }
     
     /// Called if maximum duration is reached
     
     public func longPressDidReachMaximumDuration() {
-        endVideoRecording()
+        stopVideoRecording()
     }
 }
 
@@ -884,7 +866,7 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
         } else {
             //Call delegate function with the URL of the outputfile
             DispatchQueue.main.async {
-                self.cameraDelegate?.SwiftyCamDidFinishProcessingVideoAt(outputFileURL)
+                self.cameraDelegate?.swiftyCam(self, didFinishProcessVideoAt: outputFileURL)
             }
         }
     }
@@ -911,7 +893,7 @@ extension SwiftyCamViewController {
             
             // Call Delegate function with current zoom scale
             DispatchQueue.main.async {
-                self.cameraDelegate?.SwiftyCamDidChangeZoomLevel(zoomLevel: self.zoomScale)
+                self.cameraDelegate?.swiftyCam(self, didChangeZoomLevel: self.zoomScale)
             }
             
             captureDevice?.unlockForConfiguration()
@@ -949,7 +931,7 @@ extension SwiftyCamViewController {
                 //Call delegate function and pass in the location of the touch
                 
                 DispatchQueue.main.async {
-                    self.cameraDelegate?.SwiftyCamDidFocusAtPoint(focusPoint: tapPoint)
+                    self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
                 }
             }
             catch {

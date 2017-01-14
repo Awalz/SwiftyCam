@@ -116,10 +116,10 @@ Capturing Video is just as easy. To begin recording video, call the `startVideoR
 startVideoRecording()
 ``` 
 
-To end the capture of a video, call the `endVideoRecordingFunction`:
+To end the capture of a video, call the `stopVideoRecording` function:
 
 ```swift
-endVideoRecording()
+stopVideoRecording()
 ``` 
 
 
@@ -141,41 +141,41 @@ class MyCameraViewController : SwiftyCamViewController, SwiftyCamViewControllerD
 ####Delegate methods:
 
 ```swift
-func SwiftyCamDidTakePhoto(_ photo: UIImage) {
+func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
      // Called when takePhoto() is called or if a SwiftyCamButton initiates a tap gesture
      // Returns a UIImage captured from the current session
 }
     
-func SwiftyCamDidBeginRecordingVideo() {
+func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
      // Called when startVideoRecording() is called 
      // Called if a SwiftyCamButton begins a long press gesture
 }
     
-func SwiftyCamDidFinishRecordingVideo() {
-     // Called when endVideoRecording() is called 
+func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+     // Called when stopVideoRecording() is called 
      // Called if a SwiftyCamButton ends a long press gesture
- }
+}
     
-func SwiftyCamDidFinishProcessingVideoAt(_ url: URL) {
-     // Called when endVideoRecording() is called and the video is finished processing
+func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
+     // Called when stopVideoRecording() is called and the video is finished processing
      // Returns a URL in the temporary directory where video is stored
 }
     
-func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint) {
+func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
      // Called when a user initiates a tap gesture on the preview layer
      // Will only be called if tapToFocus = true
      // Returns a CGPoint of the tap location on the preview layer
 }
     
-func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat) {
+func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
 	  // Called when a user initiates a pinch gesture on the preview layer
 	  // Will only be called if pinchToZoomn = true
 	  // Returns a CGFloat of the current zoom level
 }
     
-func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection) {
-     // Called if the user denied access to the Camera or Microphone
-     // Will only be called if promptToAppPrivacySettings = false
+func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
+     // Called when user switches between cameras
+     // Returns current camera selection   
 }
 ```   
 
@@ -225,9 +225,9 @@ Video quality can be set by the **videoQuality** property of SwiftyCamViewContro
 
 | VideoQuality                          | AVCaptureSessionPreset        
 | ------------------------------------- | --------------------- 
-| `.high`                            | **AVCapturePresetHigh**                
-| `.medium`        						| **AVCapturePresetMedium**                
-| `.low`  								| **AVCapturePresetLow**                
+| `.high`                           | **AVCapturePresetHigh**                
+| `.medium`        					   | **AVCapturePresetMedium**                
+| `.low`  							   | **AVCapturePresetLow**                
 | `.resolution352x288`  			   | **AVCaptureSessionPreset352x288**                
 | `.resolution640x480`              | **AVCaptureSessionPreset640x480**                
 | `.resolution1280x720`             | **AVCaptureSessionPreset1280x720**              
@@ -241,10 +241,10 @@ The default value is **.high**. For use with the front-facing camera, **.high** 
 
 ### Maximum Video Duration
 
-If using a SwiftyCamButton, you can set a maximum video duration for the length of video. The video recording will me automatically stopped once the time limit has been reached and the delegate method `SwiftyCamDidFinishRecordingVideo` will be called. To set this value, simply change the `kMaximumVideoDuration` value:
+If using a SwiftyCamButton, you can set a maximum video duration for the length of video. The video recording will me automatically stopped once the time limit has been reached and the delegate method `SwiftyCamDidFinishRecordingVideo` will be called. To set this value, simply change the `maximumVideoDuration` value:
 
 ```swift
-kMaximumVideoDuration = 10.0
+maximumVideoDuration = 10.0
 ```
 
 A value of **0.0** will allow for unlimited video recording via the SwiftyCamButton. The default value is **0.0**.
@@ -287,13 +287,7 @@ lowLightBoost = false
 
 ## Privacy
 
-When a user firsts launch SwiftyCamViewController, they will be prompted for permission for access to the cameras and microphones. By default, if a user declines access to the hardware, SwiftyCam will provide a prompt to the App privacy settings inside the iOS settings application. If you wish to change this behaviour, the `promptToAppPrivacySettings*`property can be modified:
-
-```swift
-promptToAppPrivacySettings = false
-```
-
-Instead of prompting the user to the settings application, the delegate method `SwiftyCamDidFailCameraPermissionSettings` will be called and will have to be manually handled.
+When a user firsts launch SwiftyCamViewController, they will be prompted for permission for access to the cameras and microphones. By default, if a user declines access to the hardware, SwiftyCam will provide a prompt to the App privacy settings inside the iOS settings application. 
 
 ## Miscellaneous
 

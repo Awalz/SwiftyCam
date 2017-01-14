@@ -23,97 +23,103 @@ import UIKit
 public protocol SwiftyCamViewControllerDelegate {
     
     /**
-     SwiftyCamViewControllerDelegate function called when the takePhoto() function is called
+     SwiftyCamViewControllerDelegate function called when the takePhoto() function is called.
      
+     - Parameter swiftyCam: Current SwiftyCamViewController session
      - Parameter photo: UIImage captured from the current session
-     
      */
     
-    
-    func SwiftyCamDidTakePhoto(_ photo:UIImage)
-    
-    /// SwiftyCamViewControllerDelegate function called when SwiftyCamViewController begins recording video
-    
-    func SwiftyCamDidBeginRecordingVideo()
-    
-    /// SwiftyCamViewControllerDelegate function called when SwiftyCamViewController finishes recording video
-    
-    func SwiftyCamDidFinishRecordingVideo()
-    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage)
     
     /**
-     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController is done processing video
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController begins recording video.
      
+     - Parameter swiftyCam: Current SwiftyCamViewController session
+     - Parameter camera: Current camera orientation
+     */
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController finishes recording video.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController session
+     - Parameter camera: Current camera orientation
+     */
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController is done processing video.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController session
      - Parameter url: URL location of video in temporary directory
-     
      */
     
-    func SwiftyCamDidFinishProcessingVideoAt(_ url: URL)
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL)
     
     /**
-     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController switches between front or rear camera
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController switches between front or rear camera.
      
+     - Parameter swiftyCam: Current SwiftyCamViewController session
      - Parameter camera: Current camera selection
-     
      */
     
-    func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection)
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection)
     
     /**
-     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController view is tapped and begins focusing at that point
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController view is tapped and begins focusing at that point.
      
-     - Parameter focusPoint: Location in view where camera focused
+     - Parameter swiftyCam: Current SwiftyCamViewController session
+     - Parameter point: Location in view where camera focused
      
      */
     
-    func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint)
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint)
     
     /**
-     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController view changes zoom level
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController view changes zoom level.
      
-     - Parameter zoomLevel: Current zoom level
-     
+     - Parameter swiftyCam: Current SwiftyCamViewController session
+     - Parameter zoom: Current zoom level
      */
-
-    func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat)
     
-    
-    /// SwiftyCamViewControllerDelegate function called if app permissions are denied for either Camera or Microphone
-    
-    func SwiftyCamDidFailCameraPermissionSettings()
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat)
 }
 
 public extension SwiftyCamViewControllerDelegate {
     
-    func SwiftyCamDidTakePhoto(_ photo:UIImage) {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         // Optional
     }
+
     
-    func SwiftyCamDidBeginRecordingVideo() {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         // Optional
     }
+
     
-    func SwiftyCamDidFinishRecordingVideo() {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         // Optional
     }
+
     
-    func SwiftyCamDidFinishProcessingVideoAt(_ url: URL) {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         // Optional
     }
+
     
-    func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection) {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
         // Optional
     }
+
     
-    func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint) {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
         // Optional
     }
+
     
-    func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat) {
-        // Optional
-    }
-    
-    func SwiftyCamDidFailCameraPermissionSettings() {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
         // Optional
     }
 }

@@ -25,7 +25,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         cameraDelegate = self
-        kMaximumVideoDuration = 10.0
+        maximumVideoDuration = 10.0
         doubleTapCameraSwitch = true
         addButtons()
 
@@ -39,12 +39,12 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         super.viewDidAppear(animated)
     }
     
-    func SwiftyCamDidTakePhoto(_ photo: UIImage) {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         let newVC = PhotoViewController(image: photo)
         self.present(newVC, animated: true, completion: nil)
     }
     
-    func SwiftyCamDidBeginRecordingVideo() {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         print("Did Begin Recording")
         captureButton.growButton()
         UIView.animate(withDuration: 0.25, animations: {
@@ -53,7 +53,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         })
     }
     
-    func SwiftyCamDidFinishRecordingVideo() {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         print("Did finish Recording")
         captureButton.shrinkButton()
         UIView.animate(withDuration: 0.25, animations: {
@@ -62,14 +62,14 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         })
     }
     
-    func SwiftyCamDidFinishProcessingVideoAt(_ url: URL) {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         let newVC = VideoViewController(videoURL: url)
         self.present(newVC, animated: true, completion: nil)
     }
     
-    func SwiftyCamDidFocusAtPoint(focusPoint: CGPoint) {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
         let focusView = UIImageView(image: #imageLiteral(resourceName: "focus"))
-        focusView.center = focusPoint
+        focusView.center = point
         focusView.alpha = 0.0
         view.addSubview(focusView)
         
@@ -86,11 +86,11 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         })
     }
     
-    func SwiftyCamDidChangeZoomLevel(zoomLevel: CGFloat) {
-        print(zoomLevel)
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+        print(zoom)
     }
     
-    func SwiftyCamDidSwitchCameras(camera: SwiftyCamViewController.CameraSelection) {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
         print(camera)
     }
     
