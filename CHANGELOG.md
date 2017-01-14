@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Version 2.0.0
+- Changed `SwiftyCamViewController` delegate function naming
+- Changed `kMaximumVideoDuration` property to `maximumVideoDuration`
+- Changed `endVideoRecording()` to `stopVideoRecording`
+- Fixed issue with front flash not starting before video recording
+- Removed ability to disable prompting to app settings if permissions are not approved
+- Updated demo application
+- Minor bug fixes
+
 ## Version 1.5.1
 - Minor bug fixes
 - Enhancemenents to demo project
