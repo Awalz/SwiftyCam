@@ -127,7 +127,11 @@ open class SwiftyCamViewController: UIViewController {
     
     public var doubleTapCameraSwitch            = true
     
+    /// Set default launch camera
     
+    public var defaultCamera                   = CameraSelection.rear
+    
+
     // MARK: Public Get-only Variable Declarations
     
     /// Returns true if video is currently being recorded
@@ -482,6 +486,13 @@ open class SwiftyCamViewController: UIViewController {
         guard setupResult == .success else {
             return
         }
+        
+        // Set default camera
+        
+        currentCamera = defaultCamera
+        
+        // begin configuring session
+        
         session.beginConfiguration()
         configureVideoPreset()
         addVideoInput()

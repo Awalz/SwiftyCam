@@ -26,9 +26,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         super.viewDidLoad()
         cameraDelegate = self
         maximumVideoDuration = 10.0
-        doubleTapCameraSwitch = true
         addButtons()
-
     }
     
     override var prefersStatusBarHidden: Bool {
