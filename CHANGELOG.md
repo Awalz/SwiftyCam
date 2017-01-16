@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version 2.1.0
+- Added ability to change default camera orientation
+- Added `defaultCamera` property
+- Minor bug fixes
+
 ## Version 2.0.0
 - Changed `SwiftyCamViewController` delegate function naming
 - Changed `kMaximumVideoDuration` property to `maximumVideoDuration`

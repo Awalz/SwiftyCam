@@ -201,6 +201,16 @@ For front facing videos, a white, 85% opaque view will be placed over the video 
 
 ## Switching Camera
 
+By default, SwiftyCam will launch to the rear facing camera. This can be changed by changing the `defaultCamera` property in `viewDidLoad`:
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    defaultCamera = .front
+    ...
+}
+```
+
 SwiftyCam supports capture from both the front and back cameras. To switch cameras, call the function:
 
 ```swift
