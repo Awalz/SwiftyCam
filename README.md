@@ -1,4 +1,4 @@
-<h1 align="center">SwiftyCam</h1>
+<img src="SwiftyCamBanner.jpg"  align="center"> 
 
 <p align="center">
     <img src="https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat" alt="Platform: iOS 8+"/>
