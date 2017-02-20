@@ -928,7 +928,7 @@ extension SwiftyCamViewController {
 			return
 		}
 		
-		if showFocusRing {
+		if showFocusRing && focusRing == nil {
 			focusRing = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
 			focusRing?.backgroundColor = UIColor(white: 1.0, alpha: 0.3)
 			focusRing?.translatesAutoresizingMaskIntoConstraints = false
