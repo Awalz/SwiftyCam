@@ -367,6 +367,10 @@ open class SwiftyCamViewController: UIViewController {
 			return
 		}
 		
+		guard previewLayer != nil else {
+			return
+		}
+		
 		if currentCamera == .rear && flashEnabled == true {
 			enableFlash()
 		}
