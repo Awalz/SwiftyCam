@@ -655,9 +655,19 @@ open class SwiftyCamViewController: UIViewController {
         
         switch self.currentCamera {
             case .front:
-                image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .leftMirrored)
+                let newImage = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .leftMirrored)
+                if let adjustedImage = newImage.fixOrientation() {
+                    image = adjustedImage
+                } else {
+                    image = newImage
+            }
             case .rear:
-                image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .right)
+                let newImage = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: .right)
+                if let adjustedImage = newImage.fixOrientation() {
+                    image = adjustedImage
+                } else {
+                    image = newImage
+                }
         }
         return image
     }

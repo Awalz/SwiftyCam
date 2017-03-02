@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16298B561E2703DC0056D413 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16298B551E2703DC0056D413 /* SwiftyRecordButton.swift */; };
+		165CDA841E68802500FD0343 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165CDA831E68802500FD0343 /* UIImage+Extension.swift */; };
 		1675A9761E00A68300B80903 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1675A9751E00A68300B80903 /* AppDelegate.swift */; };
 		1675A9781E00A68300B80903 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1675A9771E00A68300B80903 /* ViewController.swift */; };
 		1675A97B1E00A68300B80903 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1675A9791E00A68300B80903 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		16298B551E2703DC0056D413 /* SwiftyRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyRecordButton.swift; sourceTree = "<group>"; };
+		165CDA831E68802500FD0343 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		1675A9721E00A68300B80903 /* DemoSwiftyCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoSwiftyCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1675A9751E00A68300B80903 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1675A9771E00A68300B80903 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				1675A98A1E00A74A00B80903 /* SwiftyCamButton.swift */,
 				1675A98B1E00A74A00B80903 /* SwiftyCamViewController.swift */,
 				1675A98C1E00A74A00B80903 /* SwiftyCamViewControllerDelegate.swift */,
+				165CDA831E68802500FD0343 /* UIImage+Extension.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 				1675A98F1E00A74A00B80903 /* SwiftyCamViewController.swift in Sources */,
 				168505EA1E288D80005B4537 /* PhotoViewController.swift in Sources */,
 				16298B561E2703DC0056D413 /* SwiftyRecordButton.swift in Sources */,
+				165CDA841E68802500FD0343 /* UIImage+Extension.swift in Sources */,
 				1675A98D1E00A74A00B80903 /* PreviewView.swift in Sources */,
 				1675A98E1E00A74A00B80903 /* SwiftyCamButton.swift in Sources */,
 			);
