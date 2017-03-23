@@ -124,7 +124,7 @@ stopVideoRecording()
 ``` 
 
 
-###Delegate
+### Delegate
 
 In order to acquire the photos and videos taken by either the SwiftyCamButton or manually, you must implement the `SwiftyCamViewControllerDelegate` and set the `cameraDelegate` to your view controller instance:
 
@@ -139,7 +139,7 @@ class MyCameraViewController : SwiftyCamViewController, SwiftyCamViewControllerD
 }
 ```   
 
-####Delegate methods:
+#### Delegate methods:
 
 ```swift
 func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
@@ -226,7 +226,7 @@ SwiftyCam also enables switching between cameras with a double tap gesture. To d
 doubleTapCameraSwitch = false
 ```
 
-##Configuration
+## Configuration
 
 SwiftyCam has several options for configurating the functionality of the capture:
 
