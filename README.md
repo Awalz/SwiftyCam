@@ -52,6 +52,18 @@ it, simply add the following line to your Podfile:
 pod "SwiftyCam"
 ```
 
+### [Carthage](https://github.com/Carthage/Carthage)
+
+Add this to `Cartfile`
+
+```
+github "Awalz/SwiftyCam" ~> 2.1
+```
+
+```
+$ carthage update SwiftyCam
+```
+
 ### Manual Installation:
 
 Simply copy the contents of the Source folder into your project.
