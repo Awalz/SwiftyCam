@@ -58,7 +58,7 @@ pod "SwiftyCam"
 Add this to `Cartfile`
 
 ```
-github "Awalz/SwiftyCam" ~> 2.1
+github "Awalz/SwiftyCam" ~> 2.2.1
 ```
 
 ```
