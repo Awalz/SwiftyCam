@@ -112,8 +112,8 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Sets the maximum zoom scale allowed during Pinch gesture
 
-	fileprivate var maxZoomScale				 = CGFloat(4.0)
-
+	public var maxZoomScale				         = CGFloat(4.0)
+  
 	/// Sets whether Tap to Focus and Tap to Adjust Exposure is enabled for the capture session
 
 	public var tapToFocus                        = true

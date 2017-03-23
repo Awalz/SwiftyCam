@@ -16,7 +16,7 @@ Configuring a Camera View Controller in AVFoundation can be tedious and time con
 ## Features
 
               |  SwiftyCam
---------------------------|------------------------------------------------------------
+--------------------------|-------------------------------
 :sunglasses: | Snapchat-style media capture
 :+1: | Support iOS8+
 :camera: | Image capture
@@ -269,6 +269,14 @@ pinchToZoom = false
 
 By default, **pinchToZoom** is enabled.
 
+You can also restrict the amount that the rear facing camera can zoom. To do this, use the         `maxZoomScale` property:
+
+```swift
+maxZoomScale = 2.0
+```   
+
+By default, `maxZoomScale` is set to **4.0**.
+
 ## Camera Focus
 
 SwiftyCam, by default, support tap to focus on the video preview. SwiftyCam will set the focus and exposure levels of the session to the tapped point. While tap to set exposure is supported on both cameras, tap to focus is only supported on rear facing cameras. Autofocus and autoexposure will be resumed once SwiftyCam detects significant movement from the tapped point. To disable this feature, change the `tapToFocus` property:
@@ -278,6 +286,15 @@ tapToFocus = false
 ```
 
 By default, `tapToFocus` is enabled. If you wish to show a on screen animation when a tap to focus is initiated, you can use the `SwiftyCamDidFocusAtPoint(focusPoint:)` to get the coordinates of tap and provide your own tap animation
+
+## Device Orientation
+
+By default, SwiftyCam will set the photo orientation to be portrait. If you wish to preserve the orientation of the capture photos to allow support for landscape images, use the `shouldUseDeviceOrientation` property:
+
+```swift
+shouldUseDeviceOrientation = true
+```
+
 
 ## Background Audio
 
