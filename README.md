@@ -15,20 +15,21 @@ Configuring a Camera View Controller in AVFoundation can be tedious and time con
 
 ## Features
 
-              |  SwiftyCam
---------------------------|-------------------------------
-:sunglasses: | Snapchat-style media capture
-:+1: | Support iOS8+
-:camera: | Image capture
-:movie_camera: | Video capture
-:chart_with_upwards_trend: | Manual image quality settings
-:tada: | Front and rear camera support
-:flashlight: | Front and rear flash
-:sunny: | Retina flash support
-:mag_right: | Supports manual zoom
-:lock: | Supports manual focus
-:last_quarter_moon_with_face: | Low light setting
-:speaker: | Background audio support
+|                              | SwiftyCam        
+| ------------------------------------- | --------------------- 
+| :sunglasses:                  | Snapchat-style media capture               
+| :+1:        					  | Support iOS8+                
+| :camera:  						  | Image capture               
+| :movie_camera:  			      | Video capture                
+| :chart_with_upwards_trend:    | Manual image quality settings                
+| :tada:                        | Front and rear camera support              
+| :flashlight:                  | Front and rear flash  
+| :sunny:                       | Retina flash support               
+| :mag_right:                   |  Supports manual zoom               
+| :lock:                        | Supports manual focus
+| :last_quarter_moon_with_face: |  Low light setting               
+| :speaker:                     | Background audio support                 
+ 
 
 
 ## Requirements
