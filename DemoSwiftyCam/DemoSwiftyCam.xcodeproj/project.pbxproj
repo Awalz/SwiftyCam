@@ -184,7 +184,7 @@
 					};
 					1675A9711E00A68300B80903 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = LW28KCU8N5;
+						DevelopmentTeam = 427VB57543;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -421,9 +421,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = LW28KCU8N5;
+				DEVELOPMENT_TEAM = 427VB57543;
 				INFOPLIST_FILE = DemoSwiftyCam/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Cappsule.DemoSwiftyCam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -435,9 +435,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = LW28KCU8N5;
+				DEVELOPMENT_TEAM = 427VB57543;
 				INFOPLIST_FILE = DemoSwiftyCam/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Cappsule.DemoSwiftyCam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
