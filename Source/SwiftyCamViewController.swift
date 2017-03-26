@@ -17,6 +17,7 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 
 import UIKit
 import AVFoundation
+import CoreMotion
 
 // MARK: View Controller Declaration
 
@@ -214,6 +215,8 @@ open class SwiftyCamViewController: UIViewController {
 	/// Last changed orientation
 
 	fileprivate var deviceOrientation            : UIDeviceOrientation?
+    
+    fileprivate var coreMotionManager            : CMMotionManager!
 
 	/// Disable view autorotation for forced portrait recorindg
 
@@ -228,6 +231,8 @@ open class SwiftyCamViewController: UIViewController {
 
 	override open func viewDidLoad() {
 		super.viewDidLoad()
+        coreMotionManager = CMMotionManager()
+        coreMotionManager.accelerometerUpdateInterval = 0.1
 		previewLayer = PreviewView(frame: self.view.frame)
 
 		// Add Gesture Recognizers
@@ -273,10 +278,26 @@ open class SwiftyCamViewController: UIViewController {
 		super.viewDidAppear(animated)
 
 		// Subscribe to device rotation notifications
-
-		if shouldUseDeviceOrientation {
-			subscribeToDeviceOrientationChangeNotifications()
-		}
+        if shouldUseDeviceOrientation {
+            coreMotionManager.startAccelerometerUpdates(to: OperationQueue()) { [weak self] (data, error) in
+                guard let data = data else {
+                    return
+                }
+                if(abs(data.acceleration.y) < abs(data.acceleration.x)){
+                    if(data.acceleration.x > 0){
+                        self?.deviceOrientation = UIDeviceOrientation.landscapeRight
+                    } else {
+                        self?.deviceOrientation = UIDeviceOrientation.landscapeLeft
+                    }
+                } else{
+                    if(data.acceleration.y > 0){
+                        self?.deviceOrientation = UIDeviceOrientation.portraitUpsideDown
+                    } else {
+                        self?.deviceOrientation = UIDeviceOrientation.portrait
+                    }
+                }
+            }
+        }
 
 		// Set background audio preference
 
@@ -322,7 +343,7 @@ open class SwiftyCamViewController: UIViewController {
 
 		// Unsubscribe from device rotation notifications
 		if shouldUseDeviceOrientation {
-			unsubscribeFromDeviceOrientationChangeNotifications()
+            coreMotionManager.stopAccelerometerUpdates()
 		}
 	}
 
@@ -661,21 +682,6 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Orientation management
 
-	fileprivate func subscribeToDeviceOrientationChangeNotifications() {
-		self.deviceOrientation = UIDevice.current.orientation
-		NotificationCenter.default.addObserver(self, selector: #selector(deviceDidRotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-	}
-
-	fileprivate func unsubscribeFromDeviceOrientationChangeNotifications() {
-		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-		self.deviceOrientation = nil
-	}
-
-	@objc fileprivate func deviceDidRotate() {
-		if !UIDevice.current.orientation.isFlat {
-			self.deviceOrientation = UIDevice.current.orientation
-		}
-	}
 
 	fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
 		guard shouldUseDeviceOrientation, let deviceOrientation = self.deviceOrientation else { return previewLayer!.videoPreviewLayer.connection.videoOrientation }
