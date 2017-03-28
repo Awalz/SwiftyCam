@@ -279,21 +279,23 @@ open class SwiftyCamViewController: UIViewController {
 
 		// Subscribe to device rotation notifications
         if shouldUseDeviceOrientation {
-            coreMotionManager.startAccelerometerUpdates(to: OperationQueue()) { [weak self] (data, error) in
+            coreMotionManager.startAccelerometerUpdates(to: OperationQueue()) { (data, error) in
                 guard let data = data else {
                     return
                 }
-                if(abs(data.acceleration.y) < abs(data.acceleration.x)){
-                    if(data.acceleration.x > 0){
-                        self?.deviceOrientation = UIDeviceOrientation.landscapeRight
-                    } else {
-                        self?.deviceOrientation = UIDeviceOrientation.landscapeLeft
-                    }
-                } else{
-                    if(data.acceleration.y > 0){
-                        self?.deviceOrientation = UIDeviceOrientation.portraitUpsideDown
-                    } else {
-                        self?.deviceOrientation = UIDeviceOrientation.portrait
+                DispatchQueue.main.async { [weak self] in
+                    if(abs(data.acceleration.y) < abs(data.acceleration.x)){
+                        if(data.acceleration.x > 0){
+                            self?.deviceOrientation = UIDeviceOrientation.landscapeRight
+                        } else {
+                            self?.deviceOrientation = UIDeviceOrientation.landscapeLeft
+                        }
+                    } else{
+                        if(data.acceleration.y > 0){
+                            self?.deviceOrientation = UIDeviceOrientation.portraitUpsideDown
+                        } else {
+                            self?.deviceOrientation = UIDeviceOrientation.portrait
+                        }
                     }
                 }
             }
