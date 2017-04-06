@@ -288,6 +288,12 @@ open class SwiftyCamViewController: UIViewController {
 				// Begin Session
 				self.session.startRunning()
 				self.isSessionRunning = self.session.isRunning
+                
+                // Preview layer video orientation can be set only after the connection is created
+                DispatchQueue.main.async {
+                    self.previewLayer.videoPreviewLayer.connection?.videoOrientation = self.getPreviewLayerOrientation()
+                }
+                
 			case .notAuthorized:
 				// Prompt to App Settings
 				self.promptToAppSettings()
@@ -676,6 +682,20 @@ open class SwiftyCamViewController: UIViewController {
 			self.deviceOrientation = UIDevice.current.orientation
 		}
 	}
+    
+    fileprivate func getPreviewLayerOrientation() -> AVCaptureVideoOrientation {
+        // Depends on layout orientation, not device orientation
+        switch UIApplication.shared.statusBarOrientation {
+        case .portrait, .unknown:
+            return AVCaptureVideoOrientation.portrait
+        case .landscapeLeft:
+            return AVCaptureVideoOrientation.landscapeLeft
+        case .landscapeRight:
+            return AVCaptureVideoOrientation.landscapeRight
+        case .portraitUpsideDown:
+            return AVCaptureVideoOrientation.portraitUpsideDown
+        }
+    }
 
 	fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
 		guard shouldUseDeviceOrientation, let deviceOrientation = self.deviceOrientation else { return previewLayer!.videoPreviewLayer.connection.videoOrientation }
