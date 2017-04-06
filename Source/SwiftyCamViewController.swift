@@ -462,9 +462,9 @@ open class SwiftyCamViewController: UIViewController {
 	*/
 
 	public func stopVideoRecording() {
-		if self.movieFileOutput?.isRecording == true {
+		if self.isVideoRecording {
 			self.isVideoRecording = false
-			movieFileOutput!.stopRecording()
+            movieFileOutput!.stopRecording()
 			disableFlash()
 
 			if currentCamera == .front && flashEnabled == true && flashView != nil {
@@ -667,6 +667,7 @@ open class SwiftyCamViewController: UIViewController {
 				}
 			}
 			self.movieFileOutput = movieFileOutput
+            
 		}
 	}
 
