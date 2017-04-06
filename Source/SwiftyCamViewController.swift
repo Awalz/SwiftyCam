@@ -264,6 +264,17 @@ open class SwiftyCamViewController: UIViewController {
 		}
 	}
 
+    // MARK: ViewDidLayoutSubviews
+    
+    /// ViewDidLayoutSubviews() Implementation
+    
+    
+    override open func viewDidLayoutSubviews() {
+        previewLayer.frame = view.bounds
+        
+        super.viewDidLayoutSubviews()
+    }
+    
 	// MARK: ViewDidAppear
 
 	/// ViewDidAppear(_ animated:) Implementation
