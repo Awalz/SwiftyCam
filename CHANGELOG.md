@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 2.2.2
+- Fixed issue with landscape orientation 
+- Fixed issue with SwiftyCam crashing by multiple double-tap camera switching
+
 ## Version 2.2.1
 - Added Carthage support
 
