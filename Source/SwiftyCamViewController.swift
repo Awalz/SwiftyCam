@@ -489,6 +489,11 @@ open class SwiftyCamViewController: UIViewController {
 			print("[SwiftyCam]: Switching between cameras while recording video is not supported")
 			return
 		}
+        
+        guard session.isRunning == true else {
+            return
+        }
+        
 		switch currentCamera {
 		case .front:
 			currentCamera = .rear
