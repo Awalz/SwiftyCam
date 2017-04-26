@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 2.3.0
+- Added support to vertically swipt to zoom
+- Added ```swipeToZoom``` property
+- Added support for inverting zoom directions for swipeToZoom
+- Added ```swipeToZoomInverted``` property
+
 ## Version 2.2.2
 - Fixed issue with landscape orientation 
 - Fixed issue with SwiftyCam crashing by multiple double-tap camera switching

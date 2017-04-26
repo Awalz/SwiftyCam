@@ -274,13 +274,25 @@ A value of **0.0** will allow for unlimited video recording via the SwiftyCamBut
 
 ## Camera Zoom
 
-SwiftyCam supports digital zoom of the camera session via pinch gestures. The gestures work similar to the default iOS app and will zoom to the maximum supported zoom level. Camera zoom is only supported on the rear facing camera. AVFoundation does not currently support front facing camera zoom. To disable this feature, change the `pinchToZoom` property:
+SwiftyCam supports digital zoom of the camera session via pinch and pan gestures. The gestures work similar to the default iOS app and will zoom to the maximum supported zoom level. Camera zoom is only supported on the rear facing camera. AVFoundation does not currently support front facing camera zoom. To disable this feature, change the `pinchToZoom` property:
 
 ```swift
 pinchToZoom = false
 ```   
 
-By default, **pinchToZoom** is enabled.
+By default, ```pinchToZoom``` is enabled.
+
+SwiftyCam also supports the ability to zoom the rear facing camera with vertical pan gestures. To disable this feature, change the `swipeToZoom` property:
+
+```swift
+swipeToZoom = false
+```   
+
+By default, ```swipeToZoom``` is enabled. The default gestures zoom in the capture session with a downward swipe, and zoom out with an upward swipe. This can be reversed by changing the ```swipeToZoomInverted``` property:
+
+```swift
+swipeToZoomInverted = true
+``` 
 
 You can also restrict the amount that the rear facing camera can zoom. To do this, use the         `maxZoomScale` property:
 
@@ -288,7 +300,7 @@ You can also restrict the amount that the rear facing camera can zoom. To do thi
 maxZoomScale = 2.0
 ```   
 
-By default, `maxZoomScale` is set to **4.0**.
+By default, `maxZoomScale` is set to **infinite**. The actual maximum zoom level is determined by the device's [videoMaxZoomFactor](https://developer.apple.com/reference/avfoundation/avcapturedeviceformat/1624635-videomaxzoomfactor).
 
 ## Camera Focus
 
