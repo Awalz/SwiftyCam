@@ -238,7 +238,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	override open func viewDidLoad() {
 		super.viewDidLoad()
-		previewLayer = PreviewView(frame: view.bounds)
+		previewLayer = PreviewView(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: view.bounds.height))
 
 		// Add Gesture Recognizers
 
@@ -280,8 +280,7 @@ open class SwiftyCamViewController: UIViewController {
     
     
     override open func viewDidLayoutSubviews() {
-        previewLayer.frame = view.bounds
-        
+        previewLayer.frame = CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: view.bounds.height)
         super.viewDidLayoutSubviews()
     }
     
