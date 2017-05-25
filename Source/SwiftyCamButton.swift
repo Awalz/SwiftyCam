@@ -20,7 +20,7 @@ import UIKit
 
 /// Delegate for SwiftyCamButton
 
-public protocol SwiftyCamButtonDelegate {
+public protocol SwiftyCamButtonDelegate: class {
     
     /// Called when UITapGestureRecognizer begins
     
@@ -52,7 +52,7 @@ open class SwiftyCamButton: UIButton {
     
     /// Delegate variable
     
-    public var delegate: SwiftyCamButtonDelegate?
+    public weak var delegate: SwiftyCamButtonDelegate?
     
     /// Maximum duration variable
     

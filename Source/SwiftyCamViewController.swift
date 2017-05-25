@@ -91,7 +91,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Public Camera Delegate for the Custom View Controller Subclass
 
-	public var cameraDelegate: SwiftyCamViewControllerDelegate?
+	public weak var cameraDelegate: SwiftyCamViewControllerDelegate?
 
 	/// Maxiumum video duration if SwiftyCamButton is used
 
