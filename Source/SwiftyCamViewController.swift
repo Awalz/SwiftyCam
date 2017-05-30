@@ -282,13 +282,53 @@ open class SwiftyCamViewController: UIViewController {
     // MARK: ViewDidLayoutSubviews
     
     /// ViewDidLayoutSubviews() Implementation
+    /// ViewDidLayoutSubviews() Implementation
     
+    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
+        
+        layer.videoOrientation = orientation
+        
+        previewLayer.frame = self.view.bounds
+        
+    }
     
-    /*override open func viewDidLayoutSubviews() {
-        previewLayer.frame = CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: view.bounds.height)
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-    } */
-    
+        
+        if let connection =  self.previewLayer?.videoPreviewLayer.connection  {
+            
+            let currentDevice: UIDevice = UIDevice.current
+            
+            let orientation: UIDeviceOrientation = currentDevice.orientation
+            
+            let previewLayerConnection : AVCaptureConnection = connection
+            
+            if previewLayerConnection.isVideoOrientationSupported {
+                
+                switch (orientation) {
+                case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                    
+                case .landscapeRight: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeLeft)
+                
+                    break
+                    
+                case .landscapeLeft: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeRight)
+                
+                    break
+                    
+                case .portraitUpsideDown: updatePreviewLayer(layer: previewLayerConnection, orientation: .portraitUpsideDown)
+                
+                    break
+                    
+                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                }
+            }
+        }
+    }
 	// MARK: ViewDidAppear
 
 	/// ViewDidAppear(_ animated:) Implementation
