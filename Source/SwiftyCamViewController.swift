@@ -157,6 +157,11 @@ open class SwiftyCamViewController: UIViewController {
     /// Sets whether or not video recordings will record audio
     /// Setting to true will prompt user for access to microphone on View Controller launch.
     public var audioEnabled                   = true
+    
+    
+    fileprivate(set) public var pinchGesture  : UIPinchGestureRecognizer!
+    
+    fileprivate(set) public var panGesture    : UIPanGestureRecognizer!
 
 
 	// MARK: Public Get-only Variable Declarations
@@ -253,8 +258,8 @@ open class SwiftyCamViewController: UIViewController {
 		previewLayer = view as! PreviewView!
 
 		// Add Gesture Recognizers
-
-		addGestureRecognizersTo(view: view)
+        
+        addGestureRecognizers()
 
 		//self.view.addSubview(previewLayer)
 		previewLayer.session = session
@@ -1178,24 +1183,24 @@ extension SwiftyCamViewController {
 
 	*/
 
-	fileprivate func addGestureRecognizersTo(view: UIView) {
-		let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
+	fileprivate func addGestureRecognizers() {
+		pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
 		pinchGesture.delegate = self
-		view.addGestureRecognizer(pinchGesture)
+		previewLayer.addGestureRecognizer(pinchGesture)
 
 		let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(singleTapGesture(tap:)))
 		singleTapGesture.numberOfTapsRequired = 1
 		singleTapGesture.delegate = self
-		view.addGestureRecognizer(singleTapGesture)
+		previewLayer.addGestureRecognizer(singleTapGesture)
 
 		let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(doubleTapGesture(tap:)))
 		doubleTapGesture.numberOfTapsRequired = 2
 		doubleTapGesture.delegate = self
-		view.addGestureRecognizer(doubleTapGesture)
+		previewLayer.addGestureRecognizer(doubleTapGesture)
         
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(pan:)))
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(pan:)))
         panGesture.delegate = self
-        view.addGestureRecognizer(panGesture)
+        previewLayer.addGestureRecognizer(panGesture)
 	}
 }
 
