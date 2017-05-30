@@ -238,13 +238,14 @@ open class SwiftyCamViewController: UIViewController {
 
 	override open func viewDidLoad() {
 		super.viewDidLoad()
-		previewLayer = PreviewView(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: view.bounds.height))
+        view = PreviewView(frame: view.frame)
+		previewLayer = view as! PreviewView!
 
 		// Add Gesture Recognizers
 
-		addGestureRecognizersTo(view: previewLayer)
+		addGestureRecognizersTo(view: view)
 
-		self.view.addSubview(previewLayer)
+		//self.view.addSubview(previewLayer)
 		previewLayer.session = session
 
 		// Test authorization status for Camera and Micophone
@@ -279,10 +280,10 @@ open class SwiftyCamViewController: UIViewController {
     /// ViewDidLayoutSubviews() Implementation
     
     
-    override open func viewDidLayoutSubviews() {
+    /*override open func viewDidLayoutSubviews() {
         previewLayer.frame = CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: view.bounds.height)
         super.viewDidLayoutSubviews()
-    }
+    } */
     
 	// MARK: ViewDidAppear
 
