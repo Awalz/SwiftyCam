@@ -153,6 +153,10 @@ open class SwiftyCamViewController: UIViewController {
     
     /// Specifies the [videoGravity](https://developer.apple.com/reference/avfoundation/avcapturevideopreviewlayer/1386708-videogravity) for the preview layer.
     public var videoGravity                   : SwiftyCamVideoGravity = .resizeAspect
+    
+    /// Sets whether or not video recordings will record audio
+    /// Setting to true will prompt user for access to microphone on View Controller launch.
+    public var audioEnabled                   = true
 
 
 	// MARK: Public Get-only Variable Declarations
@@ -694,6 +698,9 @@ open class SwiftyCamViewController: UIViewController {
 	/// Add Audio Inputs
 
 	fileprivate func addAudioInput() {
+        guard audioEnabled == true else {
+            return
+        }
 		do {
 			let audioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
 			let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice)
@@ -968,6 +975,10 @@ open class SwiftyCamViewController: UIViewController {
 		guard allowBackgroundAudio == true else {
 			return
 		}
+        
+        guard audioEnabled == true else {
+            return
+        }
 
 		do{
 			try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
