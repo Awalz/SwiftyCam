@@ -184,7 +184,7 @@
 					};
 					1675A9711E00A68300B80903 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 427VB57543;
+						DevelopmentTeam = DGV5BLXSF9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -421,11 +421,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 427VB57543;
+				DEVELOPMENT_TEAM = DGV5BLXSF9;
 				INFOPLIST_FILE = DemoSwiftyCam/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Cappsule.DemoSwiftyCam;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Cappsule.DemoSwiftyCam1010;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -435,11 +435,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 427VB57543;
+				DEVELOPMENT_TEAM = DGV5BLXSF9;
 				INFOPLIST_FILE = DemoSwiftyCam/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Cappsule.DemoSwiftyCam;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Cappsule.DemoSwiftyCam1010;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -455,6 +455,7 @@
 				05D2A9BB1E80BE9700B479E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1675A96D1E00A68300B80903 /* Build configuration list for PBXProject "DemoSwiftyCam" */ = {
 			isa = XCConfigurationList;

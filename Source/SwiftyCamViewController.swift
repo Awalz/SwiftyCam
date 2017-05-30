@@ -146,6 +146,10 @@ open class SwiftyCamViewController: UIViewController {
 	/// Sets wether the taken photo or video should be oriented according to the device orientation
 
 	public var shouldUseDeviceOrientation      = false
+    
+    /// Sets whether or not View Controller supports auto rotation
+    
+    public var allowAutoRotate                = false
 
 
 	// MARK: Public Get-only Variable Declarations
@@ -229,7 +233,7 @@ open class SwiftyCamViewController: UIViewController {
 	/// Disable view autorotation for forced portrait recorindg
 
 	override open var shouldAutorotate: Bool {
-		return false
+		return allowAutoRotate
 	}
 
 	// MARK: ViewDidLoad
