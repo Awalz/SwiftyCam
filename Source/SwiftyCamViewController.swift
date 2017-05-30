@@ -150,6 +150,8 @@ open class SwiftyCamViewController: UIViewController {
     /// Sets whether or not View Controller supports auto rotation
     
     public var allowAutoRotate                = false
+    
+    public var videoGravity                   : SwiftyCamVideoGravity = .resizeAspect
 
 
 	// MARK: Public Get-only Variable Declarations
@@ -170,7 +172,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Current Capture Session
 
-	fileprivate let session                      = AVCaptureSession()
+	public let session                           = AVCaptureSession()
 
 	/// Serial queue used for setting up session
 
@@ -242,7 +244,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	override open func viewDidLoad() {
 		super.viewDidLoad()
-        view = PreviewView(frame: view.frame)
+        view = PreviewView(frame: view.frame, videoGravity: videoGravity)
 		previewLayer = view as! PreviewView!
 
 		// Add Gesture Recognizers
