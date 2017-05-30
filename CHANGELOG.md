@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Version 2.4.0
+- Added support for no-audio video recording
+- Added `audioEnabled` property
+- Added support for Auto Rotate view
+- Added `allowAutoRotate` property
+- Added support for modifying the Preview Layer's Video Gravity
+- Added `videoGravity` property
+- Changed `session` to public
+- Changed `panGesture` and `pinchGesture` to public
+
 ## Version 2.3.0
 - Added support to vertically swipt to zoom
 - Added ```swipeToZoom``` property
