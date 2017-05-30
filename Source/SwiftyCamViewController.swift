@@ -158,9 +158,10 @@ open class SwiftyCamViewController: UIViewController {
     /// Setting to true will prompt user for access to microphone on View Controller launch.
     public var audioEnabled                   = true
     
-    
+    /// Public access to Pinch Gesture
     fileprivate(set) public var pinchGesture  : UIPinchGestureRecognizer!
     
+    /// Public access to Pan Gesture
     fileprivate(set) public var panGesture    : UIPanGestureRecognizer!
 
 
