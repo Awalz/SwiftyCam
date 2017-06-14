@@ -20,7 +20,7 @@ import UIKit
 
 /// Delegate for SwiftyCamViewController
 
-public protocol SwiftyCamViewControllerDelegate: class {
+@objc public protocol SwiftyCamViewControllerDelegate: class {
     
     /**
      SwiftyCamViewControllerDelegate function called when the takePhoto() function is called.
@@ -29,7 +29,7 @@ public protocol SwiftyCamViewControllerDelegate: class {
      - Parameter photo: UIImage captured from the current session
      */
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage)
+    @objc optional func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage)
     
     /**
      SwiftyCamViewControllerDelegate function called when SwiftyCamViewController begins recording video.
@@ -38,7 +38,7 @@ public protocol SwiftyCamViewControllerDelegate: class {
      - Parameter camera: Current camera orientation
      */
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection)
+    @objc optional func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection)
     
     /**
      SwiftyCamViewControllerDelegate function called when SwiftyCamViewController finishes recording video.
@@ -47,7 +47,7 @@ public protocol SwiftyCamViewControllerDelegate: class {
      - Parameter camera: Current camera orientation
      */
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection)
+    @objc optional func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection)
     
     /**
      SwiftyCamViewControllerDelegate function called when SwiftyCamViewController is done processing video.
@@ -56,7 +56,7 @@ public protocol SwiftyCamViewControllerDelegate: class {
      - Parameter url: URL location of video in temporary directory
      */
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL)
+    @objc optional func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL)
     
     /**
      SwiftyCamViewControllerDelegate function called when SwiftyCamViewController switches between front or rear camera.
@@ -65,7 +65,7 @@ public protocol SwiftyCamViewControllerDelegate: class {
      - Parameter camera: Current camera selection
      */
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection)
+    @objc optional func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection)
     
     /**
      SwiftyCamViewControllerDelegate function called when SwiftyCamViewController view is tapped and begins focusing at that point.
@@ -75,7 +75,7 @@ public protocol SwiftyCamViewControllerDelegate: class {
      
      */
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint)
+    @objc optional func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint)
     
     /**
      SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController view changes zoom level.
@@ -84,45 +84,5 @@ public protocol SwiftyCamViewControllerDelegate: class {
      - Parameter zoom: Current zoom level
      */
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat)
+    @objc optional func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat)
 }
-
-public extension SwiftyCamViewControllerDelegate {
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        // Optional
-    }
-
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        // Optional
-    }
-
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        // Optional
-    }
-
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
-        // Optional
-    }
-
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
-        // Optional
-    }
-
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
-        // Optional
-    }
-
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
-        // Optional
-    }
-}
-
-
-
