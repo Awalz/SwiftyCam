@@ -27,7 +27,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Enumeration for Camera Selection
 
-	public enum CameraSelection {
+    @objc public enum CameraSelection: Int {
 
 		/// Camera on the back of the device
 		case rear
@@ -502,7 +502,7 @@ open class SwiftyCamViewController: UIViewController {
 				movieFileOutput.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
 				self.isVideoRecording = true
 				DispatchQueue.main.async {
-					self.cameraDelegate?.swiftyCam(self, didBeginRecordingVideo: self.currentCamera)
+					self.cameraDelegate?.swiftyCam?(self, didBeginRecordingVideo: self.currentCamera)
 				}
 			}
 			else {
@@ -535,7 +535,7 @@ open class SwiftyCamViewController: UIViewController {
 				})
 			}
 			DispatchQueue.main.async {
-				self.cameraDelegate?.swiftyCam(self, didFinishRecordingVideo: self.currentCamera)
+				self.cameraDelegate?.swiftyCam?(self, didFinishRecordingVideo: self.currentCamera)
 			}
 		}
 	}
@@ -579,7 +579,7 @@ open class SwiftyCamViewController: UIViewController {
 
 			self.addInputs()
 			DispatchQueue.main.async {
-				self.cameraDelegate?.swiftyCam(self, didSwitchCameras: self.currentCamera)
+				self.cameraDelegate?.swiftyCam?(self, didSwitchCameras: self.currentCamera)
 			}
 
 			self.session.startRunning()
@@ -842,7 +842,7 @@ open class SwiftyCamViewController: UIViewController {
 
 					// Call delegate and return new image
 					DispatchQueue.main.async {
-						self.cameraDelegate?.swiftyCam(self, didTake: image)
+						self.cameraDelegate?.swiftyCam?(self, didTake: image)
 					}
 					completionHandler(true)
 				} else {
@@ -1051,7 +1051,7 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
 		} else {
 			//Call delegate function with the URL of the outputfile
 			DispatchQueue.main.async {
-				self.cameraDelegate?.swiftyCam(self, didFinishProcessVideoAt: outputFileURL)
+				self.cameraDelegate?.swiftyCam?(self, didFinishProcessVideoAt: outputFileURL)
 			}
 		}
 	}
@@ -1078,7 +1078,7 @@ extension SwiftyCamViewController {
 
 			// Call Delegate function with current zoom scale
 			DispatchQueue.main.async {
-				self.cameraDelegate?.swiftyCam(self, didChangeZoomLevel: self.zoomScale)
+				self.cameraDelegate?.swiftyCam?(self, didChangeZoomLevel: self.zoomScale)
 			}
 
 			captureDevice?.unlockForConfiguration()
@@ -1116,7 +1116,7 @@ extension SwiftyCamViewController {
 				//Call delegate function and pass in the location of the touch
 
 				DispatchQueue.main.async {
-					self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
+					self.cameraDelegate?.swiftyCam?(self, didFocusAtPoint: tapPoint)
 				}
 			}
 			catch {
@@ -1160,7 +1160,7 @@ extension SwiftyCamViewController {
             
             // Call Delegate function with current zoom scale
             DispatchQueue.main.async {
-                self.cameraDelegate?.swiftyCam(self, didChangeZoomLevel: self.zoomScale)
+                self.cameraDelegate?.swiftyCam?(self, didChangeZoomLevel: self.zoomScale)
             }
             
             captureDevice?.unlockForConfiguration()
