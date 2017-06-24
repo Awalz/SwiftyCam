@@ -65,7 +65,7 @@ class VideoViewController: UIViewController {
         player?.play()
     }
     
-    func cancel() {
+    @objc func cancel() {
         dismiss(animated: true, completion: nil)
     }
     
