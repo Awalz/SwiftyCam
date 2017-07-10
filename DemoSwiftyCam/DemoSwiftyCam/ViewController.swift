@@ -27,7 +27,8 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 		cameraDelegate = self
 		maximumVideoDuration = 10.0
         shouldUseDeviceOrientation = true
-
+        allowAutoRotate = true
+        audioEnabled = true
 		addButtons()
 	}
 
