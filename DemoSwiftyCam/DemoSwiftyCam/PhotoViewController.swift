@@ -45,7 +45,7 @@ class PhotoViewController: UIViewController {
 		view.addSubview(cancelButton)
 	}
 
-	func cancel() {
+    @objc func cancel() {
 		dismiss(animated: true, completion: nil)
 	}
 }
