@@ -38,9 +38,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-       // view.bringSubview(toFront: captureButton)
-        view.bringSubview(toFront: flipCameraButton)
-        view.bringSubview(toFront: flashButton)
+        captureButton.delegate = self
 	}
 
 	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {

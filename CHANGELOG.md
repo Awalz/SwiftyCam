@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 2.6.0
+- Fixed issue with crashing during video recording
+- Using storyboard subviews should no longer require calling `bringSubvviewToFront`
+- Changed demo project to use autolayout
+- Reverted Swift4 changes to new branch
+
 ## Version 2.4.0
 - Added support for no-audio video recording
 - Added `audioEnabled` property

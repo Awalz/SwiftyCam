@@ -80,7 +80,6 @@ open class SwiftyCamButton: UIButton {
     }
     
     /// UILongPressGestureRecognizer Function
-
     @objc fileprivate func LongPress(_ sender:UILongPressGestureRecognizer!)  {
         switch sender.state {
         case .began:

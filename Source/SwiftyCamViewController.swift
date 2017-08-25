@@ -255,8 +255,9 @@ open class SwiftyCamViewController: UIViewController {
 
 	override open func viewDidLoad() {
 		super.viewDidLoad()
-        view = PreviewView(frame: view.frame, videoGravity: videoGravity)
-		previewLayer = view as! PreviewView!
+        previewLayer = PreviewView(frame: view.frame, videoGravity: videoGravity)
+        view.addSubview(previewLayer)
+        view.sendSubview(toBack: previewLayer)
 
 		// Add Gesture Recognizers
         
