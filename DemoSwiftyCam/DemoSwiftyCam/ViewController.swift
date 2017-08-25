@@ -17,11 +17,12 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 import UIKit
 
 class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
-
-	var flipCameraButton: UIButton!
-	var flashButton: UIButton!
-	var captureButton: SwiftyRecordButton!
-
+    
+    @IBOutlet weak var captureButton: SwiftyRecordButton!
+    @IBOutlet weak var flipCameraButton: UIButton!
+    @IBOutlet weak var flashButton: UIButton!
+    
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		cameraDelegate = self
@@ -29,7 +30,6 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         shouldUseDeviceOrientation = true
         allowAutoRotate = true
         audioEnabled = true
-		addButtons()
 	}
 
 	override var prefersStatusBarHidden: Bool {
@@ -38,6 +38,9 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+       // view.bringSubview(toFront: captureButton)
+        view.bringSubview(toFront: flipCameraButton)
+        view.bringSubview(toFront: flashButton)
 	}
 
 	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
@@ -95,36 +98,18 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 		print(camera)
 	}
 
-	@objc private func cameraSwitchAction(_ sender: Any) {
-		switchCamera()
-	}
-
-	@objc private func toggleFlashAction(_ sender: Any) {
-		flashEnabled = !flashEnabled
-
-		if flashEnabled == true {
-			flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
-		} else {
-			flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
-		}
-	}
-
-	private func addButtons() {
-		captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0, width: 75.0, height: 75.0))
-		self.view.addSubview(captureButton)
-		captureButton.delegate = self
-
-		flipCameraButton = UIButton(frame: CGRect(x: (((view.frame.width / 2 - 37.5) / 2) - 15.0), y: view.frame.height - 74.0, width: 30.0, height: 23.0))
-		flipCameraButton.setImage(#imageLiteral(resourceName: "flipCamera"), for: UIControlState())
-		flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
-		self.view.addSubview(flipCameraButton)
-
-		let test = CGFloat((view.frame.width - (view.frame.width / 2 + 37.5)) + ((view.frame.width / 2) - 37.5) - 9.0)
-
-		flashButton = UIButton(frame: CGRect(x: test, y: view.frame.height - 77.5, width: 18.0, height: 30.0))
-		flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
-		flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
-		self.view.addSubview(flashButton)
-	}
+    @IBAction func cameraSwitchTapped(_ sender: Any) {
+        switchCamera()
+    }
+    
+    @IBAction func toggleFlashTapped(_ sender: Any) {
+        flashEnabled = !flashEnabled
+        
+        if flashEnabled == true {
+            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
+        } else {
+            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
+        }
+    }
 }
 
