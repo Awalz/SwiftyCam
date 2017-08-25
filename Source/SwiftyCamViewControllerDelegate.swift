@@ -58,12 +58,22 @@ public protocol SwiftyCamViewControllerDelegate: class {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL)
     
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController fails to record a video.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController session
+     - Parameter error: An error object that describes the problem
+     */
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFailToRecordVideo error: Error)
+    
     /**
      SwiftyCamViewControllerDelegate function called when SwiftyCamViewController switches between front or rear camera.
      
      - Parameter swiftyCam: Current SwiftyCamViewController session
      - Parameter camera: Current camera selection
      */
+    
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection)
     
@@ -107,7 +117,10 @@ public extension SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         // Optional
     }
-
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFailToRecordVideo error: Error) {
+        // Optional
+    }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
         // Optional

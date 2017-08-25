@@ -1049,6 +1049,9 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
 		}
 		if error != nil {
 			print("[SwiftyCam]: Movie file finishing error: \(error)")
+            DispatchQueue.main.async {
+                self.cameraDelegate?.swiftyCam(self, didFailToRecordVideo: error)
+            }
 		} else {
 			//Call delegate function with the URL of the outputfile
 			DispatchQueue.main.async {
