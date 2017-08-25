@@ -295,8 +295,6 @@ open class SwiftyCamViewController: UIViewController {
     // MARK: ViewDidLayoutSubviews
     
     /// ViewDidLayoutSubviews() Implementation
-    /// ViewDidLayoutSubviews() Implementation
-    
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
         
         layer.videoOrientation = orientation
@@ -631,7 +629,6 @@ open class SwiftyCamViewController: UIViewController {
 	/// Configure image quality preset
 
 	fileprivate func configureVideoPreset() {
-
 		if currentCamera == .front {
 			session.sessionPreset = videoInputPresetFromVideoQuality(quality: .high)
 		} else {
