@@ -87,12 +87,22 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 			})
 		})
 	}
+    
+    func swiftyCamDidFailToConfigure(_ swiftyCam: SwiftyCamViewController) {
+        let message = NSLocalizedString("Unable to capture media", comment: "Alert message when something goes wrong during capture session configuration")
+        let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
 
 	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+        print("Zoom level did change. Level: \(zoom)")
 		print(zoom)
 	}
 
 	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
+        print("Camera did change to \(camera.rawValue)")
+
 		print(camera)
 	}
     

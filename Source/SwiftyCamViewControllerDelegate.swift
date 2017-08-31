@@ -15,6 +15,7 @@
 
 
 import UIKit
+import AVFoundation
 
 // MARK: Public Protocol Declaration
 
@@ -95,6 +96,14 @@ public protocol SwiftyCamViewControllerDelegate: class {
      */
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController fails to confiture the session.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController
+     */
+    
+    func swiftyCamDidFailToConfigure(_ swiftyCam: SwiftyCamViewController)
 }
 
 public extension SwiftyCamViewControllerDelegate {
@@ -133,6 +142,10 @@ public extension SwiftyCamViewControllerDelegate {
 
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+        // Optional
+    }
+    
+    func swiftyCamDidFailToConfigure(_ swiftyCam: SwiftyCamViewController) {
         // Optional
     }
 }

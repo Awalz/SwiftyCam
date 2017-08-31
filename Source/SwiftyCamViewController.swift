@@ -27,13 +27,13 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Enumeration for Camera Selection
 
-	public enum CameraSelection {
+    public enum CameraSelection: String {
 
 		/// Camera on the back of the device
-		case rear
+		case rear = "rear"
 
 		/// Camera on the front of the device
-		case front
+		case front = "front"
 	}
 
 	/// Enumeration for video quality of the capture session. Corresponds to a AVCaptureSessionPreset
@@ -271,7 +271,7 @@ open class SwiftyCamViewController: UIViewController {
 
 		// Test authorization status for Camera and Micophone
 
-		switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo){
+		switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) {
 		case .authorized:
 
 			// already authorized
@@ -390,12 +390,9 @@ open class SwiftyCamViewController: UIViewController {
 				self.promptToAppSettings()
 			case .configurationFailed:
 				// Unknown Error
-				DispatchQueue.main.async(execute: { [unowned self] in
-					let message = NSLocalizedString("Unable to capture media", comment: "Alert message when something goes wrong during capture session configuration")
-					let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
-					alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
-					self.present(alertController, animated: true, completion: nil)
-				})
+                DispatchQueue.main.async {
+                    self.cameraDelegate?.swiftyCamDidFailToConfigure(self)
+                }
 			}
 		}
 	}
