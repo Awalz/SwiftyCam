@@ -482,6 +482,11 @@ open class SwiftyCamViewController: UIViewController {
 	*/
 
 	public func startVideoRecording() {
+        
+        guard sessionRunning == true else {
+            print("[SwiftyCam]: Cannot start video recoding. Capture session is not running")
+            return
+        }
 		guard let movieFileOutput = self.movieFileOutput else {
 			return
 		}
@@ -852,7 +857,7 @@ open class SwiftyCamViewController: UIViewController {
 	fileprivate func capturePhotoAsyncronously(completionHandler: @escaping(Bool) -> ()) {
         
         guard sessionRunning == true else {
-            print("[SwiftyCam]: Cannot take photo while session isn't running")
+            print("[SwiftyCam]: Cannot take photo. Capture session is not running")
             return
         }
         
