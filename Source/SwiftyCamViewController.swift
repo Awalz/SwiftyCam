@@ -242,6 +242,10 @@ open class SwiftyCamViewController: UIViewController {
 	/// Last changed orientation
 
 	fileprivate var deviceOrientation            : UIDeviceOrientation?
+    
+    /// Boolean to store when View Controller is notified session is running
+    
+    fileprivate var sessionRunning               = false
 
 	/// Disable view autorotation for forced portrait recorindg
 
@@ -291,7 +295,7 @@ open class SwiftyCamViewController: UIViewController {
 			self.configureSession()
 		}
 	}
-
+    
     // MARK: ViewDidLayoutSubviews
     
     /// ViewDidLayoutSubviews() Implementation
@@ -340,14 +344,25 @@ open class SwiftyCamViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: ViewWillAppear
+    
+    /// ViewWillAppear(_ animated:) Implementation
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(captureSessionDidStartRunning), name: .AVCaptureSessionDidStartRunning, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(captureSessionDidStopRunning),  name: .AVCaptureSessionDidStopRunning,  object: nil)
+    }
+    
+    
+    
 	// MARK: ViewDidAppear
 
 	/// ViewDidAppear(_ animated:) Implementation
-
-
 	override open func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
+        
 		// Subscribe to device rotation notifications
 
 		if shouldUseDeviceOrientation {
@@ -392,6 +407,9 @@ open class SwiftyCamViewController: UIViewController {
 
 	override open func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
+        sessionRunning = false
 
 		// If session is running, stop the session
 		if self.isSessionRunning == true {
@@ -423,6 +441,7 @@ open class SwiftyCamViewController: UIViewController {
 		guard let device = videoDevice else {
 			return
 		}
+        
 
 		if device.hasFlash == true && flashEnabled == true /* TODO: Add Support for Retina Flash and add front flash */ {
 			changeFlashSettings(device: device, mode: .on)
@@ -831,6 +850,12 @@ open class SwiftyCamViewController: UIViewController {
 	}
 
 	fileprivate func capturePhotoAsyncronously(completionHandler: @escaping(Bool) -> ()) {
+        
+        guard sessionRunning == true else {
+            print("[SwiftyCam]: Cannot take photo while session isn't running")
+            return
+        }
+        
 		if let videoConnection = photoFileOutput?.connection(withMediaType: AVMediaTypeVideo) {
 
 			photoFileOutput?.captureStillImageAsynchronously(from: videoConnection, completionHandler: {(sampleBuffer, error) in
@@ -994,6 +1019,18 @@ open class SwiftyCamViewController: UIViewController {
 
 		}
 	}
+    
+    /// Called when Notification Center registers session starts running
+    
+    @objc private func captureSessionDidStartRunning() {
+        sessionRunning = true
+    }
+    
+    /// Called when Notification Center registers session stops running
+
+    @objc private func captureSessionDidStopRunning() {
+        sessionRunning = false
+    }
 }
 
 extension SwiftyCamViewController : SwiftyCamButtonDelegate {
