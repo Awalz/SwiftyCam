@@ -104,6 +104,14 @@ public protocol SwiftyCamViewControllerDelegate: class {
      */
     
     func swiftyCamDidFailToConfigure(_ swiftyCam: SwiftyCamViewController)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController does not have access to camera or microphone.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController
+     */
+    
+    func swiftyCamNotAuthorized(_ swiftyCam: SwiftyCamViewController)
 }
 
 public extension SwiftyCamViewControllerDelegate {
@@ -146,6 +154,10 @@ public extension SwiftyCamViewControllerDelegate {
     }
     
     func swiftyCamDidFailToConfigure(_ swiftyCam: SwiftyCamViewController) {
+        // Optional
+    }
+    
+    func swiftyCamNotAuthorized(_ swiftyCam: SwiftyCamViewController) {
         // Optional
     }
 }

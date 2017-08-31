@@ -25,6 +25,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        shouldPrompToAppSettings = true
 		cameraDelegate = self
 		maximumVideoDuration = 10.0
         shouldUseDeviceOrientation = true
