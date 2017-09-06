@@ -15,6 +15,7 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 
 
 import UIKit
+import AVFoundation
 
 class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
