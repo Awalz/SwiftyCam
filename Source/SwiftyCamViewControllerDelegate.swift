@@ -24,6 +24,24 @@ import AVFoundation
 public protocol SwiftyCamViewControllerDelegate: class {
     
     /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController session did start running.
+     Photos and video capture will be enabled.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController
+     */
+    
+    func swiftyCamSessionDidStartRunning(_ swiftyCam: SwiftyCamViewController)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController session did stops running.
+     Photos and video capture will be disabled.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController
+     */
+    
+    func swiftyCamSessionDidStopRunning(_ swiftyCam: SwiftyCamViewController)
+    
+    /**
      SwiftyCamViewControllerDelegate function called when the takePhoto() function is called.
      
      - Parameter swiftyCam: Current SwiftyCamViewController session
@@ -115,6 +133,14 @@ public protocol SwiftyCamViewControllerDelegate: class {
 }
 
 public extension SwiftyCamViewControllerDelegate {
+    
+    func swiftyCamSessionDidStopRunning(_ swiftyCam: SwiftyCamViewController) {
+        // Optional
+    }
+    
+    func swiftyCamSessionDidStartRunning(_ swiftyCam: SwiftyCamViewController) {
+        // Optional
+    }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         // Optional

@@ -359,8 +359,6 @@ open class SwiftyCamViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(captureSessionDidStopRunning),  name: .AVCaptureSessionDidStopRunning,  object: nil)
     }
     
-    
-    
 	// MARK: ViewDidAppear
 
 	/// ViewDidAppear(_ animated:) Implementation
@@ -1033,12 +1031,18 @@ open class SwiftyCamViewController: UIViewController {
     
     @objc private func captureSessionDidStartRunning() {
         sessionRunning = true
+        DispatchQueue.main.async {
+            self.cameraDelegate?.swiftyCamSessionDidStartRunning(self)
+        }
     }
     
     /// Called when Notification Center registers session stops running
 
     @objc private func captureSessionDidStopRunning() {
         sessionRunning = false
+        DispatchQueue.main.async {
+            self.cameraDelegate?.swiftyCamSessionDidStopRunning(self)
+        }
     }
 }
 
