@@ -58,6 +58,20 @@ class VideoViewController: UIViewController {
         cancelButton.setImage(#imageLiteral(resourceName: "cancel"), for: UIControlState())
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         view.addSubview(cancelButton)
+        
+        
+        // Allow background audio to continue to play
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
+        } catch let error as NSError {
+            print(error)
+        }
+        
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch let error as NSError {
+            print(error)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,7 +79,7 @@ class VideoViewController: UIViewController {
         player?.play()
     }
     
-    func cancel() {
+    @objc func cancel() {
         dismiss(animated: true, completion: nil)
     }
     
