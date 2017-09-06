@@ -1016,9 +1016,13 @@ open class SwiftyCamViewController: UIViewController {
         }
 
 		do{
-			try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-			                                                with: [.duckOthers, .defaultToSpeaker])
-
+            if #available(iOS 10.0, *) {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
+                                                                with: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+            } else {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
+                                                                with: [.mixWithOthers, .allowBluetooth])
+            }
 			session.automaticallyConfiguresApplicationAudioSession = false
 		}
 		catch {
