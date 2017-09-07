@@ -237,7 +237,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// PreviewView for the capture session
 
-	var previewLayer                 : PreviewView!
+	fileprivate var previewLayer                 : PreviewView!
 
 	/// UIView for front facing flash
 
@@ -249,7 +249,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Last changed orientation
 
-	var orientation                              = Orientation()
+    fileprivate var orientation                  : Orientation = Orientation()
     
     /// Boolean to store when View Controller is notified session is running
     
