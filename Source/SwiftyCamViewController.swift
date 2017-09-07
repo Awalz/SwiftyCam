@@ -781,9 +781,6 @@ open class SwiftyCamViewController: UIViewController {
 		}
 	}
 
-	/// Orientation management
-
-
 
 	/**
 	Returns a UIImage from Image Data.

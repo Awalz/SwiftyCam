@@ -16,27 +16,33 @@
 import Foundation
 import AVFoundation
 import UIKit
+import CoreMotion
 
 
 class Orientation  {
-    private var deviceOrientation : UIDeviceOrientation?
+    
     var shouldUseDeviceOrientation: Bool  = false
-
+    
+    fileprivate var deviceOrientation : UIDeviceOrientation?
+    fileprivate let coreMotionManager = CMMotionManager()
+    
+    init() {
+        coreMotionManager.accelerometerUpdateInterval = 0.1
+    }
     
     func start() {
         self.deviceOrientation = UIDevice.current.orientation
-        NotificationCenter.default.addObserver(self, selector: #selector(didRotate),  name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        coreMotionManager.startAccelerometerUpdates(to: .main) { [weak self] (data, error) in
+            guard let data = data else {
+                return
+            }
+            self?.handleAccelerometerUpdate(data: data)
+        }
     }
   
     func stop() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        self.coreMotionManager.stopAccelerometerUpdates()
         self.deviceOrientation = nil
-    }
-    
-    @objc func didRotate() {
-        if !UIDevice.current.orientation.isFlat {
-            self.deviceOrientation = UIDevice.current.orientation
-        }
     }
     
     func getImageOrientation(forCamera: SwiftyCamViewController.CameraSelection) -> UIImageOrientation {
@@ -80,6 +86,22 @@ class Orientation  {
             return .portraitUpsideDown
         default:
             return .portrait
+        }
+    }
+    
+    private func handleAccelerometerUpdate(data: CMAccelerometerData){
+        if(abs(data.acceleration.y) < abs(data.acceleration.x)){
+            if(data.acceleration.x > 0){
+                deviceOrientation = UIDeviceOrientation.landscapeRight
+            } else {
+                deviceOrientation = UIDeviceOrientation.landscapeLeft
+            }
+        } else{
+            if(data.acceleration.y > 0){
+                deviceOrientation = UIDeviceOrientation.portraitUpsideDown
+            } else {
+                deviceOrientation = UIDeviceOrientation.portrait
+            }
         }
     }
 }
