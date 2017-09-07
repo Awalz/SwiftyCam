@@ -233,7 +233,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// PreviewView for the capture session
 
-	fileprivate var previewLayer                 : PreviewView!
+	var previewLayer                 : PreviewView!
 
 	/// UIView for front facing flash
 
@@ -245,7 +245,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Last changed orientation
 
-	fileprivate var deviceOrientation            : UIDeviceOrientation?
+	var orientation            : Orientation = DeviceOrientation()
     
     /// Boolean to store when View Controller is notified session is running
     
@@ -368,7 +368,7 @@ open class SwiftyCamViewController: UIViewController {
 		// Subscribe to device rotation notifications
 
 		if shouldUseDeviceOrientation {
-			subscribeToDeviceOrientationChangeNotifications()
+			orientation.start()
 		}
 
 		// Set background audio preference
@@ -384,7 +384,7 @@ open class SwiftyCamViewController: UIViewController {
                 
                 // Preview layer video orientation can be set only after the connection is created
                 DispatchQueue.main.async {
-                    self.previewLayer.videoPreviewLayer.connection?.videoOrientation = self.getPreviewLayerOrientation()
+                    self.previewLayer.videoPreviewLayer.connection?.videoOrientation = self.orientation.getPreviewLayerOrientation()
                 }
                 
 			case .notAuthorized:
@@ -424,7 +424,7 @@ open class SwiftyCamViewController: UIViewController {
 
 		// Unsubscribe from device rotation notifications
 		if shouldUseDeviceOrientation {
-			unsubscribeFromDeviceOrientationChangeNotifications()
+			orientation.stop()
 		}
 	}
 
@@ -519,7 +519,7 @@ open class SwiftyCamViewController: UIViewController {
 					movieFileOutputConnection?.isVideoMirrored = true
 				}
 
-				movieFileOutputConnection?.videoOrientation = self.getVideoOrientation()
+				movieFileOutputConnection?.videoOrientation = self.orientation.getVideoOrientation() ?? self.previewLayer.videoPreviewLayer.connection!.videoOrientation
 
 				// Start recording to a temporary file.
 				let outputFileName = UUID().uuidString
@@ -776,65 +776,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Orientation management
 
-	fileprivate func subscribeToDeviceOrientationChangeNotifications() {
-		self.deviceOrientation = UIDevice.current.orientation
-		NotificationCenter.default.addObserver(self, selector: #selector(deviceDidRotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-	}
 
-	fileprivate func unsubscribeFromDeviceOrientationChangeNotifications() {
-		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-		self.deviceOrientation = nil
-	}
-
-	@objc fileprivate func deviceDidRotate() {
-		if !UIDevice.current.orientation.isFlat {
-			self.deviceOrientation = UIDevice.current.orientation
-		}
-	}
-    
-    fileprivate func getPreviewLayerOrientation() -> AVCaptureVideoOrientation {
-        // Depends on layout orientation, not device orientation
-        switch UIApplication.shared.statusBarOrientation {
-        case .portrait, .unknown:
-            return AVCaptureVideoOrientation.portrait
-        case .landscapeLeft:
-            return AVCaptureVideoOrientation.landscapeLeft
-        case .landscapeRight:
-            return AVCaptureVideoOrientation.landscapeRight
-        case .portraitUpsideDown:
-            return AVCaptureVideoOrientation.portraitUpsideDown
-        }
-    }
-
-	fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
-		guard shouldUseDeviceOrientation, let deviceOrientation = self.deviceOrientation else { return previewLayer!.videoPreviewLayer.connection!.videoOrientation }
-
-		switch deviceOrientation {
-		case .landscapeLeft:
-			return .landscapeRight
-		case .landscapeRight:
-			return .landscapeLeft
-		case .portraitUpsideDown:
-			return .portraitUpsideDown
-		default:
-			return .portrait
-		}
-	}
-
-	fileprivate func getImageOrientation(forCamera: CameraSelection) -> UIImageOrientation {
-		guard shouldUseDeviceOrientation, let deviceOrientation = self.deviceOrientation else { return forCamera == .rear ? .right : .leftMirrored }
-
-		switch deviceOrientation {
-		case .landscapeLeft:
-			return forCamera == .rear ? .up : .downMirrored
-		case .landscapeRight:
-			return forCamera == .rear ? .down : .upMirrored
-		case .portraitUpsideDown:
-			return forCamera == .rear ? .left : .rightMirrored
-		default:
-			return forCamera == .rear ? .right : .leftMirrored
-		}
-	}
 
 	/**
 	Returns a UIImage from Image Data.
@@ -851,7 +793,7 @@ open class SwiftyCamViewController: UIViewController {
 		// Set proper orientation for photo
 		// If camera is currently set to front camera, flip image
 
-		let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: self.getImageOrientation(forCamera: self.currentCamera))
+		let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: self.orientation.getImageOrientation(forCamera: self.currentCamera))
 
 		return image
 	}
