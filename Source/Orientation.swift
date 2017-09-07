@@ -17,17 +17,11 @@ import Foundation
 import AVFoundation
 import UIKit
 
-protocol Orientation: class {
-    func getPreviewLayerOrientation() -> AVCaptureVideoOrientation
-    func getVideoOrientation() -> AVCaptureVideoOrientation?
-    func getImageOrientation(forCamera: SwiftyCamViewController.CameraSelection) -> UIImageOrientation
-    func start()
-    func stop()
-}
 
-class DeviceOrientation : Orientation {
-    var deviceOrientation : UIDeviceOrientation?
+class Orientation  {
+    private var deviceOrientation : UIDeviceOrientation?
     var shouldUseDeviceOrientation: Bool  = false
+
     
     func start() {
         self.deviceOrientation = UIDevice.current.orientation
