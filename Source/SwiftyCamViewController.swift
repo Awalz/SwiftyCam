@@ -503,6 +503,9 @@ open class SwiftyCamViewController: UIViewController {
 			flashView?.alpha = 0.85
 			previewLayer.addSubview(flashView!)
 		}
+        
+        //Must be fetched before on main thread
+        let previewOrientation = previewLayer.videoPreviewLayer.connection!.videoOrientation
 
 		sessionQueue.async { [unowned self] in
 			if !movieFileOutput.isRecording {
@@ -519,7 +522,7 @@ open class SwiftyCamViewController: UIViewController {
 					movieFileOutputConnection?.isVideoMirrored = true
 				}
 
-				movieFileOutputConnection?.videoOrientation = self.orientation.getVideoOrientation() ?? self.previewLayer.videoPreviewLayer.connection!.videoOrientation
+				movieFileOutputConnection?.videoOrientation = self.orientation.getVideoOrientation() ?? previewOrientation
 
 				// Start recording to a temporary file.
 				let outputFileName = UUID().uuidString
