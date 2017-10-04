@@ -157,7 +157,10 @@ open class SwiftyCamViewController: UIViewController {
     /// Sets whether or not video recordings will record audio
     /// Setting to true will prompt user for access to microphone on View Controller launch.
     public var audioEnabled                   = true
-    
+
+  /// Set video mirror for front camera
+  public var frontCameraMirrored               = true
+
     /// Public access to Pinch Gesture
     fileprivate(set) public var pinchGesture  : UIPinchGestureRecognizer!
     
@@ -488,9 +491,9 @@ open class SwiftyCamViewController: UIViewController {
 				let movieFileOutputConnection = self.movieFileOutput?.connection(withMediaType: AVMediaTypeVideo)
 
 
-				//flip video output if front facing camera is selected
+				// set isVideoMirrored if front facing camera is selected
 				if self.currentCamera == .front {
-					movieFileOutputConnection?.isVideoMirrored = true
+					movieFileOutputConnection?.isVideoMirrored = self.frontCameraMirrored
 				}
 
 				movieFileOutputConnection?.videoOrientation = self.getVideoOrientation()
