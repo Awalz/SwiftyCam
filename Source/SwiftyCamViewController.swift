@@ -317,38 +317,11 @@ open class SwiftyCamViewController: UIViewController {
 
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        if let connection =  self.previewLayer?.videoPreviewLayer.connection  {
-
-            let currentDevice: UIDevice = UIDevice.current
-
-            let orientation: UIDeviceOrientation = currentDevice.orientation
-
-            let previewLayerConnection : AVCaptureConnection = connection
-
+        
+        if let previewLayerConnection =  self.previewLayer?.videoPreviewLayer.connection  {
+            let orientation = self.orientation.getPreviewLayerOrientation()
             if previewLayerConnection.isVideoOrientationSupported {
-
-                switch (orientation) {
-                case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-
-                    break
-
-                case .landscapeRight: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeLeft)
-
-                    break
-
-                case .landscapeLeft: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeRight)
-
-                    break
-
-                case .portraitUpsideDown: updatePreviewLayer(layer: previewLayerConnection, orientation: .portraitUpsideDown)
-
-                    break
-
-                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-
-                    break
-                }
+                updatePreviewLayer(layer: previewLayerConnection, orientation: orientation)
             }
         }
     }
@@ -448,7 +421,9 @@ open class SwiftyCamViewController: UIViewController {
 			return
 		}
 
-
+        DispatchQueue.main.async {
+            self.cameraDelegate?.swiftyCamWillTakePhoto(self)
+        }
 		if device.hasFlash == true && flashEnabled == true /* TODO: Add Support for Retina Flash and add front flash */ {
 			changeFlashSettings(device: device, mode: .on)
 			capturePhotoAsyncronously(completionHandler: { (_) in })

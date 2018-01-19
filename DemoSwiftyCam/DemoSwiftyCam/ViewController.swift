@@ -103,6 +103,10 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFailToRecordVideo error: Error) {
         print(error)
     }
+    
+    func swiftyCamWillTakePhoto(_ swiftyCam: SwiftyCamViewController) {
+        print("Camera will take photo.")
+    }
 
     @IBAction func cameraSwitchTapped(_ sender: Any) {
         switchCamera()

@@ -68,6 +68,15 @@ public protocol SwiftyCamViewControllerDelegate: class {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection)
     
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController will take photo.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController session
+     */
+    
+    func swiftyCamWillTakePhoto(_ swiftyCam: SwiftyCamViewController)
+    
     /**
      SwiftyCamViewControllerDelegate function called when SwiftyCamViewController is done processing video.
      
@@ -134,6 +143,10 @@ public protocol SwiftyCamViewControllerDelegate: class {
 
 public extension SwiftyCamViewControllerDelegate {
     
+    func swiftyCamWillTakePhoto(_ swiftyCam: SwiftyCamViewController) {
+        // Optional
+    }
+
     func swiftyCamSessionDidStopRunning(_ swiftyCam: SwiftyCamViewController) {
         // Optional
     }
