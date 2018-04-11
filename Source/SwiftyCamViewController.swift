@@ -1,4 +1,4 @@
-/*Copyright (c) 2016, Andrew Walz.
+ /*Copyright (c) 2016, Andrew Walz.
 
 Redistribution and use in source and binary forms, with or without modification,are permitted provided that the following conditions are met:
 
@@ -35,6 +35,18 @@ open class SwiftyCamViewController: UIViewController {
 		/// Camera on the front of the device
 		case front
 	}
+    
+    public enum FlashMode{
+        
+        //Flash mode is set to auto
+        case auto
+        
+        //Flash mode is set to on
+        case on
+        
+        //Flash mode is set to off
+        case off
+    }
 
 	/// Enumeration for video quality of the capture session. Corresponds to a AVCaptureSessionPreset
 
@@ -102,8 +114,11 @@ open class SwiftyCamViewController: UIViewController {
 	public var videoQuality : VideoQuality       = .high
 
 	/// Sets whether flash is enabled for photo and video capture
-
+    @available(*, deprecated, message: "use flashMode .on or .off") //use flashMode
 	public var flashEnabled                      = false
+    
+    // Flash Mode
+    public var flashMode:FlashMode               = .off
 
 	/// Sets whether Pinch to Zoom is enabled for the capture session
 
@@ -424,31 +439,32 @@ open class SwiftyCamViewController: UIViewController {
 			return
 		}
 
-		if device.hasFlash == true && flashEnabled == true /* TODO: Add Support for Retina Flash and add front flash */ {
-			changeFlashSettings(device: device, mode: .on)
+		if device.hasFlash == true && flashMode != .off /* TODO: Add Support for Retina Flash and add front flash */ {
+			changeFlashSettings(device: device, mode: flashMode)
 			capturePhotoAsyncronously(completionHandler: { (_) in })
 
-		} else if device.hasFlash == false && flashEnabled == true && currentCamera == .front {
-			flashView = UIView(frame: view.frame)
-			flashView?.alpha = 0.0
-			flashView?.backgroundColor = UIColor.white
-			previewLayer.addSubview(flashView!)
-
-			UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
-				self.flashView?.alpha = 1.0
-
-			}, completion: { (_) in
-				self.capturePhotoAsyncronously(completionHandler: { (success) in
-					UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
-						self.flashView?.alpha = 0.0
-					}, completion: { (_) in
-						self.flashView?.removeFromSuperview()
-					})
-				})
-			})
-		} else {
+//        } else if device.hasFlash == false && flashMode == .on && currentCamera == .front {
+//            flashView = UIView(frame: view.frame)
+//            flashView?.alpha = 0.0
+//            flashView?.backgroundColor = UIColor.white
+//            previewLayer.addSubview(flashView!)
+//
+//            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+//                self.flashView?.alpha = 1.0
+//
+//            }, completion: { (_) in
+//                self.capturePhotoAsyncronously(completionHandler: { (success) in
+//                    UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+//                        self.flashView?.alpha = 0.0
+//                    }, completion: { (_) in
+//                        self.flashView?.removeFromSuperview()
+//                    })
+//                })
+//            })
+//        } else {
+        }else{
 			if device.isFlashActive == true {
-				changeFlashSettings(device: device, mode: .off)
+				changeFlashSettings(device: device, mode: flashMode)
 			}
 			capturePhotoAsyncronously(completionHandler: { (_) in })
 		}
@@ -467,11 +483,11 @@ open class SwiftyCamViewController: UIViewController {
 			return
 		}
 
-		if currentCamera == .rear && flashEnabled == true {
+		if currentCamera == .rear && flashMode == .on {
 			enableFlash()
 		}
 
-		if currentCamera == .front && flashEnabled == true {
+		if currentCamera == .front && flashMode == .on  {
 			flashView = UIView(frame: view.frame)
 			flashView?.backgroundColor = UIColor.white
 			flashView?.alpha = 0.85
@@ -526,7 +542,7 @@ open class SwiftyCamViewController: UIViewController {
 			movieFileOutput!.stopRecording()
 			disableFlash()
 
-			if currentCamera == .front && flashEnabled == true && flashView != nil {
+			if currentCamera == .front && flashMode == .on && flashView != nil {
 				UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
 					self.flashView?.alpha = 0.0
 				}, completion: { (_) in
@@ -915,9 +931,19 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Enable or disable flash for photo
 
-	fileprivate func changeFlashSettings(device: AVCaptureDevice, mode: AVCaptureFlashMode) {
+	fileprivate func changeFlashSettings(device: AVCaptureDevice, mode: FlashMode) {
 		do {
 			try device.lockForConfiguration()
+            let mode:AVCaptureFlashMode
+            switch flashMode{
+            case .on:
+                mode = .on
+            case .off:
+                mode = .off
+            case .auto:
+                mode = .auto
+                
+            }
 			device.flashMode = mode
 			device.unlockForConfiguration()
 		} catch {

@@ -30,6 +30,8 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         shouldUseDeviceOrientation = true
         allowAutoRotate = true
         audioEnabled = true
+        flashMode = .auto
+        flashButton.setImage(#imageLiteral(resourceName: "flashauto"), for: UIControlState())
 	}
 
 	override var prefersStatusBarHidden: Bool {
@@ -105,12 +107,16 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     }
     
     @IBAction func toggleFlashTapped(_ sender: Any) {
-        flashEnabled = !flashEnabled
-        
-        if flashEnabled == true {
+        //flashEnabled = !flashEnabled
+        if flashMode == .auto{
+            flashMode = .on
             flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
-        } else {
+        }else if flashMode == .on{
+            flashMode = .off
             flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
+        }else if flashMode == .off{
+            flashMode = .auto
+            flashButton.setImage(#imageLiteral(resourceName: "flashauto"), for: UIControlState())
         }
     }
 }
