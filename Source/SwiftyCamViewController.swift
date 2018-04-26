@@ -298,10 +298,7 @@ open class SwiftyCamViewController: UIViewController {
     /// ViewDidLayoutSubviews() Implementation
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
         
-        layer.videoOrientation = orientation
-        
-        previewLayer.frame = self.view.bounds
-        
+        layer.videoOrientation = orientation        
     }
     
     override open func viewDidLayoutSubviews() {
@@ -338,8 +335,9 @@ open class SwiftyCamViewController: UIViewController {
                 
                     break
                 }
-            }
+            } 
         }
+	previewLayer.frame = self.view.bounds
     }
 	// MARK: ViewDidAppear
 
