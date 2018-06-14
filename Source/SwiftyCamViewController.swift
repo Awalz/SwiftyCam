@@ -554,7 +554,7 @@ open class SwiftyCamViewController: UIViewController {
 	*/
 
 	public func stopVideoRecording() {
-		if self.movieFileOutput?.isRecording == true {
+		if self.isVideoRecording == true {
 			self.isVideoRecording = false
 			movieFileOutput!.stopRecording()
 			disableFlash()
