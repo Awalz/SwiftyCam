@@ -158,6 +158,8 @@ open class SwiftyCamViewController: UIViewController {
     /// Setting to true will prompt user for access to microphone on View Controller launch.
     public var audioEnabled                   = true
     
+    public var usePermissionAlert             = true
+    
     /// Public access to Pinch Gesture
     fileprivate(set) public var pinchGesture  : UIPinchGestureRecognizer!
     
@@ -206,6 +208,31 @@ open class SwiftyCamViewController: UIViewController {
 	/// Variable to store result of capture session setup
 
 	fileprivate var setupResult                  = SessionSetupResult.success
+    
+    fileprivate lazy var permissionErrorLabel    : UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "Please enable this app's\ncamera permissions."
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
+        return label
+    }()
+    
+    fileprivate lazy var permissionErrorButton   : UIButton = {
+        let button = UIButton()
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitle("Open Settings", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 1
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
+        button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
+        return button
+    }()
 
 	/// BackgroundID variable for video recording
 
@@ -259,6 +286,21 @@ open class SwiftyCamViewController: UIViewController {
         previewLayer.center = view.center
         view.addSubview(previewLayer)
         view.sendSubview(toBack: previewLayer)
+        
+        // adds error label and button if camera permissions are denied
+        view.addSubview(permissionErrorLabel)
+        view.addSubview(permissionErrorButton)
+        
+        // centers error label and button
+        NSLayoutConstraint.activate([permissionErrorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     permissionErrorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                                     permissionErrorLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
+                                     permissionErrorLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+                                     permissionErrorLabel.heightAnchor.constraint(equalToConstant: 50),
+                                     permissionErrorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     permissionErrorButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 55),
+                                     permissionErrorButton.heightAnchor.constraint(equalToConstant: 30),
+                                     permissionErrorButton.widthAnchor.constraint(equalToConstant: 150)])
 
 		// Add Gesture Recognizers
         
@@ -855,25 +897,37 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Handle Denied App Privacy Settings
 
-	fileprivate func promptToAppSettings() {
-		// prompt User with UIAlertView
-
-		DispatchQueue.main.async(execute: { [unowned self] in
-			let message = NSLocalizedString("AVCam doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
-			let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
-				if #available(iOS 10.0, *) {
-					UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
-				} else {
-					if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
-						UIApplication.shared.openURL(appSettings)
-					}
-				}
-			}))
-			self.present(alertController, animated: true, completion: nil)
-		})
-	}
+    fileprivate func promptToAppSettings() {
+        if usePermissionAlert {
+            // prompt User with UIAlertView
+            
+            DispatchQueue.main.async(execute: { [unowned self] in
+                let message = NSLocalizedString("AVCam doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
+                let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
+                self.openSettings()
+                }))
+                self.present(alertController, animated: true, completion: nil)
+            })
+        } else {
+            DispatchQueue.main.async {
+                self.permissionErrorLabel.isHidden = false
+                self.permissionErrorButton.isHidden = false
+            }
+        }
+        
+    }
+    
+    func openSettings() {
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+        } else {
+            if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.openURL(appSettings)
+            }
+        }
+    }
 
 	/**
 	Returns an AVCapturePreset from VideoQuality Enumeration
