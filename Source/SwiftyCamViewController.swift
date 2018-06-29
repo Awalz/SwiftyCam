@@ -275,6 +275,12 @@ open class SwiftyCamViewController: UIViewController {
 	override open var shouldAutorotate: Bool {
 		return allowAutoRotate
 	}
+    
+    // makes camera full screen, no bleed or borders
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.videoGravity = .resizeAspectFill
+    }
 
 	// MARK: ViewDidLoad
 
@@ -437,19 +443,19 @@ open class SwiftyCamViewController: UIViewController {
 		super.viewDidDisappear(animated)
 
 		// If session is running, stop the session
-		if self.isSessionRunning == true {
-			self.session.stopRunning()
-			self.isSessionRunning = false
-		}
+//        if self.isSessionRunning == true {
+//            self.session.stopRunning()
+//            self.isSessionRunning = false
+//        }
 
 		//Disble flash if it is currently enabled
 		disableFlash()
 
 		// Unsubscribe from device rotation notifications
-		if shouldUseDeviceOrientation {
-			unsubscribeFromDeviceOrientationChangeNotifications()
-		}
-	}
+//        if shouldUseDeviceOrientation {
+//            unsubscribeFromDeviceOrientationChangeNotifications()
+//        }
+//    }
 
 	// MARK: Public Functions
 
