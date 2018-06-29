@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.name             = 'SwiftyCam'
   s.version          = '2.7.0'
   s.summary          = 'A Simple, Snapchat inspired camera Framework written in Swift'
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
 
 
 # This description is used to generate tags and improve search results.
@@ -30,7 +30,7 @@ A drop in Camera View Controller for capturing photos and videos from one AVSess
   s.source           = { :git => 'https://github.com/Awalz/SwiftyCam.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
 
   s.source_files = 'Source/**/*'
 
