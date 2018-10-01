@@ -574,7 +574,7 @@ open class SwiftyCamViewController: UIViewController {
 			// remove and re-add inputs and outputs
 
 			for input in self.session.inputs {
-				self.session.removeInput(input as! AVCaptureInput)
+                self.session.removeInput(input as? AVCaptureInput)
 			}
 
 			self.addInputs()
