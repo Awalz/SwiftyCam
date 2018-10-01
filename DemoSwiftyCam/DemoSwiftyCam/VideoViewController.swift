@@ -49,13 +49,13 @@ class VideoViewController: UIViewController {
         playerController!.showsPlaybackControls = false
         
         playerController!.player = player!
-        self.addChildViewController(playerController!)
+        self.addChild(playerController!)
         self.view.addSubview(playerController!.view)
         playerController!.view.frame = view.frame
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player!.currentItem)
         
         let cancelButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: 30.0, height: 30.0))
-        cancelButton.setImage(#imageLiteral(resourceName: "cancel"), for: UIControlState())
+        cancelButton.setImage(#imageLiteral(resourceName: "cancel"), for: UIControl.State())
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         view.addSubview(cancelButton)
     }
@@ -65,13 +65,13 @@ class VideoViewController: UIViewController {
         player?.play()
     }
     
-    func cancel() {
+    @objc func cancel() {
         dismiss(animated: true, completion: nil)
     }
     
     @objc fileprivate func playerItemDidReachEnd(_ notification: Notification) {
         if self.player != nil {
-            self.player!.seek(to: kCMTimeZero)
+            self.player!.seek(to: CMTime.zero)
             self.player!.play()
         }
     }
