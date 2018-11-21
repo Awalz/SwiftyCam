@@ -2,7 +2,7 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat" alt="Platform: iOS 8+"/>
-    <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/language-swift%203-4BC51D.svg?style=flat" alt="Language: Swift 3" /></a>
+    <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/language-swift%204.2-4BC51D.svg?style=flat" alt="Language: Swift 4.2" /></a>
     <a href="https://cocoapods.org/pods/SwiftyCam"><img src="https://img.shields.io/cocoapods/v/SwiftyCam.svg?style=flat" alt="CocoaPods compatible" /></a>
     <img src="http://img.shields.io/badge/license-BSD-lightgrey.svg?style=flat" alt="License: BSD" /> <br><br>
 </p>
@@ -37,7 +37,7 @@ Configuring a Camera View Controller in AVFoundation can be tedious and time con
 ## Requirements
 
 * iOS 8.0+
-* Swift 3.0+
+* Swift 4.2+
 
 ## License
 
