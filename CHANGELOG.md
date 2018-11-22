@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 3.0.0
+- Swift 4.2 support
+
 ## Version 2.6.0
 - Fixed issue with crashing during video recording
 - Using storyboard subviews should no longer require calling `bringSubvviewToFront`
