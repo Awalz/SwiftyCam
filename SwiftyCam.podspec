@@ -8,16 +8,10 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftyCam'
-  s.version          = '2.4.0'
+  s.version          = '3.0.0'
   s.summary          = 'A Simple, Snapchat inspired camera Framework written in Swift'
   s.ios.deployment_target = '8.0'
-
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+  s.swift_version = '4.2'
 
 s.description      = <<-DESC
 A drop in Camera View Controller for capturing photos and videos from one AVSession. Written in Swift.
@@ -33,12 +27,4 @@ A drop in Camera View Controller for capturing photos and videos from one AVSess
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'Source/**/*'
-
-  # s.resource_bundles = {
-  #   'SwiftyCam' => ['SwiftyCam/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end

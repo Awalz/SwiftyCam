@@ -36,16 +36,16 @@ class PhotoViewController: UIViewController {
 		super.viewDidLoad()
 		self.view.backgroundColor = UIColor.gray
 		let backgroundImageView = UIImageView(frame: view.frame)
-		backgroundImageView.contentMode = UIViewContentMode.scaleAspectFit
+		backgroundImageView.contentMode = UIView.ContentMode.scaleAspectFit
 		backgroundImageView.image = backgroundImage
 		view.addSubview(backgroundImageView)
 		let cancelButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: 30.0, height: 30.0))
-		cancelButton.setImage(#imageLiteral(resourceName: "cancel"), for: UIControlState())
+		cancelButton.setImage(#imageLiteral(resourceName: "cancel"), for: UIControl.State())
 		cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
 		view.addSubview(cancelButton)
 	}
 
-	func cancel() {
+	@objc func cancel() {
 		dismiss(animated: true, completion: nil)
 	}
 }

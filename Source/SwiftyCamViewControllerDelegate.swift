@@ -15,12 +15,31 @@
 
 
 import UIKit
+import AVFoundation
 
 // MARK: Public Protocol Declaration
 
 /// Delegate for SwiftyCamViewController
 
 public protocol SwiftyCamViewControllerDelegate: class {
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController session did start running.
+     Photos and video capture will be enabled.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController
+     */
+    
+    func swiftyCamSessionDidStartRunning(_ swiftyCam: SwiftyCamViewController)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController session did stops running.
+     Photos and video capture will be disabled.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController
+     */
+    
+    func swiftyCamSessionDidStopRunning(_ swiftyCam: SwiftyCamViewController)
     
     /**
      SwiftyCamViewControllerDelegate function called when the takePhoto() function is called.
@@ -58,12 +77,22 @@ public protocol SwiftyCamViewControllerDelegate: class {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL)
     
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController fails to record a video.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController session
+     - Parameter error: An error object that describes the problem
+     */
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFailToRecordVideo error: Error)
+    
     /**
      SwiftyCamViewControllerDelegate function called when SwiftyCamViewController switches between front or rear camera.
      
      - Parameter swiftyCam: Current SwiftyCamViewController session
      - Parameter camera: Current camera selection
      */
+    
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection)
     
@@ -85,9 +114,33 @@ public protocol SwiftyCamViewControllerDelegate: class {
      */
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController fails to confiture the session.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController
+     */
+    
+    func swiftyCamDidFailToConfigure(_ swiftyCam: SwiftyCamViewController)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController does not have access to camera or microphone.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController
+     */
+    
+    func swiftyCamNotAuthorized(_ swiftyCam: SwiftyCamViewController)
 }
 
 public extension SwiftyCamViewControllerDelegate {
+    
+    func swiftyCamSessionDidStopRunning(_ swiftyCam: SwiftyCamViewController) {
+        // Optional
+    }
+    
+    func swiftyCamSessionDidStartRunning(_ swiftyCam: SwiftyCamViewController) {
+        // Optional
+    }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         // Optional
@@ -107,7 +160,10 @@ public extension SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         // Optional
     }
-
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFailToRecordVideo error: Error) {
+        // Optional
+    }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
         // Optional
@@ -120,6 +176,14 @@ public extension SwiftyCamViewControllerDelegate {
 
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+        // Optional
+    }
+    
+    func swiftyCamDidFailToConfigure(_ swiftyCam: SwiftyCamViewController) {
+        // Optional
+    }
+    
+    func swiftyCamNotAuthorized(_ swiftyCam: SwiftyCamViewController) {
         // Optional
     }
 }
