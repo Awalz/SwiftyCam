@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Version 3.0.1
+## Master
 - Fixes an issue when Record button isn't getting correct callbacks
 
 ## Version 3.0.0
