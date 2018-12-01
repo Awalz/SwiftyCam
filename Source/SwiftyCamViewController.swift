@@ -166,6 +166,9 @@ open class SwiftyCamViewController: UIViewController {
     /// If set to false, delegate function will be called to handle exception
     public var shouldPrompToAppSettings       = true
 
+    /// Video will be recorded to this folder
+    public var outputFolder: String           = NSTemporaryDirectory()
+    
     /// Public access to Pinch Gesture
     fileprivate(set) public var pinchGesture  : UIPinchGestureRecognizer!
 
@@ -531,7 +534,7 @@ open class SwiftyCamViewController: UIViewController {
 
 				// Start recording to a temporary file.
 				let outputFileName = UUID().uuidString
-				let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
+				let outputFilePath = (self.outputFolder as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
 				movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
 				self.isVideoRecording = true
 				DispatchQueue.main.async {
