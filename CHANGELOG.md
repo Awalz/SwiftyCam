@@ -2,6 +2,7 @@
 
 ## Master
 - Fixes an issue when Record button isn't getting correct callbacks
+- Fixes an when didFinishRecordingVideo wouldn't get a callback
 
 ## Version 3.0.0
 - Swift 4.2 support
