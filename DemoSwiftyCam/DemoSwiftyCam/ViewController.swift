@@ -31,8 +31,8 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         shouldUseDeviceOrientation = true
         allowAutoRotate = true
         audioEnabled = true
-        
-        // disable capture button until session starts
+        flashMode = .auto
+        flashButton.setImage(#imageLiteral(resourceName: "flashauto"), for: UIControlState())
         captureButton.buttonEnabled = false
 	}
 
@@ -109,7 +109,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     }
     
     @IBAction func toggleFlashTapped(_ sender: Any) {
-        flashEnabled = !flashEnabled
+        //flashEnabled = !flashEnabled
         toggleFlashAnimation()
     }
 }
@@ -152,10 +152,16 @@ extension ViewController {
     }
     
     fileprivate func toggleFlashAnimation() {
-        if flashEnabled == true {
-            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControl.State())
-        } else {
-            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControl.State())
+        //flashEnabled = !flashEnabled
+        if flashMode == .auto{
+            flashMode = .on
+            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
+        }else if flashMode == .on{
+            flashMode = .off
+            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
+        }else if flashMode == .off{
+            flashMode = .auto
+            flashButton.setImage(#imageLiteral(resourceName: "flashauto"), for: UIControlState())
         }
     }
 }
