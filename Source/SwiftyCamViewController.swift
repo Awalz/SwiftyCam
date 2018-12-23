@@ -37,7 +37,17 @@ open class SwiftyCamViewController: UIViewController {
 	}
     
     public enum FlashMode{
-        
+        //Return the equivalent AVCaptureDevice.FlashMode
+        var AVFlashMode: AVCaptureDevice.FlashMode {
+            switch self {
+                case .on:
+                    return .on
+                case .off:
+                    return .off
+                case .auto:
+                    return .auto
+            }
+        }
         //Flash mode is set to auto
         case auto
         
@@ -115,7 +125,11 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Sets whether flash is enabled for photo and video capture
     @available(*, deprecated, message: "use flashMode .on or .off") //use flashMode
-	public var flashEnabled                      = false
+    public var flashEnabled: Bool {
+        didSet{
+            self.flashMode = self.flashEnabled ? .on : .off
+        }
+    }
     
     // Flash Mode
     public var flashMode:FlashMode               = .off
@@ -915,17 +929,7 @@ open class SwiftyCamViewController: UIViewController {
 fileprivate func changeFlashSettings(device: AVCaptureDevice, mode: FlashMode) {
 		do {
 			try device.lockForConfiguration()
-            let mode:AVCaptureDevice.FlashMode
-            switch flashMode{
-            case .on:
-                mode = .on
-            case .off:
-                mode = .off
-            case .auto:
-                mode = .auto
-                
-            }
-			device.flashMode = mode
+			device.flashMode = mode.AVFlashMode
 			device.unlockForConfiguration()
 		} catch {
 			print("[SwiftyCam]: \(error)")
