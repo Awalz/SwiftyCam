@@ -125,7 +125,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Sets whether flash is enabled for photo and video capture
     @available(*, deprecated, message: "use flashMode .on or .off") //use flashMode
-    public var flashEnabled: Bool {
+    public var flashEnabled: Bool = false {
         didSet{
             self.flashMode = self.flashEnabled ? .on : .off
         }
@@ -292,6 +292,10 @@ open class SwiftyCamViewController: UIViewController {
 	override open var shouldAutorotate: Bool {
 		return allowAutoRotate
 	}
+
+	/// Sets output video codec
+    
+    public var videoCodecType: AVVideoCodecType? = nil
 
 	// MARK: ViewDidLoad
 
@@ -781,6 +785,15 @@ open class SwiftyCamViewController: UIViewController {
 				if connection.isVideoStabilizationSupported {
 					connection.preferredVideoStabilizationMode = .auto
 				}
+
+				if #available(iOS 11.0, *) {
+                    if let videoCodecType = videoCodecType {
+                        if movieFileOutput.availableVideoCodecTypes.contains(videoCodecType) == true {
+                            // Use the H.264 codec to encode the video.
+                            movieFileOutput.setOutputSettings([AVVideoCodecKey: videoCodecType], for: connection)
+                        }
+                    }
+                }
 			}
 			self.movieFileOutput = movieFileOutput
 		}
