@@ -32,7 +32,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         allowAutoRotate = true
         audioEnabled = true
         flashMode = .auto
-        flashButton.setImage(#imageLiteral(resourceName: "flashauto"), for: UIControlState())
+        flashButton.setImage(#imageLiteral(resourceName: "flashauto"), for: UIControl.State())
         captureButton.buttonEnabled = false
 	}
 
@@ -155,13 +155,13 @@ extension ViewController {
         //flashEnabled = !flashEnabled
         if flashMode == .auto{
             flashMode = .on
-            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControl.State())
         }else if flashMode == .on{
             flashMode = .off
-            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControl.State())
         }else if flashMode == .off{
             flashMode = .auto
-            flashButton.setImage(#imageLiteral(resourceName: "flashauto"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "flashauto"), for: UIControl.State())
         }
     }
 }
