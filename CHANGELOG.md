@@ -1,8 +1,11 @@
 # CHANGELOG
 
 ## Master
+
+## Version 4.0.0
 - Fixes an issue when Record button isn't getting correct callbacks
 - Fixes an when didFinishRecordingVideo wouldn't get a callback
+- Using allowAutoRotate=false prevents layer from rotating. 
 
 ## Version 3.0.0
 - Swift 4.2 support

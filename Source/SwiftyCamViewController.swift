@@ -346,8 +346,12 @@ open class SwiftyCamViewController: UIViewController {
     /// ViewDidLayoutSubviews() Implementation
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
 
-        layer.videoOrientation = orientation
-
+        if(shouldAutorotate){
+            layer.videoOrientation = orientation
+        } else {
+            layer.videoOrientation = .portrait
+        }
+        
         previewLayer.frame = self.view.bounds
 
     }
