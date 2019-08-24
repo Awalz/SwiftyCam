@@ -304,7 +304,7 @@ open class SwiftyCamViewController: UIViewController {
         previewLayer = PreviewView(frame: view.frame, videoGravity: videoGravity)
         previewLayer.center = view.center
         view.addSubview(previewLayer)
-        view.sendSubview(toBack: previewLayer)
+        view.sendSubviewToBack(previewLayer)
 
         // adds error label and button if camera permissions are denied
         view.addSubview(permissionErrorLabel)
@@ -941,9 +941,9 @@ extension SwiftyCamViewController {
     
     @objc func openSettings() {
         if #available(iOS 10.0, *) {
-            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+            UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
         } else {
-            if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.openURL(appSettings)
             }
         }
@@ -1063,9 +1063,10 @@ extension SwiftyCamViewController {
         }
         
         do{
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-                                                            with: [.duckOthers, .defaultToSpeaker])
-            
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, options: [
+                .duckOthers,
+                .defaultToSpeaker
+            ])
             session.automaticallyConfiguresApplicationAudioSession = false
         }
         catch {
@@ -1083,9 +1084,9 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
 
     public func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         if let currentBackgroundRecordingID = backgroundRecordingID {
-            backgroundRecordingID = UIBackgroundTaskInvalid
+            backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
 
-            if currentBackgroundRecordingID != UIBackgroundTaskInvalid {
+            if currentBackgroundRecordingID != UIBackgroundTaskIdentifier.invalid {
                 UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
             }
         }

@@ -153,9 +153,9 @@ extension ViewController {
     
     fileprivate func toggleFlashAnimation() {
         if flashEnabled == true {
-            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControl.State())
         } else {
-            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControl.State())
         }
     }
 }
