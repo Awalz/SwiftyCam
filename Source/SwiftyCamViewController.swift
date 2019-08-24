@@ -311,15 +311,23 @@ open class SwiftyCamViewController: UIViewController {
         view.addSubview(permissionErrorButton)
 
         // centers error label and button
-        NSLayoutConstraint.activate([permissionErrorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                                     permissionErrorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                                     permissionErrorLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
-                                     permissionErrorLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
-                                     permissionErrorLabel.heightAnchor.constraint(equalToConstant: 50),
-                                     permissionErrorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                                     permissionErrorButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 55),
-                                     permissionErrorButton.heightAnchor.constraint(equalToConstant: 30),
-                                     permissionErrorButton.widthAnchor.constraint(equalToConstant: 150)])
+        if #available(iOS 9.0, *) {
+            NSLayoutConstraint.activate(
+                [
+                    permissionErrorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    permissionErrorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                    permissionErrorLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
+                    permissionErrorLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+                    permissionErrorLabel.heightAnchor.constraint(equalToConstant: 50),
+                    permissionErrorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    permissionErrorButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 55),
+                    permissionErrorButton.heightAnchor.constraint(equalToConstant: 30),
+                    permissionErrorButton.widthAnchor.constraint(equalToConstant: 150)
+                ]
+            )
+        } else {
+            // Fallback on earlier versions
+        }
 
         // Add Gesture Recognizers
 
