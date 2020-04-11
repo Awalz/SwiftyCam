@@ -356,9 +356,7 @@ open class SwiftyCamViewController: UIViewController {
 
     }
 
-    override open func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
+    private func updatePreviewLayer() {
         if let connection =  self.previewLayer?.videoPreviewLayer.connection  {
 
             let currentDevice: UIDevice = UIDevice.current
@@ -392,6 +390,11 @@ open class SwiftyCamViewController: UIViewController {
                 }
             }
         }
+    }
+
+    override open func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updatePreviewLayer()
     }
 
     // MARK: ViewWillAppear
@@ -430,6 +433,7 @@ open class SwiftyCamViewController: UIViewController {
                 // Preview layer video orientation can be set only after the connection is created
                 DispatchQueue.main.async {
                     self.previewLayer.videoPreviewLayer.connection?.videoOrientation = self.orientation.getPreviewLayerOrientation()
+                    self.updatePreviewLayer()
                 }
 
 			case .notAuthorized:
