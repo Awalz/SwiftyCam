@@ -433,7 +433,7 @@ open class SwiftyCamViewController: UIViewController {
                 // Preview layer video orientation can be set only after the connection is created
                 DispatchQueue.main.async {
                     self.previewLayer.videoPreviewLayer.connection?.videoOrientation = self.orientation.getPreviewLayerOrientation()
-                    updatePreviewLayer()
+                    self.updatePreviewLayer()
                 }
 
 			case .notAuthorized:
