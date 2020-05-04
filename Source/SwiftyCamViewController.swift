@@ -493,9 +493,11 @@ open class SwiftyCamViewController: UIViewController {
             changeFlashSettings(device: device, mode: flashMode)
 			capturePhotoAsyncronously(completionHandler: { (_) in })
         }else{
-			if device.isFlashActive == true {
-				changeFlashSettings(device: device, mode: flashMode)
-			}
+			#if !targetEnvironment(macCatalyst)
+				if device.isFlashActive == true {
+					changeFlashSettings(device: device, mode: flashMode)
+				}
+			#endif
 			capturePhotoAsyncronously(completionHandler: { (_) in })
 		}
 	}

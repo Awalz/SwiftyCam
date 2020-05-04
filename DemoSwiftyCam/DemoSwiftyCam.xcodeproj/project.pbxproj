@@ -33,6 +33,7 @@
 		05D2A9B41E80BE9700B479E9 /* SwiftyCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		05D2A9B61E80BE9700B479E9 /* SwiftyCam-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftyCam-iOS.h"; sourceTree = "<group>"; };
 		05D2A9B71E80BE9700B479E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05F167CA245F957E006FCC8A /* DemoSwiftyCam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DemoSwiftyCam.entitlements; sourceTree = "<group>"; };
 		16298B551E2703DC0056D413 /* SwiftyRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyRecordButton.swift; sourceTree = "<group>"; };
 		1675A9721E00A68300B80903 /* DemoSwiftyCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoSwiftyCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1675A9751E00A68300B80903 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 		1675A9741E00A68300B80903 /* DemoSwiftyCam */ = {
 			isa = PBXGroup;
 			children = (
+				05F167CA245F957E006FCC8A /* DemoSwiftyCam.entitlements */,
 				1675A9911E00A74F00B80903 /* Source */,
 				1675A9751E00A68300B80903 /* AppDelegate.swift */,
 				1675A9771E00A68300B80903 /* ViewController.swift */,
@@ -200,6 +202,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -451,12 +454,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DemoSwiftyCam/DemoSwiftyCam.entitlements;
 				DEVELOPMENT_TEAM = CQH3FH3VX4;
 				INFOPLIST_FILE = DemoSwiftyCam/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = re.andersen.swiftycam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -466,12 +471,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DemoSwiftyCam/DemoSwiftyCam.entitlements;
 				DEVELOPMENT_TEAM = CQH3FH3VX4;
 				INFOPLIST_FILE = DemoSwiftyCam/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = re.andersen.swiftycam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
