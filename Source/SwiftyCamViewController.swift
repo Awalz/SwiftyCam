@@ -356,7 +356,7 @@ open class SwiftyCamViewController: UIViewController {
             layer.videoOrientation = .portrait
         }
         
-        previewLayer.frame = self.view.bounds
+        previewLayer.frame = self.getPreviewViewParentView().bounds
 
     }
 
