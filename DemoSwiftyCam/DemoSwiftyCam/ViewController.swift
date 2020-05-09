@@ -22,6 +22,13 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     @IBOutlet weak var captureButton    : SwiftyRecordButton!
     @IBOutlet weak var flipCameraButton : UIButton!
     @IBOutlet weak var flashButton      : UIButton!
+	
+	override func getPreviewViewParentView() -> UIView {
+		let view = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 300, height: 300)))
+		view.center = self.view.center
+		self.view.addSubview(view)
+		return view
+	}
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -136,7 +143,7 @@ extension ViewController {
         let focusView = UIImageView(image: #imageLiteral(resourceName: "focus"))
         focusView.center = point
         focusView.alpha = 0.0
-        view.addSubview(focusView)
+		self.getPreviewViewParentView().addSubview(focusView)
         
         UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
             focusView.alpha = 1.0

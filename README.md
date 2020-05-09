@@ -314,6 +314,20 @@ tapToFocus = false
 
 By default, `tapToFocus` is enabled. If you wish to show a on screen animation when a tap to focus is initiated, you can use the `SwiftyCamDidFocusAtPoint(focusPoint:)` to get the coordinates of tap and provide your own tap animation
 
+## Camera Display
+
+By default, SwiftyCam displays the capture session to fit the entire screen. If you wish to fit it to your own view:
+
+```swift
+class MyCameraViewController : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
+
+    override func getPreviewViewParentView() -> UIView {
+        return customView
+    }
+    ...
+}
+```
+
 ## Device Orientation
 
 By default, SwiftyCam will set the photo orientation to be portrait. If you wish to preserve the orientation of the capture photos to allow support for landscape images, use the `shouldUseDeviceOrientation` property:
