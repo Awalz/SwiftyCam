@@ -195,6 +195,9 @@ open class SwiftyCamViewController: UIViewController {
     /// If set to false, delegate function will be called to handle exception
     public var shouldPrompToAppSettings       = true
 
+    /// Set video mirror for front camera
+    public var frontCameraMirrored            = true
+
     /// Video will be recorded to this folder
     public var outputFolder: String           = NSTemporaryDirectory()
     
@@ -542,9 +545,9 @@ open class SwiftyCamViewController: UIViewController {
 				let movieFileOutputConnection = self.movieFileOutput?.connection(with: AVMediaType.video)
 
 
-				//flip video output if front facing camera is selected
+				// Set `isVideoMirrored` if front facing camera is selected
 				if self.currentCamera == .front {
-					movieFileOutputConnection?.isVideoMirrored = true
+					movieFileOutputConnection?.isVideoMirrored = self.frontCameraMirrored
 				}
 
 				movieFileOutputConnection?.videoOrientation = self.orientation.getVideoOrientation() ?? previewOrientation
