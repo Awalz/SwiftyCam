@@ -488,11 +488,11 @@ open class SwiftyCamViewController: UIViewController {
 
     */
     
-    public func setTitle(_ title: String) {
+    public func setCamAuthTitle(_ title: String) {
         authTitle = title
     }
     
-    public func setMessage(_ message: String) {
+    public func setCamAuthMessage(_ message: String) {
         authMessage = message
     }
     
