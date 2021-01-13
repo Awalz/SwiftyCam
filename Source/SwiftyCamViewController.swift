@@ -1035,9 +1035,9 @@ fileprivate func changeFlashSettings(device: AVCaptureDevice, mode: FlashMode) {
 
 		do{
             if #available(iOS 10.0, *) {
-                try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+                try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP, .defaultToSpeaker])
             } else {
-                let options: [AVAudioSession.CategoryOptions] = [.mixWithOthers, .allowBluetooth]
+                let options: [AVAudioSession.CategoryOptions] = [.mixWithOthers, .allowBluetooth, .defaultToSpeaker]
                               let category = AVAudioSession.Category.playAndRecord
                 let selector = NSSelectorFromString("setCategory:withOptions:error:")
                 AVAudioSession.sharedInstance().perform(selector, with: category, with: options)
