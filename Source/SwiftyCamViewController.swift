@@ -530,7 +530,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	*/
 
-	public func startVideoRecording() {
+    public func startVideoRecording(withFileName: String? = nil) {
 
         guard sessionRunning == true else {
             print("[SwiftyCam]: Cannot start video recoding. Capture session is not running")
@@ -572,7 +572,7 @@ open class SwiftyCamViewController: UIViewController {
 				movieFileOutputConnection?.videoOrientation = self.orientation.getVideoOrientation() ?? previewOrientation
 
 				// Start recording to a temporary file.
-				let outputFileName = UUID().uuidString
+				let outputFileName = withFileName ?? UUID().uuidString
 				let outputFilePath = (self.outputFolder as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
 				movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
 				self.isVideoRecording = true
