@@ -110,7 +110,8 @@ open class SwiftyCamViewController: UIViewController {
 	}
 
 	// MARK: Public Variable Declarations
-
+    
+    
 	/// Public Camera Delegate for the Custom View Controller Subclass
 
 	public weak var cameraDelegate: SwiftyCamViewControllerDelegate?
@@ -231,6 +232,12 @@ open class SwiftyCamViewController: UIViewController {
 
 	// MARK: Private Variable Declarations
 
+    /// Variable for auth
+    
+    fileprivate var authTitle = "AVCam"
+    fileprivate var authMessage = NSLocalizedString("AVCam doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
+    
+    
 	/// Variable for storing current zoom scale
 
 	fileprivate var zoomScale                    = CGFloat(1.0)
@@ -475,6 +482,21 @@ open class SwiftyCamViewController: UIViewController {
 
 	// MARK: Public Functions
 
+    /**
+
+    Set auth title & message
+
+    */
+    
+    public func setCamAuthTitle(_ title: String) {
+        authTitle = title
+    }
+    
+    public func setCamAuthMessage(_ message: String) {
+        authMessage = message
+    }
+    
+    
 	/**
 
 	Capture photo from current session
@@ -508,7 +530,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	*/
 
-	public func startVideoRecording() {
+    public func startVideoRecording(withFileName: String? = nil) {
 
         guard sessionRunning == true else {
             print("[SwiftyCam]: Cannot start video recoding. Capture session is not running")
@@ -550,7 +572,7 @@ open class SwiftyCamViewController: UIViewController {
 				movieFileOutputConnection?.videoOrientation = self.orientation.getVideoOrientation() ?? previewOrientation
 
 				// Start recording to a temporary file.
-				let outputFileName = UUID().uuidString
+				let outputFileName = withFileName ?? UUID().uuidString
 				let outputFilePath = (self.outputFolder as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
 				movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
 				self.isVideoRecording = true
@@ -870,8 +892,8 @@ open class SwiftyCamViewController: UIViewController {
 		// prompt User with UIAlertView
 
 		DispatchQueue.main.async(execute: { [unowned self] in
-			let message = NSLocalizedString("AVCam doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
-			let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
+			
+            let alertController = UIAlertController(title: authTitle, message: authMessage, preferredStyle: .alert)
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
 				if #available(iOS 10.0, *) {
@@ -1013,9 +1035,9 @@ fileprivate func changeFlashSettings(device: AVCaptureDevice, mode: FlashMode) {
 
 		do{
             if #available(iOS 10.0, *) {
-                try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+                try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP, .defaultToSpeaker])
             } else {
-                let options: [AVAudioSession.CategoryOptions] = [.mixWithOthers, .allowBluetooth]
+                let options: [AVAudioSession.CategoryOptions] = [.mixWithOthers, .allowBluetooth, .defaultToSpeaker]
                               let category = AVAudioSession.Category.playAndRecord
                 let selector = NSSelectorFromString("setCategory:withOptions:error:")
                 AVAudioSession.sharedInstance().perform(selector, with: category, with: options)
